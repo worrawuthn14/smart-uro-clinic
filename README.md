@@ -1,1 +1,1 @@
-# smart-uro-clinic
+# smart-opd-uro
