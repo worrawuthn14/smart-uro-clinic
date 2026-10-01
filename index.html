@@ -4,12 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Smart Uro-Clinic | สัมผัสประสบการณ์การดูแลเหนือระดับ</title>
+    <!-- นำเข้าเครื่องมือจัดหน้าเว็บ Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- นำเข้าเครื่องมือฐานข้อมูล Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
     <style>
+        /* ตั้งค่าฟอนต์และพื้นหลังโทนธรรมชาติ */
         body { 
             font-family: 'Sarabun', sans-serif; 
-            background-color: #ecfdf5; /* โทนสีเขียวธรรมชาติอ่อนๆ */
+            background-color: #ecfdf5; 
             background: radial-gradient(circle at 15% 50%, #dcfce7, transparent 40%),
                         radial-gradient(circle at 85% 30%, #ccfbf1, transparent 40%),
                         radial-gradient(circle at 50% 80%, #ecfccb, transparent 50%),
@@ -17,6 +24,7 @@
             background-attachment: fixed;
         }
         
+        /* สไตล์กรอบกระจกใส */
         .glass-panel { 
             background: rgba(255, 255, 255, 0.65); 
             backdrop-filter: blur(20px) saturate(150%); 
@@ -25,6 +33,7 @@
             box-shadow: 0 10px 40px rgba(16, 185, 129, 0.05);
         }
 
+        /* เอฟเฟกต์การ์ดลอยเมื่อเอาเมาส์ชี้ */
         .hover-float { transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
         .hover-float:hover {
             transform: translateY(-8px) scale(1.02);
@@ -32,6 +41,7 @@
             border-color: rgba(255, 255, 255, 1);
         }
 
+        /* ปุ่มสีรุ้งสำหรับแอดมิน */
         .animated-border {
             position: relative;
             background: linear-gradient(90deg, #10b981, #14b8a6, #84cc16, #10b981);
@@ -46,7 +56,7 @@
         .animated-border:hover::before { opacity: 0; }
         @keyframes gradientBorder { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
         
-        /* สไตล์สำหรับปฏิทิน */
+        /* สไตล์สำหรับตารางปฏิทิน */
         .calendar-grid {
             display: grid;
             grid-template-columns: repeat(7, minmax(0, 1fr));
@@ -56,16 +66,6 @@
             border-radius: 0.75rem;
             overflow: hidden;
         }
-        .calendar-day {
-            background-color: white;
-            min-height: 120px;
-            padding: 0.5rem;
-            display: flex;
-            flex-direction: column;
-            transition: background-color 0.2s;
-        }
-        .calendar-day:hover { background-color: #f8fafc; }
-        .calendar-day.empty { background-color: #f1f5f9; min-height: 40px; }
         .calendar-header {
             background: linear-gradient(to right, #10b981, #14b8a6);
             color: white;
@@ -73,26 +73,6 @@
             font-weight: 700;
             padding: 0.75rem 0;
             font-size: 0.875rem;
-        }
-        .day-number {
-            font-weight: 700;
-            font-size: 1.1rem;
-            color: #475569;
-            margin-bottom: 0.25rem;
-            display: inline-block;
-            width: 28px; height: 28px;
-            text-align: center; line-height: 28px;
-            border-radius: 50%;
-        }
-        .day-today .day-number {
-            background-color: #10b981; color: white;
-        }
-        .doctor-tag {
-            font-size: 0.75rem; font-weight: 600;
-            padding: 0.25rem 0.5rem; border-radius: 0.5rem;
-            background-color: #ecfdf5; border: 1px solid #a7f3d0; color: #065f46;
-            margin-bottom: 0.25rem; display: flex; justify-content: space-between; align-items: center;
-            word-break: break-word;
         }
 
         .hidden { display: none !important; }
@@ -102,6 +82,7 @@
 </head>
 <body class="text-slate-800 min-h-screen flex flex-col justify-between overflow-x-hidden">
 
+    <!-- พื้นหลังกราฟิก -->
     <div class="fixed top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
         <div class="absolute top-[-10%] left-[-10%] w-[30rem] h-[30rem] bg-emerald-200 rounded-full mix-blend-multiply filter blur-[80px] opacity-40 animate-[spin_20s_linear_infinite]"></div>
         <div class="absolute top-[20%] right-[-10%] w-[35rem] h-[35rem] bg-teal-200 rounded-full mix-blend-multiply filter blur-[80px] opacity-40 animate-[spin_25s_linear_infinite_reverse]"></div>
@@ -109,6 +90,7 @@
     </div>
 
     <div>
+        <!-- ส่วนหัว (Header) -->
         <header class="sticky top-4 z-50 px-4 max-w-7xl mx-auto w-full">
             <div class="glass-panel rounded-3xl px-6 py-4 flex items-center justify-between shadow-xl">
                 <div class="flex items-center space-x-4">
@@ -144,6 +126,7 @@
             </div>
         </header>
 
+        <!-- แถบเมนู -->
         <div class="flex justify-center mt-8 px-4 relative z-40">
             <nav class="bg-white/40 backdrop-blur-xl p-1.5 rounded-full flex space-x-1 shadow-lg border border-white/80">
                 <button onclick="switchTab('home')" id="btn-home" class="px-8 py-3 text-base font-bold bg-gradient-to-r from-emerald-500 to-teal-500 text-white rounded-full shadow-md transition-all duration-300">🏥 หน้าแรก</button>
@@ -155,6 +138,7 @@
             <!-- 1. หน้าแรก (Home) -->
             <section id="tab-home" class="space-y-10 fade-in">
                 
+                <!-- ประกาศข่าวสาร -->
                 <div class="glass-panel p-1 rounded-3xl overflow-hidden hover-float">
                     <div class="bg-white/60 p-8 rounded-[1.4rem]">
                         <div class="flex justify-between items-center border-b-2 border-emerald-100/50 pb-5 mb-6">
@@ -163,7 +147,10 @@
                             </h2>
                             <button onclick="addAnnouncement()" class="admin-only hidden bg-gradient-to-r from-emerald-400 to-teal-500 hover:from-emerald-500 hover:to-teal-600 text-white text-sm font-bold px-5 py-2.5 rounded-xl shadow-lg transition-transform hover:scale-105">+ เพิ่มข่าวสาร</button>
                         </div>
+                        
+                        <!-- จุดแสดงสถานะโหลดข้อมูล -->
                         <div id="loading-msg" class="text-center text-emerald-600 font-bold py-4 animate-pulse">กำลังเชื่อมต่อฐานข้อมูล Cloud...</div>
+                        
                         <div id="announcement-list" class="space-y-4"></div>
                     </div>
                 </div>
@@ -184,7 +171,6 @@
                         
                         <!-- Calendar Grid -->
                         <div class="calendar-grid mb-8 shadow-sm">
-                            <!-- Headers -->
                             <div class="calendar-header">อา.</div>
                             <div class="calendar-header">จ.</div>
                             <div class="calendar-header">อ.</div>
@@ -192,11 +178,11 @@
                             <div class="calendar-header">พฤ.</div>
                             <div class="calendar-header">ศ.</div>
                             <div class="calendar-header">ส.</div>
-                            <!-- Days Container -->
+                            <!-- กล่องวันที่ทั้งหมดจะแสดงที่นี่ -->
                             <div class="contents" id="calendar-days"></div>
                         </div>
 
-                        <!-- หมายเหตุแบบแยกข้อ (List) -->
+                        <!-- หมายเหตุสำคัญ (แบบลิสต์) -->
                         <div class="bg-gradient-to-r from-green-50 to-emerald-50 border-l-4 border-emerald-500 rounded-xl p-6 relative group shadow-sm">
                             <div class="flex justify-between items-start mb-4">
                                 <h3 class="text-emerald-800 font-extrabold text-sm flex items-center gap-2 tracking-wide uppercase">
@@ -205,7 +191,6 @@
                                 <button onclick="addRemark()" class="admin-only hidden text-emerald-600 hover:text-white hover:bg-emerald-500 bg-white border border-emerald-200 text-xs font-bold px-4 py-1.5 rounded-lg transition shadow-sm">+ เพิ่มหมายเหตุ</button>
                             </div>
                             <ul id="schedule-remarks-list" class="space-y-2 ml-2">
-                                <!-- รายการหมายเหตุจะแสดงที่นี่ -->
                                 <li class="text-slate-500 italic text-sm">กำลังโหลด...</li>
                             </ul>
                         </div>
@@ -227,28 +212,10 @@
                     </div>
                 </div>
             </section>
-
         </main>
     </div>
 
-    <!-- ส่วนท้าย -->
-    <footer class="bg-slate-900/90 backdrop-blur-xl border-t-4 border-emerald-500 py-10 mt-auto relative z-50 text-slate-300">
-        <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center space-y-6 md:space-y-0">
-            <div class="text-center md:text-left">
-                <div class="flex items-center justify-center md:justify-start gap-3 mb-2">
-                    <div class="w-8 h-8 bg-emerald-500 rounded-lg flex items-center justify-center text-white font-bold text-xs">UC</div>
-                    <p class="font-extrabold text-white text-lg tracking-wider">SMART OPD-URO</p>
-                </div>
-                <p class="text-sm text-slate-400">ยกระดับการดูแลสุขภาพ ด้วยความเชี่ยวชาญที่คุณวางใจ</p>
-            </div>
-            <div class="text-center md:text-right bg-slate-800/50 p-4 rounded-2xl border border-slate-700">
-                <p class="text-xs text-slate-400 uppercase tracking-widest mb-1">ติดต่อสอบถาม</p>
-                <p class="text-transparent bg-clip-text bg-gradient-to-r from-lime-400 to-emerald-400 font-extrabold text-2xl">📞 02-123-4567</p>
-            </div>
-        </div>
-    </footer>
-
-    <!-- หน้าต่างล็อกอินแอดมิน -->
+    <!-- หน้าต่างล็อกอิน (Modal) -->
     <div id="loginModal" class="fixed inset-0 z-[100] hidden flex items-center justify-center px-4">
         <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-lg" onclick="closeLoginModal()"></div>
         <div class="bg-white/10 backdrop-blur-2xl border border-white/20 p-1 rounded-[2rem] shadow-2xl relative z-10 w-full max-w-md transform scale-95 transition-transform duration-300" id="loginBox">
@@ -259,7 +226,6 @@
                 <div class="text-center mb-8">
                     <div class="w-20 h-20 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-2xl flex items-center justify-center mx-auto mb-5 text-4xl shadow-lg shadow-emerald-500/30 transform rotate-3">🛡️</div>
                     <h3 class="text-2xl font-extrabold text-white tracking-wide">SYSTEM ADMIN</h3>
-                    <p class="text-sm text-emerald-300 mt-2 font-medium">ยืนยันตัวตนเพื่อเข้าสู่ระบบจัดการข้อมูล</p>
                 </div>
                 <div class="space-y-5">
                     <div>
@@ -274,8 +240,9 @@
         </div>
     </div>
 
-    <!-- JavaScript เชื่อมต่อ Firebase -->
+    <!-- การเขียนโค้ด JavaScript -->
     <script>
+        // --- 1. ตั้งค่าฐานข้อมูล Firebase โดยใช้กุญแจที่คุณมี ---
         const firebaseConfig = {
             apiKey: "AIzaSyAhMLr-NpXN8Dud2vYm32TLdSJu4Gz75g4",
             authDomain: "xray-inventory-system.firebaseapp.com",
@@ -291,23 +258,24 @@
         }
         const db = firebase.database();
 
+        // --- 2. ตัวแปรเก็บข้อมูล ---
         let isAdmin = false;
         let clinicLogo = 'https://cdn-icons-png.flaticon.com/512/809/809957.png';
         let announcements = [];
         let personnel = [];
-        
-        // --- ตัวแปรสำหรับปฏิทินและหมายเหตุ ---
-        let currentDate = new Date();
-        let calSchedules = {}; // รูปแบบ: "YYYY-MM-DD": ["หมอ A", "หมอ B"]
         let remarksList = [
             { id: 1, text: "กรุณามาก่อนเวลานัดหมาย 15 นาที เพื่อตรวจเช็คความดันและรับคิว" },
             { id: 2, text: "กรณีต้องการเลื่อนนัด กรุณาแจ้งล่วงหน้า 1 วันทำการ (โทร 02-123-4567)" }
         ];
 
-        // เดือนภาษาไทย
+        // ตัวแปรปฏิทิน
+        let currentDate = new Date();
+        let calSchedules = {}; 
         const monthNamesThai = ["มกราคม","กุมภาพันธ์","มีนาคม","เมษายน","พฤษภาคม","มิถุนายน","กรกฎาคม","สิงหาคม","กันยายน","ตุลาคม","พฤศจิกายน","ธันวาคม"];
 
-        db.ref('clinicData_v3').on('value', (snapshot) => {
+        // --- 3. ดึงข้อมูลจาก Cloud และดักจับ Error ---
+        // เพิ่ม node ใหม่ชื่อ clinicData_v4 เพื่อให้เริ่มต้นสะอาดและไม่ชนข้อมูลเดิม
+        db.ref('clinicData_v4').on('value', (snapshot) => {
             const data = snapshot.val();
             if (data) {
                 if (data.announcements) announcements = data.announcements;
@@ -316,12 +284,26 @@
                 if (data.remarksList) remarksList = data.remarksList;
                 if (data.settings && data.settings.logo) clinicLogo = data.settings.logo;
             }
-            document.getElementById('loading-msg').style.display = 'none';
+            
+            // ถ้าสำเร็จ ซ่อนคำว่าโหลดข้อมูล
+            const loadingMsg = document.getElementById('loading-msg');
+            if (loadingMsg) loadingMsg.style.display = 'none';
+            
             renderAll();
+
+        }, (error) => {
+            // ระบบ Error Handler: ถ้าเชื่อมต่อไม่ได้ จะแสดงเหตุผลชัดเจน
+            console.error("Firebase Error:", error);
+            const loadingMsg = document.getElementById('loading-msg');
+            if (loadingMsg) {
+                loadingMsg.innerHTML = `❌ เกิดข้อผิดพลาดในการเข้าถึงฐานข้อมูล<br><span class="text-sm font-normal text-rose-500">${error.message}</span><br><span class="text-xs text-slate-500 mt-2 block">กรุณาตรวจสอบสิทธิ์ (Rules) ใน Firebase ให้แน่ใจว่าได้เปิดใช้งานแบบ Test Mode (true) แล้ว</span>`;
+                loadingMsg.className = "text-center p-4 bg-rose-50 rounded-xl border border-rose-200 mt-4 font-bold text-rose-600";
+            }
         });
 
+        // ฟังก์ชันบันทึกข้อมูล
         function saveToCloud() {
-            db.ref('clinicData_v3').set({
+            db.ref('clinicData_v4').set({
                 announcements: announcements,
                 personnel: personnel,
                 calSchedules: calSchedules,
@@ -330,6 +312,7 @@
             });
         }
 
+        // --- 4. การแสดงผล UI ---
         function switchTab(tabName) {
             const tabs = ['home', 'personnel'];
             tabs.forEach(t => {
@@ -339,17 +322,19 @@
             const activeSection = document.getElementById('tab-' + tabName);
             activeSection.classList.remove('hidden');
             activeSection.classList.remove('fade-in');
-            void activeSection.offsetWidth;
+            void activeSection.offsetWidth; // รีเซ็ตอนิเมชัน
             activeSection.classList.add('fade-in');
             document.getElementById('btn-' + tabName).className = "px-8 py-3 text-base font-bold bg-gradient-to-r from-emerald-500 to-teal-500 text-white rounded-full shadow-lg shadow-emerald-500/30 transition-all duration-300";
         }
 
         function renderSettings() {
-            document.getElementById('clinicLogoImg').src = clinicLogo;
+            const logoEl = document.getElementById('clinicLogoImg');
+            if(logoEl) logoEl.src = clinicLogo;
             
-            // Render หมายเหตุแบบแยกข้อ (List)
             const rList = document.getElementById('schedule-remarks-list');
+            if(!rList) return;
             rList.innerHTML = '';
+            
             if(remarksList.length === 0) {
                 rList.innerHTML = '<li class="text-slate-400 italic text-sm">- ไม่มีหมายเหตุ -</li>';
             } else {
@@ -367,6 +352,7 @@
 
         function renderAnnouncements() {
             const list = document.getElementById('announcement-list');
+            if(!list) return;
             list.innerHTML = '';
             announcements.forEach(ann => {
                 let bgClass = ann.color === 'pink' ? 'bg-gradient-to-r from-orange-50 to-amber-50 border-orange-200' : 'bg-gradient-to-r from-emerald-50 to-teal-50 border-emerald-200';
@@ -386,6 +372,7 @@
 
         function renderPersonnel() {
             const list = document.getElementById('personnel-list');
+            if(!list) return;
             list.innerHTML = '';
             personnel.forEach(p => {
                 let imageHTML = p.image 
@@ -403,7 +390,6 @@
             });
         }
 
-        // --- ระบบสร้างปฏิทิน (Calendar Engine) ---
         function changeMonth(step) {
             currentDate.setMonth(currentDate.getMonth() + step);
             renderSchedule();
@@ -411,50 +397,48 @@
 
         function renderSchedule() {
             const year = currentDate.getFullYear();
-            const month = currentDate.getMonth(); // 0-11
+            const month = currentDate.getMonth();
             
-            // แสดงชื่อเดือนและปี
-            document.getElementById('monthYearDisplay').innerText = `${monthNamesThai[month]} ${year + 543}`;
+            const monthDisplay = document.getElementById('monthYearDisplay');
+            if (monthDisplay) monthDisplay.innerText = `${monthNamesThai[month]} ${year + 543}`;
             
             const daysContainer = document.getElementById('calendar-days');
+            if (!daysContainer) return;
             daysContainer.innerHTML = '';
 
-            const firstDay = new Date(year, month, 1).getDay(); // วันแรกของเดือนคือวันอะไร (0=อาทิตย์)
-            const daysInMonth = new Date(year, month + 1, 0).getDate(); // จำนวนวันในเดือนนี้
-            
+            const firstDay = new Date(year, month, 1).getDay(); 
+            const daysInMonth = new Date(year, month + 1, 0).getDate(); 
             const today = new Date();
             const isCurrentMonth = (today.getMonth() === month && today.getFullYear() === year);
 
-            // ใส่กล่องว่างสำหรับวันก่อนหน้า
+            // ใส่กล่องว่างๆ สำหรับวันก่อนหน้าในสัปดาห์แรก
             for (let i = 0; i < firstDay; i++) {
-                daysContainer.innerHTML += `<div class="calendar-day empty"></div>`;
+                daysContainer.innerHTML += `<div class="bg-slate-100/50 min-h-[40px] sm:min-h-[60px] border-b border-r border-slate-100"></div>`;
             }
 
             // สร้างกล่องวันที่
             for (let d = 1; d <= daysInMonth; d++) {
                 const dateString = `${year}-${String(month + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
                 const isToday = isCurrentMonth && (d === today.getDate());
-                
-                // ดึงรายการหมอในวันนี้จากฐานข้อมูล
                 const doctorsToday = calSchedules[dateString] || [];
                 
                 let docsHTML = '';
                 doctorsToday.forEach((doc, idx) => {
                     docsHTML += `
-                        <div class="doctor-tag">
-                            <span class="truncate pr-1">${doc}</span>
-                            ${isAdmin ? `<button onclick="removeDocFromCal('${dateString}',${idx})" class="text-emerald-300 hover:text-rose-500 font-bold ml-1 shrink-0">&times;</button>` : ''}
+                        <div class="text-[11px] sm:text-xs font-bold px-2 py-1 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded mt-1 flex justify-between items-center shadow-sm">
+                            <span class="truncate">${doc}</span>
+                            ${isAdmin ? `<button onclick="removeDocFromCal('${dateString}',${idx})" class="text-rose-400 hover:text-rose-600 font-bold ml-1 shrink-0 px-1">&times;</button>` : ''}
                         </div>
                     `;
                 });
 
                 daysContainer.innerHTML += `
-                    <div class="calendar-day ${isToday ? 'day-today' : ''}">
+                    <div class="bg-white border-b border-r border-slate-100 p-1 sm:p-2 min-h-[80px] sm:min-h-[100px] flex flex-col transition hover:bg-slate-50 ${isToday ? 'bg-emerald-50/40' : ''}">
                         <div class="flex justify-between items-start mb-1">
-                            <span class="day-number">${d}</span>
-                            ${isAdmin ? `<button onclick="addDocToCal('${dateString}',${d})" class="text-emerald-500 hover:text-emerald-700 bg-emerald-50 hover:bg-emerald-100 rounded px-1 text-xs font-bold transition">+</button>` : ''}
+                            <span class="inline-flex items-center justify-center w-6 h-6 sm:w-7 sm:h-7 rounded-full text-xs sm:text-sm font-bold ${isToday ? 'bg-emerald-500 text-white shadow-sm' : 'text-slate-600'}">${d}</span>
+                            ${isAdmin ? `<button onclick="addDocToCal('${dateString}',${d})" class="text-emerald-500 hover:text-white hover:bg-emerald-500 bg-emerald-50 border border-emerald-200 rounded px-1.5 py-0.5 text-[10px] font-bold transition shadow-sm">+ เพิ่ม</button>` : ''}
                         </div>
-                        <div class="flex-1 flex flex-col gap-1 overflow-y-auto">
+                        <div class="flex-1 flex flex-col overflow-y-auto">
                             ${docsHTML}
                         </div>
                     </div>
@@ -469,7 +453,7 @@
             renderSchedule();
         }
 
-        // --- ระบบ Admin Modal ---
+        // --- 5. การจัดการฟังก์ชันแอดมิน ---
         function openLoginModal() {
             document.getElementById('loginModal').classList.remove('hidden');
             setTimeout(() => {
@@ -512,7 +496,6 @@
             renderAll();
         }
 
-        // --- การจัดการข้อมูล (CRUD) ---
         function editLogo() {
             const url = prompt("ระบุ URL ลิงก์รูปภาพโลโก้ใหม่:", clinicLogo);
             if(url) { clinicLogo = url; saveToCloud(); }
@@ -529,7 +512,7 @@
         function addAnnouncement() {
             const text = prompt("กรอกข้อความประกาศใหม่:");
             if (text) {
-                const type = prompt("ประเภทป้ายกำกับ (เช่น ประกาศ, ข่าวสาร, โปรโมชัน):", "ประกาศ") || "ประกาศ";
+                const type = prompt("ประเภทป้ายกำกับ (เช่น ประกาศ, โปรโมชัน):", "ประกาศ") || "ประกาศ";
                 const color = Math.random() > 0.5 ? 'pink' : 'blue';
                 announcements.unshift({ id: Date.now(), type: type, text: text, color: color });
                 saveToCloud();
@@ -540,7 +523,7 @@
         }
 
         function addPersonnel() {
-            const prefix = prompt("ยศ หรือ คำนำหน้า (เช่น นพ., พญ., รศ.นพ.):", "นพ.");
+            const prefix = prompt("ยศ หรือ คำนำหน้า:", "นพ.");
             if (!prefix) return;
             const name = prompt("ชื่อ - นามสกุล:");
             if (!name) return;
@@ -554,9 +537,8 @@
             if(confirm("ยืนยันการลบบุคลากรนี้?")) { personnel = personnel.filter(p => p.id !== id); saveToCloud(); }
         }
 
-        // การจัดการปฏิทิน
         function addDocToCal(dateString, dayNum) {
-            const docName = prompt(`กรอกชื่อแพทย์ที่ออกตรวจในวันที่ ${dayNum}:`);
+            const docName = prompt(`เพิ่มชื่อแพทย์ที่ออกตรวจในวันที่ ${dayNum}:`);
             if (docName) {
                 if(!calSchedules[dateString]) calSchedules[dateString] = [];
                 calSchedules[dateString].push(docName);
@@ -567,16 +549,10 @@
         function removeDocFromCal(dateString, idx) {
             if(confirm("ต้องการลบชื่อแพทย์คนนี้ออกจากวันดังกล่าวใช่หรือไม่?")) {
                 calSchedules[dateString].splice(idx, 1);
-                // ถ้าลบหมดแล้ว ให้ลบ key นั้นทิ้งเพื่อประหยัดพื้นที่ฐานข้อมูล
-                if(calSchedules[dateString].length === 0) {
-                    delete calSchedules[dateString];
-                }
+                if(calSchedules[dateString].length === 0) delete calSchedules[dateString];
                 saveToCloud();
             }
         }
-
-        // เริ่มต้น
-        renderAll();
     </script>
 </body>
 </html>
