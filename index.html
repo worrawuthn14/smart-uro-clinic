@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart OPD-URO | สัมผัสประสบการณ์การดูแลเหนือระดับ</title>
+    <title>SMART|OPD-URO</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
@@ -48,7 +48,6 @@
         .animated-border:hover::before { opacity: 0; }
         @keyframes gradientBorder { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
         
-        /* สไตล์ตารางปฏิทินแบบกำหนดเอง */
         .calendar-grid {
             display: grid;
             grid-template-columns: repeat(7, minmax(0, 1fr));
@@ -82,35 +81,35 @@
 
     <div>
         <header class="sticky top-4 z-50 px-4 max-w-7xl mx-auto w-full">
-            <div class="glass-panel rounded-3xl px-6 py-4 flex items-center justify-between shadow-xl">
-                <div class="flex items-center space-x-4">
+            <div class="glass-panel rounded-3xl px-4 py-3 sm:px-6 sm:py-4 flex items-center justify-between shadow-xl">
+                <div class="flex items-center space-x-3 sm:space-x-4">
                     <div class="relative group cursor-pointer">
                         <div class="absolute -inset-0.5 bg-gradient-to-r from-lime-400 to-emerald-500 rounded-2xl blur opacity-30 group-hover:opacity-100 transition duration-500"></div>
-                        <img id="clinicLogoImg" src="https://cdn-icons-png.flaticon.com/512/809/809957.png" alt="Clinic Logo" class="relative w-14 h-14 rounded-2xl object-cover border-2 border-white bg-white z-10">
-                        <button onclick="editLogo()" class="admin-only hidden absolute -bottom-2 -right-2 bg-emerald-500 text-white rounded-full w-7 h-7 flex items-center justify-center shadow-lg hover:bg-emerald-600 hover:scale-110 transition-transform text-xs z-20" title="เปลี่ยนโลโก้">✏️</button>
+                        <img id="clinicLogoImg" src="https://cdn-icons-png.flaticon.com/512/809/809957.png" alt="Clinic Logo" class="relative w-10 h-10 sm:w-14 sm:h-14 rounded-2xl object-cover border-2 border-white bg-white z-10">
+                        <button onclick="editLogo()" class="admin-only hidden absolute -bottom-2 -right-2 bg-emerald-500 text-white rounded-full w-6 h-6 sm:w-7 sm:h-7 flex items-center justify-center shadow-lg hover:bg-emerald-600 hover:scale-110 transition-transform text-xs z-20" title="เปลี่ยนโลโก้">✏️</button>
                     </div>
                     <div>
-                        <h1 class="text-xl md:text-3xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-slate-800 to-emerald-800">
+                        <h1 class="text-lg sm:text-xl md:text-3xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-slate-800 to-emerald-800">
                             Smart <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 to-teal-500">OPD-URO</span>
                         </h1>
-                        <p class="text-xs md:text-sm text-slate-500 font-semibold tracking-wide uppercase mt-0.5">ห้องตรวจโรคศัลยกรรมทางเดินปัสสาวะ</p>
+                        <p class="text-[10px] sm:text-xs md:text-sm text-slate-500 font-semibold tracking-wide uppercase mt-0.5 truncate max-w-[150px] sm:max-w-none">ห้องตรวจโรคศัลยกรรมทางเดินปัสสาวะ</p>
                     </div>
                 </div>
                 
                 <div class="flex items-center">
-                    <button id="adminLoginBtn" onclick="openLoginModal()" class="animated-border px-6 py-2.5 rounded-full text-white shadow-lg transition-transform hover:scale-105 flex items-center gap-2 font-bold text-sm tracking-wide">
-                        <span class="text-lg">🔐</span>
+                    <!-- ปุ่มแอดมิน ปรับขนาดให้เล็กลงในมือถือ (โชว์แค่กุญแจ) -->
+                    <button id="adminLoginBtn" onclick="openLoginModal()" class="animated-border p-2.5 sm:px-6 sm:py-2.5 rounded-full text-white shadow-lg transition-transform hover:scale-105 flex items-center justify-center gap-2 font-bold text-sm tracking-wide">
+                        <span class="text-base sm:text-lg leading-none">🔐</span>
                         <span class="hidden sm:inline">ระบบผู้ดูแล</span>
-                        <span class="sm:hidden">Admin</span>
                     </button>
                     
-                    <div id="adminStatusArea" class="hidden flex-col sm:flex-row items-end sm:items-center gap-3">
-                        <div class="flex items-center gap-2 bg-white/60 backdrop-blur-md px-4 py-1.5 rounded-full border border-emerald-200 shadow-sm">
-                            <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping absolute"></span>
-                            <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 relative"></span>
-                            <span class="text-xs text-emerald-700 font-bold tracking-widest uppercase">Admin Mode</span>
+                    <div id="adminStatusArea" class="hidden flex-col items-end sm:flex-row sm:items-center gap-2 sm:gap-3">
+                        <div class="flex items-center gap-1 sm:gap-2 bg-white/60 backdrop-blur-md px-3 sm:px-4 py-1.5 rounded-full border border-emerald-200 shadow-sm">
+                            <span class="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-emerald-500 animate-ping absolute"></span>
+                            <span class="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-emerald-500 relative"></span>
+                            <span class="hidden sm:inline text-xs text-emerald-700 font-bold tracking-widest uppercase">Admin Mode</span>
                         </div>
-                        <button onclick="logoutAdmin()" class="text-xs text-rose-500 hover:text-rose-700 font-bold bg-white/50 px-3 py-1.5 rounded-full hover:bg-rose-50 transition">ออกจากระบบ</button>
+                        <button onclick="logoutAdmin()" class="text-[10px] sm:text-xs text-rose-500 hover:text-rose-700 font-bold bg-white/50 px-2 sm:px-3 py-1.5 rounded-full hover:bg-rose-50 transition">ออกจากระบบ</button>
                     </div>
                 </div>
             </div>
@@ -118,8 +117,8 @@
 
         <div class="flex justify-center mt-8 px-4 relative z-40">
             <nav class="bg-white/40 backdrop-blur-xl p-1.5 rounded-full flex space-x-1 shadow-lg border border-white/80">
-                <button onclick="switchTab('home')" id="btn-home" class="px-8 py-3 text-base font-bold bg-gradient-to-r from-emerald-500 to-teal-500 text-white rounded-full shadow-md transition-all duration-300">🏥 หน้าแรก</button>
-                <button onclick="switchTab('personnel')" id="btn-personnel" class="px-8 py-3 text-base font-bold text-slate-600 hover:text-emerald-600 hover:bg-white/80 rounded-full transition-all duration-300">👩‍⚕️ บุคลากร</button>
+                <button onclick="switchTab('home')" id="btn-home" class="px-6 py-2.5 sm:px-8 sm:py-3 text-sm sm:text-base font-bold bg-gradient-to-r from-emerald-500 to-teal-500 text-white rounded-full shadow-md transition-all duration-300">🏥 หน้าแรก</button>
+                <button onclick="switchTab('personnel')" id="btn-personnel" class="px-6 py-2.5 sm:px-8 sm:py-3 text-sm sm:text-base font-bold text-slate-600 hover:text-emerald-600 hover:bg-white/80 rounded-full transition-all duration-300">👩‍⚕️ บุคลากร</button>
             </nav>
         </div>
 
@@ -128,14 +127,20 @@
             <section id="tab-home" class="space-y-10 fade-in">
                 
                 <div class="glass-panel p-1 rounded-3xl overflow-hidden hover-float">
-                    <div class="bg-white/60 p-8 rounded-[1.4rem]">
-                        <div class="flex justify-between items-center border-b-2 border-emerald-100/50 pb-5 mb-6">
-                            <h2 class="text-2xl font-extrabold text-slate-800 flex items-center gap-3">
-                                <span class="text-3xl filter drop-shadow-md">✨</span> อัปเดตข่าวสาร
+                    <div class="bg-white/60 p-6 sm:p-8 rounded-[1.4rem]">
+                        <div class="flex flex-col sm:flex-row justify-between sm:items-center border-b-2 border-emerald-100/50 pb-5 mb-6 gap-4">
+                            <h2 class="text-xl sm:text-2xl font-extrabold text-slate-800 flex items-center gap-3">
+                                <span class="text-2xl sm:text-3xl filter drop-shadow-md">✨</span> อัปเดตข่าวสาร
                             </h2>
-                            <button onclick="addAnnouncement()" class="admin-only hidden bg-gradient-to-r from-emerald-400 to-teal-500 hover:from-emerald-500 hover:to-teal-600 text-white text-sm font-bold px-5 py-2.5 rounded-xl shadow-lg transition-transform hover:scale-105">+ เพิ่มข่าวสาร</button>
+                            <div class="flex items-center gap-3 justify-between sm:justify-end">
+                                <!-- นาฬิกาแบบ Realtime -->
+                                <div id="realtime-clock" class="text-xs sm:text-sm font-bold text-emerald-700 bg-emerald-50/80 px-3 py-1.5 rounded-xl border border-emerald-200/50 shadow-sm flex items-center gap-2">
+                                    🕒 โหลดเวลา...
+                                </div>
+                                <button onclick="addAnnouncement()" class="admin-only hidden bg-gradient-to-r from-emerald-400 to-teal-500 hover:from-emerald-500 hover:to-teal-600 text-white text-xs sm:text-sm font-bold px-4 py-2 rounded-xl shadow-lg transition-transform hover:scale-105 shrink-0">+ เพิ่มข่าวสาร</button>
+                            </div>
                         </div>
-                        <div id="loading-msg" class="text-center text-emerald-600 font-bold py-4 animate-pulse">กำลังเชื่อมต่อฐานข้อมูล Cloud...</div>
+                        <div id="loading-msg" class="text-center text-emerald-600 font-bold py-4 animate-pulse text-sm">กำลังเชื่อมต่อฐานข้อมูล Cloud...</div>
                         <div id="announcement-list" class="space-y-4"></div>
                     </div>
                 </div>
@@ -144,17 +149,17 @@
                 <div class="glass-panel p-1 rounded-3xl hover-float" style="transition-delay: 0.1s;">
                     <div class="bg-white/60 p-6 md:p-8 rounded-[1.4rem]">
                         <div class="flex flex-col md:flex-row justify-between md:items-center border-b-2 border-emerald-100/50 pb-5 mb-6 gap-4">
-                            <h2 class="text-2xl font-extrabold text-slate-800 flex items-center gap-3">
-                                <span class="text-3xl filter drop-shadow-md">📅</span> ปฏิทินแพทย์ออกตรวจ
+                            <h2 class="text-xl sm:text-2xl font-extrabold text-slate-800 flex items-center gap-3">
+                                <span class="text-2xl sm:text-3xl filter drop-shadow-md">📅</span> ปฏิทินแพทย์ออกตรวจ
                             </h2>
-                            <div class="flex items-center gap-4 bg-white px-4 py-2 rounded-2xl shadow-sm border border-emerald-100">
+                            <div class="flex items-center justify-between sm:justify-start gap-2 sm:gap-4 bg-white px-3 sm:px-4 py-2 rounded-2xl shadow-sm border border-emerald-100">
                                 <button onclick="changeMonth(-1)" class="text-emerald-600 hover:text-emerald-800 font-black text-xl px-2">&lsaquo;</button>
-                                <div id="monthYearDisplay" class="text-lg font-bold text-slate-700 min-w-[140px] text-center">กำลังโหลด...</div>
+                                <div id="monthYearDisplay" class="text-sm sm:text-lg font-bold text-slate-700 min-w-[120px] sm:min-w-[140px] text-center">กำลังโหลด...</div>
                                 <button onclick="changeMonth(1)" class="text-emerald-600 hover:text-emerald-800 font-black text-xl px-2">&rsaquo;</button>
                             </div>
                         </div>
                         
-                        <!-- Calendar Grid Wrapper (เพิ่มระบบให้เลื่อนบนมือถือได้) -->
+                        <!-- Calendar Grid Wrapper -->
                         <div class="w-full overflow-x-auto pb-4">
                             <div class="calendar-grid min-w-[700px] mb-4 shadow-sm">
                                 <div class="calendar-header">อา.</div>
@@ -168,12 +173,12 @@
                             </div>
                         </div>
 
-                        <div class="bg-gradient-to-r from-green-50 to-emerald-50 border-l-4 border-emerald-500 rounded-xl p-6 relative group shadow-sm">
+                        <div class="bg-gradient-to-r from-green-50 to-emerald-50 border-l-4 border-emerald-500 rounded-xl p-5 sm:p-6 relative group shadow-sm">
                             <div class="flex justify-between items-start mb-4">
                                 <h3 class="text-emerald-800 font-extrabold text-sm flex items-center gap-2 tracking-wide uppercase">
                                     <span class="text-lg">📌</span> หมายเหตุสำคัญ
                                 </h3>
-                                <button onclick="addRemark()" class="admin-only hidden text-emerald-600 hover:text-white hover:bg-emerald-500 bg-white border border-emerald-200 text-xs font-bold px-4 py-1.5 rounded-lg transition shadow-sm">+ เพิ่มหมายเหตุ</button>
+                                <button onclick="addRemark()" class="admin-only hidden text-emerald-600 hover:text-white hover:bg-emerald-500 bg-white border border-emerald-200 text-xs font-bold px-3 py-1.5 rounded-lg transition shadow-sm">+ เพิ่มหมายเหตุ</button>
                             </div>
                             <ul id="schedule-remarks-list" class="space-y-2 ml-2">
                                 <li class="text-slate-500 italic text-sm">กำลังโหลด...</li>
@@ -186,12 +191,12 @@
             <!-- 2. บุคลากร (Personnel) -->
             <section id="tab-personnel" class="hidden space-y-8 fade-in">
                 <div class="glass-panel p-1 rounded-3xl hover-float">
-                    <div class="bg-white/60 p-8 rounded-[1.4rem]">
+                    <div class="bg-white/60 p-6 sm:p-8 rounded-[1.4rem]">
                         <div class="flex justify-between items-center border-b-2 border-emerald-100/50 pb-5 mb-10">
-                            <h2 class="text-2xl font-extrabold text-slate-800 flex items-center gap-3">
-                                <span class="text-3xl filter drop-shadow-md">💎</span> ทำเนียบบุคลากร
+                            <h2 class="text-xl sm:text-2xl font-extrabold text-slate-800 flex items-center gap-3">
+                                <span class="text-2xl sm:text-3xl filter drop-shadow-md">💎</span> ทำเนียบทีมบุคลากร
                             </h2>
-                            <button onclick="addPersonnel()" class="admin-only hidden bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white text-sm font-bold px-5 py-2.5 rounded-xl shadow-lg transition-transform hover:scale-105">+ เพิ่มบุคคล</button>
+                            <button onclick="addPersonnel()" class="admin-only hidden bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white text-xs sm:text-sm font-bold px-4 py-2 rounded-xl shadow-lg transition-transform hover:scale-105">+ เพิ่มบุคคล</button>
                         </div>
                         <div id="personnel-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"></div>
                     </div>
@@ -222,13 +227,13 @@
     <div id="loginModal" class="fixed inset-0 z-[100] hidden flex items-center justify-center px-4">
         <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-lg" onclick="closeLoginModal()"></div>
         <div class="bg-white/10 backdrop-blur-2xl border border-white/20 p-1 rounded-[2rem] shadow-2xl relative z-10 w-full max-w-md transform scale-95 transition-transform duration-300" id="loginBox">
-            <div class="bg-slate-900/80 p-10 rounded-[1.8rem]">
+            <div class="bg-slate-900/80 p-8 sm:p-10 rounded-[1.8rem]">
                 <button onclick="closeLoginModal()" class="absolute top-6 right-6 text-slate-400 hover:text-white bg-slate-800 rounded-full p-2 transition">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                 </button>
                 <div class="text-center mb-8">
                     <div class="w-20 h-20 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-2xl flex items-center justify-center mx-auto mb-5 text-4xl shadow-lg shadow-emerald-500/30 transform rotate-3">🛡️</div>
-                    <h3 class="text-2xl font-extrabold text-white tracking-wide">SYSTEM ADMIN</h3>
+                    <h3 class="text-xl sm:text-2xl font-extrabold text-white tracking-wide">SYSTEM ADMIN</h3>
                 </div>
                 <div class="space-y-5">
                     <div>
@@ -243,8 +248,25 @@
         </div>
     </div>
 
-    <!-- JavaScript เชื่อมต่อ Firebase -->
+    <!-- JavaScript เชื่อมต่อ Firebase และระบบนาฬิกา -->
     <script>
+        // --- ระบบนาฬิกา Realtime ---
+        function updateClock() {
+            const now = new Date();
+            const dateOpts = { year: 'numeric', month: 'short', day: 'numeric' };
+            const timeOpts = { hour: '2-digit', minute:'2-digit', second:'2-digit', hour12: false };
+            const dateStr = now.toLocaleDateString('th-TH', dateOpts);
+            const timeStr = now.toLocaleTimeString('th-TH', timeOpts);
+            
+            const clockEl = document.getElementById('realtime-clock');
+            if(clockEl) {
+                clockEl.innerHTML = `<span class="opacity-80 font-normal mr-1">${dateStr}</span> <span class="tracking-wide">${timeStr}</span>`;
+            }
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // --- ตั้งค่า Firebase ---
         const firebaseConfig = {
             apiKey: "AIzaSyAhMLr-NpXN8Dud2vYm32TLdSJu4Gz75g4",
             authDomain: "xray-inventory-system.firebaseapp.com",
@@ -264,13 +286,9 @@
         let clinicLogo = 'https://cdn-icons-png.flaticon.com/512/809/809957.png';
         let announcements = [];
         let personnel = [];
-        
         let currentDate = new Date();
         let calSchedules = {}; 
-        let remarksList = [
-            { id: 1, text: "กรุณามาก่อนเวลานัดหมาย 15 นาที เพื่อตรวจเช็คความดันและรับคิว" },
-            { id: 2, text: "กรณีต้องการเลื่อนนัด กรุณาแจ้งล่วงหน้า 1 วันทำการ (โทร 02-123-4567)" }
-        ];
+        let remarksList = [];
 
         const monthNamesThai = ["มกราคม","กุมภาพันธ์","มีนาคม","เมษายน","พฤษภาคม","มิถุนายน","กรกฎาคม","สิงหาคม","กันยายน","ตุลาคม","พฤศจิกายน","ธันวาคม"];
 
@@ -288,7 +306,6 @@
             if (loadingMsg) loadingMsg.style.display = 'none';
             
             renderAll();
-
         }, (error) => {
             console.error("Firebase Error:", error);
             const loadingMsg = document.getElementById('loading-msg');
@@ -312,14 +329,14 @@
             const tabs = ['home', 'personnel'];
             tabs.forEach(t => {
                 document.getElementById('tab-' + t).classList.add('hidden');
-                document.getElementById('btn-' + t).className = "px-8 py-3 text-base font-bold text-slate-600 hover:text-emerald-600 hover:bg-white/80 rounded-full transition-all duration-300";
+                document.getElementById('btn-' + t).className = "px-6 py-2.5 sm:px-8 sm:py-3 text-sm sm:text-base font-bold text-slate-600 hover:text-emerald-600 hover:bg-white/80 rounded-full transition-all duration-300";
             });
             const activeSection = document.getElementById('tab-' + tabName);
             activeSection.classList.remove('hidden');
             activeSection.classList.remove('fade-in');
             void activeSection.offsetWidth;
             activeSection.classList.add('fade-in');
-            document.getElementById('btn-' + tabName).className = "px-8 py-3 text-base font-bold bg-gradient-to-r from-emerald-500 to-teal-500 text-white rounded-full shadow-lg shadow-emerald-500/30 transition-all duration-300";
+            document.getElementById('btn-' + tabName).className = "px-6 py-2.5 sm:px-8 sm:py-3 text-sm sm:text-base font-bold bg-gradient-to-r from-emerald-500 to-teal-500 text-white rounded-full shadow-lg shadow-emerald-500/30 transition-all duration-300";
         }
 
         function renderSettings() {
@@ -354,12 +371,12 @@
                 let badgeClass = ann.color === 'pink' ? 'bg-orange-500 text-white' : 'bg-emerald-500 text-white';
 
                 list.innerHTML += `
-                    <div class="p-5 border border-l-8 rounded-2xl shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4 transition-all hover:shadow-md hover:scale-[1.01] ${bgClass}">
+                    <div class="p-4 sm:p-5 border border-l-8 rounded-2xl shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4 transition-all hover:shadow-md hover:scale-[1.01] ${bgClass}">
                         <div class="flex items-start sm:items-center gap-3">
-                            <span class="px-3 py-1 rounded-md text-xs font-black tracking-widest ${badgeClass} shadow-sm shrink-0">${ann.type}</span>
-                            <span class="text-[15px] font-medium text-slate-700 leading-snug">${ann.text}</span>
+                            <span class="px-3 py-1 rounded-md text-[10px] sm:text-xs font-black tracking-widest ${badgeClass} shadow-sm shrink-0">${ann.type}</span>
+                            <span class="text-sm sm:text-[15px] font-medium text-slate-700 leading-snug">${ann.text}</span>
                         </div>
-                        ${isAdmin ? `<button onclick="deleteAnnouncement(${ann.id})" class="text-rose-500 hover:text-white hover:bg-rose-500 text-xs font-bold px-4 py-2 rounded-lg border border-rose-200 transition shrink-0 bg-white">ลบ</button>` : ''}
+                        ${isAdmin ? `<button onclick="deleteAnnouncement(${ann.id})" class="text-rose-500 hover:text-white hover:bg-rose-500 text-xs font-bold px-4 py-2 rounded-lg border border-rose-200 transition shrink-0 bg-white self-end sm:self-auto">ลบ</button>` : ''}
                     </div>
                 `;
             });
@@ -371,15 +388,20 @@
             list.innerHTML = '';
             personnel.forEach(p => {
                 let imageHTML = p.image 
-                    ? `<img src="${p.image}" alt="${p.name}" class="w-28 h-28 rounded-[2rem] mx-auto mb-5 object-cover border-4 border-white shadow-lg transform group-hover:-rotate-3 transition duration-300">`
-                    : `<div class="w-28 h-28 bg-gradient-to-br from-emerald-100 to-teal-100 rounded-[2rem] mx-auto mb-5 flex items-center justify-center text-emerald-600 font-black text-3xl border-4 border-white shadow-lg transform group-hover:-rotate-3 transition duration-300">${p.prefix}</div>`;
+                    ? `<img src="${p.image}" alt="${p.name}" class="w-24 h-24 sm:w-28 sm:h-28 rounded-[2rem] mx-auto mb-5 object-cover border-4 border-white shadow-lg transform group-hover:-rotate-3 transition duration-300">`
+                    : `<div class="w-24 h-24 sm:w-28 sm:h-28 bg-gradient-to-br from-emerald-100 to-teal-100 rounded-[2rem] mx-auto mb-5 flex items-center justify-center text-emerald-600 font-black text-2xl sm:text-3xl border-4 border-white shadow-lg transform group-hover:-rotate-3 transition duration-300">${p.prefix}</div>`;
 
                 list.innerHTML += `
                     <div class="bg-white/80 backdrop-blur-sm p-6 rounded-[2.5rem] text-center shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-white relative group transition-all duration-300 hover:shadow-[0_20px_40px_rgba(16,185,129,0.1)] hover:-translate-y-2">
-                        ${isAdmin ? `<button onclick="deletePersonnel(${p.id})" class="absolute top-3 right-3 w-8 h-8 flex items-center justify-center bg-white text-rose-500 hover:bg-rose-500 hover:text-white rounded-full shadow-md transition z-10 font-bold">✕</button>` : ''}
+                        ${isAdmin ? `
+                            <div class="absolute top-3 right-3 flex gap-1 z-10 opacity-100 sm:opacity-0 group-hover:opacity-100 transition">
+                                <button onclick="editPersonnel(${p.id})" class="w-8 h-8 flex items-center justify-center bg-white text-emerald-500 hover:bg-emerald-500 hover:text-white rounded-full shadow-md transition font-bold" title="แก้ไข">✏️</button>
+                                <button onclick="deletePersonnel(${p.id})" class="w-8 h-8 flex items-center justify-center bg-white text-rose-500 hover:bg-rose-500 hover:text-white rounded-full shadow-md transition font-bold" title="ลบ">✕</button>
+                            </div>
+                        ` : ''}
                         ${imageHTML}
-                        <h3 class="font-bold text-slate-800 text-xl tracking-tight leading-tight">${p.prefix} ${p.name}</h3>
-                        <div class="mt-4"><span class="inline-block px-4 py-1.5 bg-gradient-to-r from-emerald-50 to-teal-50 text-emerald-700 text-sm font-bold rounded-xl border border-emerald-100 shadow-sm">${p.role}</span></div>
+                        <h3 class="font-bold text-slate-800 text-lg sm:text-xl tracking-tight leading-tight">${p.prefix} ${p.name}</h3>
+                        <div class="mt-4"><span class="inline-block px-3 py-1 sm:px-4 sm:py-1.5 bg-gradient-to-r from-emerald-50 to-teal-50 text-emerald-700 text-xs sm:text-sm font-bold rounded-xl border border-emerald-100 shadow-sm">${p.role}</span></div>
                     </div>
                 `;
             });
@@ -407,7 +429,7 @@
             const isCurrentMonth = (today.getMonth() === month && today.getFullYear() === year);
 
             for (let i = 0; i < firstDay; i++) {
-                daysContainer.innerHTML += `<div class="bg-slate-100/50 min-h-[40px] sm:min-h-[60px] border-b border-r border-slate-100"></div>`;
+                daysContainer.innerHTML += `<div class="bg-slate-100/50 min-h-[60px] sm:min-h-[80px] border-b border-r border-slate-100"></div>`;
             }
 
             for (let d = 1; d <= daysInMonth; d++) {
@@ -417,7 +439,6 @@
                 
                 let docsHTML = '';
                 doctorsToday.forEach((doc, idx) => {
-                    // อัปเดตส่วนนี้เพื่อให้ชื่อไม่ถูกตัดและขึ้นบรรทัดใหม่เมื่อยาวเกิน
                     docsHTML += `
                         <div class="text-[11px] sm:text-xs font-bold px-2 py-1.5 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded mt-1 flex justify-between items-start shadow-sm gap-1">
                             <span class="whitespace-normal leading-tight break-words">${doc}</span>
@@ -518,9 +539,9 @@
         function addPersonnel() {
             const prefix = prompt("ยศ หรือ คำนำหน้า (เช่น นพ., พญ., รศ.นพ.):", "นพ.");
             if (!prefix) return;
-            const name = prompt("ชื่อ - นามสกุล (เช่น สมชาย รักษาดี):");
+            const name = prompt("ชื่อ - นามสกุล:");
             if (!name) return;
-            const role = prompt("ตำแหน่ง (เช่น แพทย์เฉพาะทาง, พยาบาลวิชาชีพ):", "ศัลยแพทย์ผู้เชี่ยวชาญ");
+            const role = prompt("ตำแหน่ง:", "ศัลยแพทย์ผู้เชี่ยวชาญ");
             if (!role) return;
             const image = prompt("URL ลิงก์รูปภาพ (เว้นว่างไว้ได้หากไม่มีรูป):", "");
             personnel.push({ id: Date.now(), prefix: prefix, name: name, role: role, image: image });
@@ -528,6 +549,24 @@
         }
         function deletePersonnel(id) {
             if(confirm("ยืนยันการลบบุคลากรนี้?")) { personnel = personnel.filter(p => p.id !== id); saveToCloud(); }
+        }
+        
+        // ฟังก์ชันสำหรับแก้ไขข้อมูลบุคลากรเดิม
+        function editPersonnel(id) {
+            const idx = personnel.findIndex(p => p.id === id);
+            if (idx === -1) return;
+            const p = personnel[idx];
+            
+            const prefix = prompt("ยศ หรือ คำนำหน้า:", p.prefix);
+            if (prefix === null) return;
+            const name = prompt("ชื่อ - นามสกุล:", p.name);
+            if (name === null) return;
+            const role = prompt("ตำแหน่ง:", p.role);
+            if (role === null) return;
+            const image = prompt("URL ลิงก์รูปภาพ (เว้นว่างไว้ได้หากไม่มีรูป):", p.image || "");
+
+            personnel[idx] = { ...p, prefix: prefix, name: name, role: role, image: image };
+            saveToCloud();
         }
 
         function addDocToCal(dateString, dayNum) {
