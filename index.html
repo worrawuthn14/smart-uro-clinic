@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart Uro | ยกระดับความมั่นใจเหนือทุกดิจิทัล</title>
+    <title>Smart Uro | ชีวิตสมาร์ท จัดการได้ในคลิกเดียว</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
@@ -48,7 +48,6 @@
         .animated-border:hover::before { opacity: 0; }
         @keyframes gradientBorder { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
         
-        /* สไตล์ตารางปฏิทินแบบกำหนดเอง */
         .calendar-grid {
             display: grid;
             grid-template-columns: repeat(7, minmax(0, 1fr));
@@ -93,7 +92,6 @@
                         <h1 class="text-lg sm:text-xl md:text-3xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-slate-800 to-emerald-800">
                             Smart <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 to-teal-500">OPD-URO</span>
                         </h1>
-                        <!-- ปรับการแสดงผลบนมือถือให้ไม่ตัดคำด้วยการลบ truncate ออก -->
                         <p class="text-[10px] sm:text-xs md:text-sm text-slate-500 font-semibold tracking-wide uppercase mt-0.5 leading-tight">ห้องตรวจโรคศัลยกรรมทางเดินปัสสาวะ</p>
                     </div>
                 </div>
@@ -119,7 +117,7 @@
         <div class="flex justify-center mt-8 px-4 relative z-40">
             <nav class="bg-white/40 backdrop-blur-xl p-1.5 rounded-full flex space-x-1 shadow-lg border border-white/80">
                 <button onclick="switchTab('home')" id="btn-home" class="px-6 py-2.5 sm:px-8 sm:py-3 text-sm sm:text-base font-bold bg-gradient-to-r from-emerald-500 to-teal-500 text-white rounded-full shadow-md transition-all duration-300">🏥 หน้าแรก</button>
-                <button onclick="switchTab('personnel')" id="btn-personnel" class="px-6 py-2.5 sm:px-8 sm:py-3 text-sm sm:text-base font-bold text-slate-600 hover:text-emerald-600 hover:bg-white/80 rounded-full transition-all duration-300">👩‍⚕️️ บุคลากร</button>
+                <button onclick="switchTab('personnel')" id="btn-personnel" class="px-6 py-2.5 sm:px-8 sm:py-3 text-sm sm:text-base font-bold text-slate-600 hover:text-emerald-600 hover:bg-white/80 rounded-full transition-all duration-300">👩‍⚕️ บุคลากร</button>
             </nav>
         </div>
 
@@ -134,7 +132,6 @@
                                 <span class="text-2xl sm:text-3xl filter drop-shadow-md">✨</span> อัปเดตข่าวสาร
                             </h2>
                             <div class="flex items-center gap-3 justify-between sm:justify-end">
-                                <!-- นาฬิกาแบบ Realtime -->
                                 <div id="realtime-clock" class="text-xs sm:text-sm font-bold text-emerald-700 bg-emerald-50/80 px-3 py-1.5 rounded-xl border border-emerald-200/50 shadow-sm flex items-center gap-2">
                                     🕒 โหลดเวลา...
                                 </div>
@@ -146,7 +143,6 @@
                     </div>
                 </div>
 
-                <!-- ปฏิทินตารางแพทย์ออกตรวจ -->
                 <div class="glass-panel p-1 rounded-3xl hover-float" style="transition-delay: 0.1s;">
                     <div class="bg-white/60 p-6 md:p-8 rounded-[1.4rem]">
                         <div class="flex flex-col md:flex-row justify-between md:items-center border-b-2 border-emerald-100/50 pb-5 mb-6 gap-4">
@@ -160,7 +156,6 @@
                             </div>
                         </div>
                         
-                        <!-- Calendar Grid Wrapper -->
                         <div class="w-full overflow-x-auto pb-4">
                             <div class="calendar-grid min-w-[700px] mb-4 shadow-sm">
                                 <div class="calendar-header">อา.</div>
@@ -197,7 +192,7 @@
                             <h2 class="text-xl sm:text-2xl font-extrabold text-slate-800 flex items-center gap-3">
                                 <span class="text-2xl sm:text-3xl filter drop-shadow-md">💎</span> ทำเนียบทีมบุคลากร
                             </h2>
-                            <button onclick="addPersonnel()" class="admin-only hidden bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white text-xs sm:text-sm font-bold px-4 py-2 rounded-xl shadow-lg transition-transform hover:scale-105">+ เพิ่มบุคคล</button>
+                            <button onclick="openPersonnelModal()" class="admin-only hidden bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white text-xs sm:text-sm font-bold px-4 py-2 rounded-xl shadow-lg transition-transform hover:scale-105">+ เพิ่มบุคคล</button>
                         </div>
                         <div id="personnel-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"></div>
                     </div>
@@ -207,18 +202,16 @@
         </main>
     </div>
 
-    <!-- ส่วนท้าย (ปรับปรุงโลโก้และที่อยู่) -->
+    <!-- ส่วนท้าย -->
     <footer class="bg-slate-900/90 backdrop-blur-xl border-t-4 border-emerald-500 py-10 mt-auto relative z-50 text-slate-300">
         <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center space-y-6 md:space-y-0">
             <div class="text-center md:text-left">
-                <!-- โลโก้ด้านล่าง -->
                 <div class="flex items-center justify-center md:justify-start gap-3 mb-2">
                     <img id="footerLogoImg" src="https://cdn-icons-png.flaticon.com/512/809/809957.png" alt="Footer Logo" class="w-8 h-8 sm:w-10 sm:h-10 rounded-lg object-cover bg-white p-0.5 shadow-sm">
                     <p class="font-extrabold text-white text-lg tracking-wider">SMART OPD-URO</p>
                 </div>
                 <p class="text-sm text-slate-400">ยกระดับการดูแลสุขภาพ ด้วยความเชี่ยวชาญที่คุณวางใจ</p>
                 
-                <!-- ข้อมูลที่อยู่ (แก้ไขได้) -->
                 <div class="relative group mt-3 inline-block">
                     <p id="clinicAddressDisplay" class="text-[11px] sm:text-xs text-slate-400/80 max-w-md mx-auto md:mx-0 leading-relaxed"></p>
                     <button onclick="editAddress()" class="admin-only hidden absolute -right-6 -top-1 bg-emerald-600 text-white rounded-md w-5 h-5 flex items-center justify-center shadow hover:bg-emerald-500 transition-colors text-[10px]" title="แก้ไขที่อยู่">✏️</button>
@@ -232,7 +225,7 @@
         </div>
     </footer>
 
-    <!-- หน้าต่างล็อกอินแอดมิน -->
+    <!-- หน้าต่างล็อกอินแอดมิน (Login Modal) -->
     <div id="loginModal" class="fixed inset-0 z-[100] hidden flex items-center justify-center px-4">
         <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-lg" onclick="closeLoginModal()"></div>
         <div class="bg-white/10 backdrop-blur-2xl border border-white/20 p-1 rounded-[2rem] shadow-2xl relative z-10 w-full max-w-md transform scale-95 transition-transform duration-300" id="loginBox">
@@ -257,7 +250,42 @@
         </div>
     </div>
 
-    <!-- JavaScript เชื่อมต่อ Firebase และระบบนาฬิกา -->
+    <!-- หน้าต่างจัดการบุคลากร (อัปโหลดรูป) -->
+    <div id="personnelModal" class="fixed inset-0 z-[110] hidden flex items-center justify-center px-4">
+        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onclick="closePersonnelModal()"></div>
+        <div class="bg-white p-6 rounded-3xl shadow-2xl relative z-10 w-full max-w-sm">
+            <h3 id="p-modal-title" class="text-xl font-bold text-slate-800 mb-4 border-b pb-2">เพิ่มบุคลากร</h3>
+            <input type="hidden" id="p-id">
+            
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm font-bold text-slate-600 mb-1">ยศ/คำนำหน้า</label>
+                    <input type="text" id="p-prefix" placeholder="เช่น นพ., พญ., พว." class="w-full px-3 py-2 border border-slate-300 rounded-xl outline-none focus:border-emerald-500">
+                </div>
+                <div>
+                    <label class="block text-sm font-bold text-slate-600 mb-1">ชื่อ - นามสกุล</label>
+                    <input type="text" id="p-name" placeholder="ชื่อ นามสกุล" class="w-full px-3 py-2 border border-slate-300 rounded-xl outline-none focus:border-emerald-500">
+                </div>
+                <div>
+                    <label class="block text-sm font-bold text-slate-600 mb-1">ตำแหน่ง</label>
+                    <input type="text" id="p-role" placeholder="เช่น แพทย์เฉพาะทาง" class="w-full px-3 py-2 border border-slate-300 rounded-xl outline-none focus:border-emerald-500">
+                </div>
+                <div>
+                    <label class="block text-sm font-bold text-slate-600 mb-1">อัปโหลดรูปภาพ (ไม่บังคับ)</label>
+                    <!-- ปุ่มสำหรับเลือกไฟล์รูปจากเครื่อง -->
+                    <input type="file" id="p-image" accept="image/*" class="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100 transition">
+                    <p class="text-[10px] text-slate-400 mt-1">* แนะนำใช้รูปทรงจัตุรัสขนาดเล็กเพื่อความรวดเร็ว</p>
+                </div>
+                
+                <div class="flex justify-end gap-2 mt-6">
+                    <button onclick="closePersonnelModal()" class="px-4 py-2 bg-slate-100 text-slate-600 font-bold rounded-xl hover:bg-slate-200 transition">ยกเลิก</button>
+                    <button onclick="savePersonnelData()" class="px-4 py-2 bg-emerald-500 text-white font-bold rounded-xl shadow-md hover:bg-emerald-600 transition">บันทึกข้อมูล</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript เชื่อมต่อ Firebase -->
     <script>
         // --- ระบบนาฬิกา Realtime ---
         function updateClock() {
@@ -353,15 +381,10 @@
         }
 
         function renderSettings() {
-            // โลโก้ด้านบน
             const logoEl = document.getElementById('clinicLogoImg');
             if(logoEl) logoEl.src = clinicLogo;
-
-            // โลโก้ด้านล่าง (Footer)
             const footerLogoEl = document.getElementById('footerLogoImg');
             if(footerLogoEl) footerLogoEl.src = clinicLogo;
-
-            // ที่อยู่ (Address)
             const addressEl = document.getElementById('clinicAddressDisplay');
             if(addressEl) addressEl.innerText = clinicAddress;
             
@@ -417,7 +440,7 @@
                     <div class="bg-white/80 backdrop-blur-sm p-6 rounded-[2.5rem] text-center shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-white relative group transition-all duration-300 hover:shadow-[0_20px_40px_rgba(16,185,129,0.1)] hover:-translate-y-2">
                         ${isAdmin ? `
                             <div class="absolute top-3 right-3 flex gap-1 z-10 opacity-100 sm:opacity-0 group-hover:opacity-100 transition">
-                                <button onclick="editPersonnel(${p.id})" class="w-8 h-8 flex items-center justify-center bg-white text-emerald-500 hover:bg-emerald-500 hover:text-white rounded-full shadow-md transition font-bold" title="แก้ไข">✏️</button>
+                                <button onclick="openPersonnelModal(${p.id})" class="w-8 h-8 flex items-center justify-center bg-white text-emerald-500 hover:bg-emerald-500 hover:text-white rounded-full shadow-md transition font-bold" title="แก้ไข">✏️</button>
                                 <button onclick="deletePersonnel(${p.id})" class="w-8 h-8 flex items-center justify-center bg-white text-rose-500 hover:bg-rose-500 hover:text-white rounded-full shadow-md transition font-bold" title="ลบ">✕</button>
                             </div>
                         ` : ''}
@@ -563,36 +586,102 @@
             if(confirm("ยืนยันการลบประกาศนี้?")) { announcements = announcements.filter(a => a.id !== id); saveToCloud(); }
         }
 
-        function addPersonnel() {
-            const prefix = prompt("ยศ หรือ คำนำหน้า (เช่น นพ., พญ., รศ.นพ.):", "นพ.");
-            if (!prefix) return;
-            const name = prompt("ชื่อ - นามสกุล (เช่น สมชาย รักษาดี):");
-            if (!name) return;
-            const role = prompt("ตำแหน่ง (เช่น แพทย์เฉพาะทาง, พยาบาลวิชาชีพ):", "ศัลยแพทย์ผู้เชี่ยวชาญ");
-            if (!role) return;
-            const image = prompt("URL ลิงก์รูปภาพ (เว้นว่างไว้ได้หากไม่มีรูป):", "");
-            personnel.push({ id: Date.now(), prefix: prefix, name: name, role: role, image: image });
-            saveToCloud();
-        }
-        function deletePersonnel(id) {
-            if(confirm("ยืนยันการลบบุคลากรนี้?")) { personnel = personnel.filter(p => p.id !== id); saveToCloud(); }
-        }
-        
-        function editPersonnel(id) {
-            const idx = personnel.findIndex(p => p.id === id);
-            if (idx === -1) return;
-            const p = personnel[idx];
+        // --- ระบบอัปโหลดรูปภาพด้วย Base64 (หน้าต่างเพิ่ม/แก้ไขบุคลากร) ---
+        function openPersonnelModal(id = null) {
+            document.getElementById('personnelModal').classList.remove('hidden');
+            const title = document.getElementById('p-modal-title');
+            const idInput = document.getElementById('p-id');
+            const prefixInput = document.getElementById('p-prefix');
+            const nameInput = document.getElementById('p-name');
+            const roleInput = document.getElementById('p-role');
+            const fileInput = document.getElementById('p-image');
             
-            const prefix = prompt("ยศ หรือ คำนำหน้า:", p.prefix);
-            if (prefix === null) return;
-            const name = prompt("ชื่อ - นามสกุล:", p.name);
-            if (name === null) return;
-            const role = prompt("ตำแหน่ง:", p.role);
-            if (role === null) return;
-            const image = prompt("URL ลิงก์รูปภาพ (เว้นว่างไว้ได้หากไม่มีรูป):", p.image || "");
+            fileInput.value = ''; // ล้างค่าไฟล์เสมอ
 
-            personnel[idx] = { ...p, prefix: prefix, name: name, role: role, image: image };
-            saveToCloud();
+            if (id) {
+                // โหมดแก้ไข
+                title.innerText = "แก้ไขข้อมูลบุคลากร";
+                const p = personnel.find(x => x.id === id);
+                if (p) {
+                    idInput.value = p.id;
+                    prefixInput.value = p.prefix;
+                    nameInput.value = p.name;
+                    roleInput.value = p.role;
+                }
+            } else {
+                // โหมดเพิ่มใหม่
+                title.innerText = "เพิ่มบุคลากรใหม่";
+                idInput.value = '';
+                prefixInput.value = 'นพ.';
+                nameInput.value = '';
+                roleInput.value = 'ศัลยแพทย์เฉพาะทาง';
+            }
+        }
+
+        function closePersonnelModal() {
+            document.getElementById('personnelModal').classList.add('hidden');
+        }
+
+        function savePersonnelData() {
+            const prefix = document.getElementById('p-prefix').value.trim();
+            const name = document.getElementById('p-name').value.trim();
+            const role = document.getElementById('p-role').value.trim();
+            const fileInput = document.getElementById('p-image');
+            const editingId = document.getElementById('p-id').value;
+
+            if(!prefix || !name || !role) {
+                alert('กรุณากรอก ยศ, ชื่อ และตำแหน่ง ให้ครบถ้วนครับ');
+                return;
+            }
+
+            // ฟังก์ชันย่อยสำหรับบันทึกข้อมูลหลัก
+            let processSave = (imageBase64) => {
+                if (editingId) {
+                    // แก้ไขของเดิม
+                    const idx = personnel.findIndex(p => p.id == editingId);
+                    if (idx !== -1) {
+                        personnel[idx].prefix = prefix;
+                        personnel[idx].name = name;
+                        personnel[idx].role = role;
+                        // อัปเดตเฉพาะเมื่อมีการอัปโหลดรูปใหม่
+                        if(imageBase64 !== null) {
+                            personnel[idx].image = imageBase64;
+                        }
+                    }
+                } else {
+                    // เพิ่มใหม่
+                    personnel.push({ id: Date.now(), prefix: prefix, name: name, role: role, image: imageBase64 || '' });
+                }
+                saveToCloud();
+                closePersonnelModal();
+            };
+
+            // ตรวจสอบว่ามีการเลือกไฟล์รูปภาพหรือไม่
+            if (fileInput.files && fileInput.files[0]) {
+                const file = fileInput.files[0];
+                // เช็คขนาดไฟล์ (ป้องกันไฟล์ใหญ่เกินไป เบื้องต้นแนะนำไม่เกิน 1-2 MB)
+                if (file.size > 2 * 1024 * 1024) {
+                    alert('ขนาดรูปภาพใหญ่เกินไปครับ (แนะนำให้ไม่เกิน 2MB)');
+                    return;
+                }
+                
+                const reader = new FileReader();
+                // เมื่อโปรแกรมอ่านไฟล์เสร็จ จะแปลงเป็น Base64
+                reader.onload = function(e) {
+                    processSave(e.target.result); 
+                };
+                reader.readAsDataURL(file);
+            } else {
+                // ถ้าไม่ได้เลือกรูปใหม่ ให้ส่ง null ไปเพื่อบอกว่าไม่ต้องแก้รูปภาพ (หรือส่ง '' ถ้าเป็นการเพิ่มใหม่)
+                processSave(editingId ? null : ''); 
+            }
+        }
+
+        function deletePersonnel(id) {
+            if(confirm("ยืนยันการลบบุคลากรนี้?")) { 
+                personnel = personnel.filter(p => p.id !== id); 
+                saveToCloud(); 
+            }
         }
 
         function addDocToCal(dateString, dayNum) {
