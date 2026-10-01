@@ -6,21 +6,17 @@
     <title>Smart Uro-Clinic | สัมผัสประสบการณ์การดูแลเหนือระดับ</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    
-    <!-- นำเข้า Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
-
     <style>
         body { 
             font-family: 'Sarabun', sans-serif; 
-            background-color: #ecfdf5;
+            background-color: #ecfdf5; /* โทนสีเขียวธรรมชาติอ่อนๆ */
             background: radial-gradient(circle at 15% 50%, #dcfce7, transparent 40%),
                         radial-gradient(circle at 85% 30%, #ccfbf1, transparent 40%),
                         radial-gradient(circle at 50% 80%, #ecfccb, transparent 50%),
                         #f8fafc;
             background-attachment: fixed;
         }
+        
         .glass-panel { 
             background: rgba(255, 255, 255, 0.65); 
             backdrop-filter: blur(20px) saturate(150%); 
@@ -28,12 +24,14 @@
             border: 1px solid rgba(255, 255, 255, 0.8);
             box-shadow: 0 10px 40px rgba(16, 185, 129, 0.05);
         }
+
         .hover-float { transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
         .hover-float:hover {
             transform: translateY(-8px) scale(1.02);
             box-shadow: 0 20px 40px rgba(16, 185, 129, 0.15);
             border-color: rgba(255, 255, 255, 1);
         }
+
         .animated-border {
             position: relative;
             background: linear-gradient(90deg, #10b981, #14b8a6, #84cc16, #10b981);
@@ -47,7 +45,56 @@
         }
         .animated-border:hover::before { opacity: 0; }
         @keyframes gradientBorder { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
-        .table-gradient th { background: linear-gradient(to right, #f8fafc, #f1f5f9); }
+        
+        /* สไตล์สำหรับปฏิทิน */
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, minmax(0, 1fr));
+            gap: 1px;
+            background-color: #e2e8f0;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.75rem;
+            overflow: hidden;
+        }
+        .calendar-day {
+            background-color: white;
+            min-height: 120px;
+            padding: 0.5rem;
+            display: flex;
+            flex-direction: column;
+            transition: background-color 0.2s;
+        }
+        .calendar-day:hover { background-color: #f8fafc; }
+        .calendar-day.empty { background-color: #f1f5f9; min-height: 40px; }
+        .calendar-header {
+            background: linear-gradient(to right, #10b981, #14b8a6);
+            color: white;
+            text-align: center;
+            font-weight: 700;
+            padding: 0.75rem 0;
+            font-size: 0.875rem;
+        }
+        .day-number {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: #475569;
+            margin-bottom: 0.25rem;
+            display: inline-block;
+            width: 28px; height: 28px;
+            text-align: center; line-height: 28px;
+            border-radius: 50%;
+        }
+        .day-today .day-number {
+            background-color: #10b981; color: white;
+        }
+        .doctor-tag {
+            font-size: 0.75rem; font-weight: 600;
+            padding: 0.25rem 0.5rem; border-radius: 0.5rem;
+            background-color: #ecfdf5; border: 1px solid #a7f3d0; color: #065f46;
+            margin-bottom: 0.25rem; display: flex; justify-content: space-between; align-items: center;
+            word-break: break-word;
+        }
+
         .hidden { display: none !important; }
         .fade-in { animation: fadeIn 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards; opacity: 0; }
         @keyframes fadeIn { 0% { opacity: 0; transform: translateY(20px) scale(0.98); } 100% { opacity: 1; transform: translateY(0) scale(1); } }
@@ -104,7 +151,7 @@
             </nav>
         </div>
 
-        <main class="max-w-6xl mx-auto px-4 py-10 mb-10 relative z-30">
+        <main class="max-w-7xl mx-auto px-4 py-10 mb-10 relative z-30">
             <!-- 1. หน้าแรก (Home) -->
             <section id="tab-home" class="space-y-10 fade-in">
                 
@@ -121,40 +168,46 @@
                     </div>
                 </div>
 
+                <!-- ปฏิทินตารางแพทย์ออกตรวจ -->
                 <div class="glass-panel p-1 rounded-3xl hover-float" style="transition-delay: 0.1s;">
-                    <div class="bg-white/60 p-8 rounded-[1.4rem]">
-                        <div class="flex flex-col sm:flex-row justify-between sm:items-center border-b-2 border-emerald-100/50 pb-5 mb-6 gap-4">
+                    <div class="bg-white/60 p-6 md:p-8 rounded-[1.4rem]">
+                        <div class="flex flex-col md:flex-row justify-between md:items-center border-b-2 border-emerald-100/50 pb-5 mb-6 gap-4">
                             <h2 class="text-2xl font-extrabold text-slate-800 flex items-center gap-3">
-                                <span class="text-3xl filter drop-shadow-md">📅</span> 
-                                <div>
-                                    ตารางแพทย์ออกตรวจ
-                                    <div class="text-base text-emerald-500 font-semibold mt-1" id="monthDisplay">กำลังโหลด...</div>
-                                </div>
+                                <span class="text-3xl filter drop-shadow-md">📅</span> ปฏิทินแพทย์ออกตรวจ
                             </h2>
-                            <button onclick="editMonth()" class="admin-only hidden bg-white text-emerald-600 hover:bg-emerald-50 border-2 border-emerald-100 text-sm font-bold px-5 py-2.5 rounded-xl shadow-sm transition">✏️ เปลี่ยนเดือน</button>
+                            <div class="flex items-center gap-4 bg-white px-4 py-2 rounded-2xl shadow-sm border border-emerald-100">
+                                <button onclick="changeMonth(-1)" class="text-emerald-600 hover:text-emerald-800 font-black text-xl px-2">&lsaquo;</button>
+                                <div id="monthYearDisplay" class="text-lg font-bold text-slate-700 min-w-[140px] text-center">กำลังโหลด...</div>
+                                <button onclick="changeMonth(1)" class="text-emerald-600 hover:text-emerald-800 font-black text-xl px-2">&rsaquo;</button>
+                            </div>
                         </div>
                         
-                        <div class="overflow-hidden rounded-2xl shadow-[0_0_20px_rgba(0,0,0,0.03)] border border-white bg-white/80 mb-6">
-                            <table class="w-full text-left text-sm md:text-base">
-                                <thead class="table-gradient text-slate-700 border-b-2 border-slate-100">
-                                    <tr>
-                                        <th class="p-5 font-extrabold w-1/4 sm:w-1/5 text-center text-emerald-900">วันทำการ</th>
-                                        <th class="p-5 font-extrabold text-emerald-900">แพทย์</th>
-                                        <th class="p-5 font-extrabold admin-only-th hidden w-32 text-center text-rose-600">แอดมินจัดการ</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="schedule-list" class="divide-y divide-slate-100/50"></tbody>
-                            </table>
+                        <!-- Calendar Grid -->
+                        <div class="calendar-grid mb-8 shadow-sm">
+                            <!-- Headers -->
+                            <div class="calendar-header">อา.</div>
+                            <div class="calendar-header">จ.</div>
+                            <div class="calendar-header">อ.</div>
+                            <div class="calendar-header">พ.</div>
+                            <div class="calendar-header">พฤ.</div>
+                            <div class="calendar-header">ศ.</div>
+                            <div class="calendar-header">ส.</div>
+                            <!-- Days Container -->
+                            <div class="contents" id="calendar-days"></div>
                         </div>
 
+                        <!-- หมายเหตุแบบแยกข้อ (List) -->
                         <div class="bg-gradient-to-r from-green-50 to-emerald-50 border-l-4 border-emerald-500 rounded-xl p-6 relative group shadow-sm">
-                            <div class="flex justify-between items-start mb-2">
+                            <div class="flex justify-between items-start mb-4">
                                 <h3 class="text-emerald-800 font-extrabold text-sm flex items-center gap-2 tracking-wide uppercase">
                                     <span class="text-lg">📌</span> หมายเหตุสำคัญ
                                 </h3>
-                                <button onclick="editRemarks()" class="admin-only hidden text-emerald-600 hover:text-white hover:bg-emerald-500 bg-white border border-emerald-200 text-xs font-bold px-4 py-1.5 rounded-lg transition shadow-sm">✏️ แก้ไข</button>
+                                <button onclick="addRemark()" class="admin-only hidden text-emerald-600 hover:text-white hover:bg-emerald-500 bg-white border border-emerald-200 text-xs font-bold px-4 py-1.5 rounded-lg transition shadow-sm">+ เพิ่มหมายเหตุ</button>
                             </div>
-                            <p id="schedule-remarks" class="text-slate-600 text-[15px] whitespace-pre-line ml-7 leading-relaxed font-medium">กำลังโหลด...</p>
+                            <ul id="schedule-remarks-list" class="space-y-2 ml-2">
+                                <!-- รายการหมายเหตุจะแสดงที่นี่ -->
+                                <li class="text-slate-500 italic text-sm">กำลังโหลด...</li>
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -166,7 +219,7 @@
                     <div class="bg-white/60 p-8 rounded-[1.4rem]">
                         <div class="flex justify-between items-center border-b-2 border-emerald-100/50 pb-5 mb-10">
                             <h2 class="text-2xl font-extrabold text-slate-800 flex items-center gap-3">
-                                <span class="text-3xl filter drop-shadow-md">💎</span> ทำเนียบบุคลากร
+                                <span class="text-3xl filter drop-shadow-md">💎</span> ทำเนียบทีมแพทย์เฉพาะทาง
                             </h2>
                             <button onclick="addPersonnel()" class="admin-only hidden bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white text-sm font-bold px-5 py-2.5 rounded-xl shadow-lg transition-transform hover:scale-105">+ เพิ่มบุคคล</button>
                         </div>
@@ -190,7 +243,7 @@
             </div>
             <div class="text-center md:text-right bg-slate-800/50 p-4 rounded-2xl border border-slate-700">
                 <p class="text-xs text-slate-400 uppercase tracking-widest mb-1">ติดต่อสอบถาม</p>
-                <p class="text-transparent bg-clip-text bg-gradient-to-r from-lime-400 to-emerald-400 font-extrabold text-2xl">📞 02-763-3123</p>
+                <p class="text-transparent bg-clip-text bg-gradient-to-r from-lime-400 to-emerald-400 font-extrabold text-2xl">📞 02-123-4567</p>
             </div>
         </div>
     </footer>
@@ -221,9 +274,8 @@
         </div>
     </div>
 
-    <!-- JavaScript เชื่อมต่อ Firebase (ดึงค่าจากโปรเจกต์ xray-inventory-system มาใส่ให้แล้ว) -->
+    <!-- JavaScript เชื่อมต่อ Firebase -->
     <script>
-        // --- 1. ตั้งค่า Firebase (เชื่อมต่อกับโปรเจกต์ของคุณโดยตรง) ---
         const firebaseConfig = {
             apiKey: "AIzaSyAhMLr-NpXN8Dud2vYm32TLdSJu4Gz75g4",
             authDomain: "xray-inventory-system.firebaseapp.com",
@@ -239,49 +291,45 @@
         }
         const db = firebase.database();
 
-        // --- 2. ตัวแปรเก็บข้อมูลเริ่มต้น ---
         let isAdmin = false;
         let clinicLogo = 'https://cdn-icons-png.flaticon.com/512/809/809957.png';
-        let scheduleRemarks = '🔹 กรุณามาก่อนเวลานัดหมาย 15 นาที เพื่อตรวจเช็คความดันและรับคิว\n🔹 กรณีต้องการเลื่อนนัด กรุณาแจ้งล่วงหน้า 1 วันทำการ';
-        let scheduleMonth = 'ประจำเดือน ตุลาคม';
         let announcements = [];
         let personnel = [];
-        let schedule = [
-            { id: 'mon', day: 'จันทร์', doctors: [] },
-            { id: 'tue', day: 'อังคาร', doctors: [] },
-            { id: 'wed', day: 'พุธ', doctors: [] },
-            { id: 'thu', day: 'พฤหัสบดี', doctors: [] },
-            { id: 'fri', day: 'ศุกร์', doctors: [] }
+        
+        // --- ตัวแปรสำหรับปฏิทินและหมายเหตุ ---
+        let currentDate = new Date();
+        let calSchedules = {}; // รูปแบบ: "YYYY-MM-DD": ["หมอ A", "หมอ B"]
+        let remarksList = [
+            { id: 1, text: "กรุณามาก่อนเวลานัดหมาย 15 นาที เพื่อตรวจเช็คความดันและรับคิว" },
+            { id: 2, text: "กรณีต้องการเลื่อนนัด กรุณาแจ้งล่วงหน้า 1 วันทำการ (โทร 02-123-4567)" }
         ];
 
-        // --- 3. ดึงข้อมูลแบบ Realtime จากกิ่ง clinicData ---
-        db.ref('clinicData').on('value', (snapshot) => {
+        // เดือนภาษาไทย
+        const monthNamesThai = ["มกราคม","กุมภาพันธ์","มีนาคม","เมษายน","พฤษภาคม","มิถุนายน","กรกฎาคม","สิงหาคม","กันยายน","ตุลาคม","พฤศจิกายน","ธันวาคม"];
+
+        db.ref('clinicData_v3').on('value', (snapshot) => {
             const data = snapshot.val();
             if (data) {
                 if (data.announcements) announcements = data.announcements;
                 if (data.personnel) personnel = data.personnel;
-                if (data.schedule) schedule = data.schedule;
-                if (data.settings) {
-                    clinicLogo = data.settings.logo || clinicLogo;
-                    scheduleRemarks = data.settings.remarks || scheduleRemarks;
-                    scheduleMonth = data.settings.month || scheduleMonth;
-                }
+                if (data.calSchedules) calSchedules = data.calSchedules;
+                if (data.remarksList) remarksList = data.remarksList;
+                if (data.settings && data.settings.logo) clinicLogo = data.settings.logo;
             }
             document.getElementById('loading-msg').style.display = 'none';
             renderAll();
         });
 
-        // ฟังก์ชันบันทึกข้อมูลขึ้น Cloud
         function saveToCloud() {
-            db.ref('clinicData').set({
+            db.ref('clinicData_v3').set({
                 announcements: announcements,
                 personnel: personnel,
-                schedule: schedule,
-                settings: { logo: clinicLogo, remarks: scheduleRemarks, month: scheduleMonth }
+                calSchedules: calSchedules,
+                remarksList: remarksList,
+                settings: { logo: clinicLogo }
             });
         }
 
-        // --- 4. ระบบนำทาง (Tab) ---
         function switchTab(tabName) {
             const tabs = ['home', 'personnel'];
             tabs.forEach(t => {
@@ -296,10 +344,25 @@
             document.getElementById('btn-' + tabName).className = "px-8 py-3 text-base font-bold bg-gradient-to-r from-emerald-500 to-teal-500 text-white rounded-full shadow-lg shadow-emerald-500/30 transition-all duration-300";
         }
 
-        // --- 5. วาดหน้าจอ (Render UI) ---
         function renderSettings() {
             document.getElementById('clinicLogoImg').src = clinicLogo;
-            document.getElementById('schedule-remarks').innerText = scheduleRemarks;
+            
+            // Render หมายเหตุแบบแยกข้อ (List)
+            const rList = document.getElementById('schedule-remarks-list');
+            rList.innerHTML = '';
+            if(remarksList.length === 0) {
+                rList.innerHTML = '<li class="text-slate-400 italic text-sm">- ไม่มีหมายเหตุ -</li>';
+            } else {
+                remarksList.forEach(r => {
+                    rList.innerHTML += `
+                        <li class="flex items-start gap-2 mb-2">
+                            <span class="text-emerald-500 font-bold mt-0.5">•</span>
+                            <span class="text-slate-700 font-medium text-[15px] flex-1">${r.text}</span>
+                            ${isAdmin ? `<button onclick="deleteRemark(${r.id})" class="text-rose-500 hover:text-white hover:bg-rose-500 text-xs font-bold px-2 py-0.5 rounded border border-rose-200 transition shrink-0 bg-white ml-2">ลบ</button>` : ''}
+                        </li>
+                    `;
+                });
+            }
         }
 
         function renderAnnouncements() {
@@ -340,45 +403,63 @@
             });
         }
 
+        // --- ระบบสร้างปฏิทิน (Calendar Engine) ---
+        function changeMonth(step) {
+            currentDate.setMonth(currentDate.getMonth() + step);
+            renderSchedule();
+        }
+
         function renderSchedule() {
-            document.getElementById('monthDisplay').innerText = scheduleMonth;
-            const list = document.getElementById('schedule-list');
-            list.innerHTML = '';
+            const year = currentDate.getFullYear();
+            const month = currentDate.getMonth(); // 0-11
             
-            const dayColors = {
-                'จันทร์': 'bg-yellow-400 text-yellow-900',
-                'อังคาร': 'bg-orange-400 text-orange-900',
-                'พุธ': 'bg-emerald-400 text-emerald-900',
-                'พฤหัสบดี': 'bg-amber-500 text-amber-900',
-                'ศุกร์': 'bg-teal-400 text-teal-900'
-            };
+            // แสดงชื่อเดือนและปี
+            document.getElementById('monthYearDisplay').innerText = `${monthNamesThai[month]} ${year + 543}`;
+            
+            const daysContainer = document.getElementById('calendar-days');
+            daysContainer.innerHTML = '';
 
-            schedule.forEach(s => {
-                let badgeColor = dayColors[s.day] || 'bg-slate-200 text-slate-800';
-                let doctorsList = s.doctors || [];
+            const firstDay = new Date(year, month, 1).getDay(); // วันแรกของเดือนคือวันอะไร (0=อาทิตย์)
+            const daysInMonth = new Date(year, month + 1, 0).getDate(); // จำนวนวันในเดือนนี้
+            
+            const today = new Date();
+            const isCurrentMonth = (today.getMonth() === month && today.getFullYear() === year);
 
-                let doctorsHTML = doctorsList.length > 0 
-                    ? doctorsList.map((doc, idx) => `
-                        <div class="inline-flex items-center bg-white border-2 border-emerald-50 text-emerald-900 text-sm font-bold px-4 py-2 rounded-xl mr-2 mb-2 shadow-[0_2px_10px_rgba(0,0,0,0.03)] hover:border-emerald-200 transition">
-                            <span class="mr-1 text-emerald-400">🩺</span> ${doc}
-                            ${isAdmin ? `<button onclick="removeDoctorFromDay('${s.id}',${idx})" class="ml-3 text-slate-300 hover:text-rose-500 focus:outline-none transition font-black text-lg leading-none">&times;</button>` : ''}
+            // ใส่กล่องว่างสำหรับวันก่อนหน้า
+            for (let i = 0; i < firstDay; i++) {
+                daysContainer.innerHTML += `<div class="calendar-day empty"></div>`;
+            }
+
+            // สร้างกล่องวันที่
+            for (let d = 1; d <= daysInMonth; d++) {
+                const dateString = `${year}-${String(month + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+                const isToday = isCurrentMonth && (d === today.getDate());
+                
+                // ดึงรายการหมอในวันนี้จากฐานข้อมูล
+                const doctorsToday = calSchedules[dateString] || [];
+                
+                let docsHTML = '';
+                doctorsToday.forEach((doc, idx) => {
+                    docsHTML += `
+                        <div class="doctor-tag">
+                            <span class="truncate pr-1">${doc}</span>
+                            ${isAdmin ? `<button onclick="removeDocFromCal('${dateString}',${idx})" class="text-emerald-300 hover:text-rose-500 font-bold ml-1 shrink-0">&times;</button>` : ''}
                         </div>
-                    `).join('')
-                    : `<span class="text-slate-400 italic text-sm font-medium bg-slate-50 px-4 py-2 rounded-xl inline-block border border-slate-100">- ไม่มีเวรแพทย์ออกตรวจ -</span>`;
+                    `;
+                });
 
-                list.innerHTML += `
-                    <tr class="group hover:bg-emerald-50/30 transition duration-300">
-                        <td class="p-5 border-r border-slate-100/50 align-top">
-                            <div class="inline-block px-4 py-2 rounded-xl text-sm font-black tracking-wide shadow-sm ${badgeColor}">วัน${s.day}</div>
-                        </td>
-                        <td class="p-5 align-top"><div class="flex flex-wrap pt-1">${doctorsHTML}</div></td>
-                        ${isAdmin 
-                            ? `<td class="p-5 text-center border-l border-slate-100/50 align-middle"><button onclick="addDoctorToDay('${s.id}')" class="text-emerald-600 hover:text-white hover:bg-emerald-500 font-bold text-xs bg-emerald-50 border border-emerald-200 px-4 py-2.5 rounded-xl transition w-full shadow-sm">+ เพิ่มชื่อแพทย์</button></td>` 
-                            : `<td class="p-5 admin-only-th hidden"></td>`
-                        }
-                    </tr>
+                daysContainer.innerHTML += `
+                    <div class="calendar-day ${isToday ? 'day-today' : ''}">
+                        <div class="flex justify-between items-start mb-1">
+                            <span class="day-number">${d}</span>
+                            ${isAdmin ? `<button onclick="addDocToCal('${dateString}',${d})" class="text-emerald-500 hover:text-emerald-700 bg-emerald-50 hover:bg-emerald-100 rounded px-1 text-xs font-bold transition">+</button>` : ''}
+                        </div>
+                        <div class="flex-1 flex flex-col gap-1 overflow-y-auto">
+                            ${docsHTML}
+                        </div>
+                    </div>
                 `;
-            });
+            }
         }
 
         function renderAll() {
@@ -388,7 +469,7 @@
             renderSchedule();
         }
 
-        // --- 6. ระบบ Admin Modal ---
+        // --- ระบบ Admin Modal ---
         function openLoginModal() {
             document.getElementById('loginModal').classList.remove('hidden');
             setTimeout(() => {
@@ -415,7 +496,6 @@
                 document.getElementById('adminLoginBtn').classList.add('hidden');
                 document.getElementById('adminStatusArea').classList.remove('hidden');
                 document.querySelectorAll('.admin-only').forEach(el => el.classList.remove('hidden'));
-                document.querySelectorAll('.admin-only-th').forEach(el => el.classList.remove('hidden'));
                 renderAll();
             } else {
                 document.getElementById('loginError').classList.remove('hidden');
@@ -429,19 +509,21 @@
             document.getElementById('adminLoginBtn').classList.remove('hidden');
             document.getElementById('adminStatusArea').classList.add('hidden');
             document.querySelectorAll('.admin-only').forEach(el => el.classList.add('hidden'));
-            document.querySelectorAll('.admin-only-th').forEach(el => el.classList.add('hidden'));
             renderAll();
         }
 
-        // --- 7. การจัดการข้อมูล (CRUD) ---
+        // --- การจัดการข้อมูล (CRUD) ---
         function editLogo() {
             const url = prompt("ระบุ URL ลิงก์รูปภาพโลโก้ใหม่:", clinicLogo);
             if(url) { clinicLogo = url; saveToCloud(); }
         }
 
-        function editRemarks() {
-            const text = prompt("ระบุข้อความหมายเหตุตารางแพทย์:", scheduleRemarks);
-            if(text !== null) { scheduleRemarks = text; saveToCloud(); }
+        function addRemark() {
+            const text = prompt("กรอกข้อความหมายเหตุที่ต้องการเพิ่ม:");
+            if(text) { remarksList.push({ id: Date.now(), text: text }); saveToCloud(); }
+        }
+        function deleteRemark(id) {
+            if(confirm("ยืนยันการลบหมายเหตุข้อนี้?")) { remarksList = remarksList.filter(r => r.id !== id); saveToCloud(); }
         }
 
         function addAnnouncement() {
@@ -472,30 +554,24 @@
             if(confirm("ยืนยันการลบบุคลากรนี้?")) { personnel = personnel.filter(p => p.id !== id); saveToCloud(); }
         }
 
-        function editMonth() {
-            const m = prompt("ระบุข้อความเดือนที่ต้องการแสดง:", scheduleMonth);
-            if(m) { scheduleMonth = m; saveToCloud(); }
-        }
-
-        function addDoctorToDay(dayId) {
-            const docName = prompt("กรอกชื่อแพทย์ที่จะเพิ่มในวันนี้ (เช่น นพ. สมชาย):");
+        // การจัดการปฏิทิน
+        function addDocToCal(dateString, dayNum) {
+            const docName = prompt(`กรอกชื่อแพทย์ที่ออกตรวจในวันที่ ${dayNum}:`);
             if (docName) {
-                const dayIndex = schedule.findIndex(s => s.id === dayId);
-                if (dayIndex !== -1) {
-                    if (!schedule[dayIndex].doctors) schedule[dayIndex].doctors = [];
-                    schedule[dayIndex].doctors.push(docName);
-                    saveToCloud();
-                }
+                if(!calSchedules[dateString]) calSchedules[dateString] = [];
+                calSchedules[dateString].push(docName);
+                saveToCloud();
             }
         }
-
-        function removeDoctorFromDay(dayId, docIndex) {
+        
+        function removeDocFromCal(dateString, idx) {
             if(confirm("ต้องการลบชื่อแพทย์คนนี้ออกจากวันดังกล่าวใช่หรือไม่?")) {
-                const dayIndex = schedule.findIndex(s => s.id === dayId);
-                if (dayIndex !== -1) {
-                    schedule[dayIndex].doctors.splice(docIndex, 1);
-                    saveToCloud();
+                calSchedules[dateString].splice(idx, 1);
+                // ถ้าลบหมดแล้ว ให้ลบ key นั้นทิ้งเพื่อประหยัดพื้นที่ฐานข้อมูล
+                if(calSchedules[dateString].length === 0) {
+                    delete calSchedules[dateString];
                 }
+                saveToCloud();
             }
         }
 
