@@ -101,7 +101,7 @@
             width: 100%;
             height: auto;
             max-height: 400px;
-            object-fit: cover; /* ปรับให้รูปสวยงามเต็มกล่อง */
+            object-fit: contain;
             border-radius: 1rem;
         }
         .carousel-btn {
@@ -203,13 +203,6 @@
                 <button onclick="logoutAdmin()" class="w-full text-center text-xs text-rose-600 font-bold bg-rose-50 py-2 rounded-xl hover:bg-rose-100 transition">ออกจากระบบ</button>
             </div>
         </div>
-
-        <div class="p-4 border-t border-emerald-100/50 bg-emerald-50/50">
-            <div class="text-center">
-                <p id="realtime-clock" class="text-sm font-bold text-emerald-700">🕒 โหลดเวลา...</p>
-                <p class="text-[10px] text-slate-400 mt-1">อัปเดตข้อมูลแบบ Realtime</p>
-            </div>
-        </div>
     </aside>
 
     <!-- พื้นที่เนื้อหาหลัก (Main Content) -->
@@ -230,20 +223,19 @@
             <!-- 1. หน้าแรก (Home) -->
             <section id="tab-home" class="space-y-8 fade-in">
                 
-                <!-- แบนเนอร์ภาพสไลด์ (ซ่อนหัวข้อ เหลือแค่กล่องรูปภาพ) -->
+                <!-- แบนเนอร์ภาพสไลด์ (ไม่มีข้อความหัวข้อ มีแต่รูปภาพและปุ่มแอดมินลอยอยู่) -->
                 <div class="glass-panel p-1 rounded-3xl overflow-hidden hover-float shadow-sm relative group">
-                    <!-- ปุ่มจัดการรูปภาพแบนเนอร์ (ลอยอยู่มุมขวาบน จะเห็นเมื่อแอดมินล็อกอิน) -->
-                    <button onclick="openBannerModal()" class="admin-only hidden absolute top-4 right-4 z-20 bg-white/90 text-emerald-600 border border-emerald-200 text-xs sm:text-sm font-bold px-4 py-2 rounded-xl shadow-lg hover:scale-105 transition backdrop-blur-sm">✏️ จัดการรูปภาพ</button>
+                    <!-- ปุ่มจัดการรูปภาพ (แอดมิน) ลอยอยู่มุมขวาบน -->
+                    <button onclick="openBannerModal()" class="admin-only hidden absolute top-3 right-3 z-20 bg-white/90 text-emerald-600 border border-emerald-200 text-xs sm:text-sm font-bold px-4 py-2 rounded-xl shadow-lg hover:scale-105 transition backdrop-blur-sm">✏️ จัดการรูปภาพ</button>
                     
                     <div class="bg-white/40 p-2 sm:p-3 rounded-[1.4rem]">
-                        <!-- กล่องแสดง Carousel -->
                         <div class="carousel-container min-h-[200px] flex items-center justify-center bg-slate-100/50 rounded-xl" id="carouselWrapper">
-                            <div class="text-slate-400 font-semibold italic p-4 text-center">กำลังเชื่อมต่อข้อมูลรูปภาพ...</div>
+                            <div class="text-slate-400 font-semibold italic p-4 text-center">กำลังโหลดข้อมูลรูปภาพ...</div>
                         </div>
                     </div>
                 </div>
 
-                <!-- อัปเดตข่าวสาร (นำกลับมาตามคำขอ) -->
+                <!-- กล่องอัปเดตข่าวสาร (กลับมาเหมือนเดิมทุกประการ) -->
                 <div class="glass-panel p-1 rounded-3xl overflow-hidden hover-float shadow-sm">
                     <div class="bg-white/70 p-6 sm:p-8 rounded-[1.4rem]">
                         <div class="flex flex-col sm:flex-row justify-between sm:items-center border-b-2 border-emerald-100/50 pb-5 mb-6 gap-4">
@@ -251,6 +243,10 @@
                                 <span class="text-2xl sm:text-3xl filter drop-shadow-md">✨</span> อัปเดตข่าวสาร
                             </h2>
                             <div class="flex items-center gap-3 justify-between sm:justify-end">
+                                <!-- นาฬิกาแบบ Realtime -->
+                                <div id="realtime-clock" class="text-xs sm:text-sm font-bold text-emerald-700 bg-emerald-50/80 px-3 py-1.5 rounded-xl border border-emerald-200/50 shadow-sm flex items-center gap-2">
+                                    🕒 โหลดเวลา...
+                                </div>
                                 <button onclick="addAnnouncement()" class="admin-only hidden bg-gradient-to-r from-emerald-400 to-teal-500 hover:from-emerald-500 hover:to-teal-600 text-white text-xs sm:text-sm font-bold px-4 py-2 rounded-xl shadow-lg transition-transform hover:scale-105 shrink-0">+ เพิ่มข่าวสาร</button>
                             </div>
                         </div>
@@ -535,7 +531,7 @@
         let clinicLogo = 'https://cdn-icons-png.flaticon.com/512/809/809957.png';
         let clinicAddress = '123 ถนนตัวอย่าง แขวงบางขุนพรหม เขตพระนคร กรุงเทพมหานคร 10200';
         let bannerImages = []; 
-        let announcements = []; // ดึงตัวแปร announcements กลับมาทำงาน
+        let announcements = []; 
         let personnel = [];
         let currentDate = new Date();
         let calSchedules = {}; 
@@ -547,7 +543,7 @@
             const data = snapshot.val();
             if (data) {
                 if (data.bannerImages) bannerImages = data.bannerImages;
-                if (data.announcements) announcements = data.announcements; // รองรับข้อมูลประกาศ
+                if (data.announcements) announcements = data.announcements; 
                 if (data.personnel) personnel = data.personnel;
                 if (data.calSchedules) calSchedules = data.calSchedules;
                 if (data.remarksList) remarksList = data.remarksList;
@@ -561,12 +557,14 @@
             if (loadingMsg) loadingMsg.style.display = 'none';
             
             renderAll();
+        }, (error) => {
+            console.error("Firebase Error:", error);
         });
 
         function saveToCloud() {
             db.ref('clinicData_v5').set({
                 bannerImages: bannerImages,
-                announcements: announcements, // บันทึกประกาศลงฐานข้อมูล
+                announcements: announcements, 
                 personnel: personnel,
                 calSchedules: calSchedules,
                 remarksList: remarksList,
@@ -617,14 +615,13 @@
             }
         }
 
-        // ฟังก์ชันวาดรายการอัปเดตข่าวสาร
         function renderAnnouncements() {
             const list = document.getElementById('announcement-list');
             if(!list) return;
             list.innerHTML = '';
             
-            if(announcements.length === 0) {
-                 list.innerHTML = '<div class="text-slate-400 italic text-sm p-4 text-center">ยังไม่มีประกาศข่าวสารในขณะนี้</div>';
+            if(!announcements || announcements.length === 0) {
+                 list.innerHTML = '<div class="text-slate-400 italic text-sm p-4 text-center border-2 border-dashed border-slate-200 rounded-xl">ยังไม่มีประกาศข่าวสารในขณะนี้</div>';
                  return;
             }
 
@@ -720,7 +717,7 @@
         function renderAll() {
             renderSettings();
             initCarousel(); 
-            renderAnnouncements(); // วาดกล่องประกาศข่าวสารด้วย
+            renderAnnouncements(); 
             renderPersonnel();
             renderSchedule();
         }
@@ -786,7 +783,6 @@
             if(confirm("ยืนยันการลบหมายเหตุข้อนี้?")) { remarksList = remarksList.filter(r => r.id !== id); saveToCloud(); }
         }
 
-        // --- เพิ่มฟังก์ชันจัดการข่าวสาร (ประกาศ) กลับมา ---
         function addAnnouncement() {
             const text = prompt("กรอกข้อความประกาศใหม่:");
             if (text) {
@@ -800,7 +796,6 @@
             if(confirm("ยืนยันการลบประกาศนี้?")) { announcements = announcements.filter(a => a.id !== id); saveToCloud(); }
         }
 
-        // --- ฟังก์ชันจัดการรูปภาพแบนเนอร์ ---
         function openBannerModal() {
             document.getElementById('bannerModal').classList.remove('hidden');
             renderBannerManagementList();
@@ -855,7 +850,6 @@
             `).join('');
         }
 
-        // --- จัดการบุคลากร ---
         function openPersonnelModal(id = null) {
             document.getElementById('personnelModal').classList.remove('hidden');
             const title = document.getElementById('p-modal-title');
@@ -935,7 +929,6 @@
             }
         }
 
-        // จัดการตารางแพทย์
         function addDocToCal(dateString, dayNum) {
             const docName = prompt(`เพิ่มชื่อแพทย์ที่ออกตรวจในวันที่ ${dayNum}:`);
             if (docName) {
