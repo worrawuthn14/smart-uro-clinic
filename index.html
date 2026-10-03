@@ -36,19 +36,6 @@
             box-shadow: 0 20px 40px rgba(16, 185, 129, 0.15);
             border-color: rgba(255, 255, 255, 1);
         }
-        .animated-border {
-            position: relative;
-            background: linear-gradient(90deg, #10b981, #14b8a6, #84cc16, #10b981);
-            background-size: 300% 100%;
-            animation: gradientBorder 4s ease infinite;
-            z-index: 1;
-        }
-        .animated-border::before {
-            content: ''; position: absolute; top: 2px; right: 2px; bottom: 2px; left: 2px;
-            background-color: #1e293b; border-radius: 9999px; z-index: -1; transition: opacity 0.3s;
-        }
-        .animated-border:hover::before { opacity: 0; }
-        @keyframes gradientBorder { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
         
         .calendar-grid {
             display: grid;
@@ -68,80 +55,26 @@
             font-size: 0.875rem;
         }
 
-        /* Sidebar Styles */
-        .sidebar {
-            transition: transform 0.3s ease-in-out;
-        }
+        .sidebar { transition: transform 0.3s ease-in-out; }
         @media (max-width: 1024px) {
             .sidebar-closed { transform: translateX(-100%); }
             .sidebar-open { transform: translateX(0); }
         }
 
-        /* Carousel Styles */
-        .carousel-container {
-            position: relative;
-            overflow: hidden;
-            width: 100%;
-            border-radius: 1rem;
-            background-color: #f1f5f9;
-        }
-        .carousel-track {
-            display: flex;
-            transition: transform 0.5s ease-in-out;
-            height: 100%;
-        }
-        .carousel-slide {
-            min-width: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-        }
-        .carousel-slide img {
-            width: 100%;
-            height: auto;
-            max-height: 400px;
-            object-fit: contain;
-            border-radius: 1rem;
-        }
+        .carousel-container { position: relative; overflow: hidden; width: 100%; border-radius: 1rem; background-color: #f1f5f9; }
+        .carousel-track { display: flex; transition: transform 0.5s ease-in-out; height: 100%; }
+        .carousel-slide { min-width: 100%; display: flex; justify-content: center; align-items: center; position: relative; }
+        .carousel-slide img { width: 100%; height: auto; max-height: 400px; object-fit: contain; border-radius: 1rem; }
         .carousel-btn {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background: rgba(255, 255, 255, 0.7);
-            border: none;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            cursor: pointer;
-            z-index: 10;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            color: #10b981;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-            transition: background 0.2s;
+            position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255, 255, 255, 0.7);
+            border: none; border-radius: 50%; width: 40px; height: 40px; cursor: pointer; z-index: 10;
+            display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: #10b981;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2); transition: background 0.2s;
         }
         .carousel-btn:hover { background: rgba(255, 255, 255, 0.9); }
-        .prev-btn { left: 10px; }
-        .next-btn { right: 10px; }
-        .carousel-dots {
-            position: absolute;
-            bottom: 10px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 5px;
-        }
-        .dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.5);
-            cursor: pointer;
-            transition: background 0.3s;
-        }
+        .prev-btn { left: 10px; } .next-btn { right: 10px; }
+        .carousel-dots { position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); display: flex; gap: 5px; }
+        .dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(255, 255, 255, 0.5); cursor: pointer; transition: background 0.3s; }
         .dot.active { background: white; }
 
         .hidden { display: none !important; }
@@ -151,6 +84,7 @@
 </head>
 <body class="text-slate-800 min-h-screen flex overflow-x-hidden relative">
 
+    <!-- พื้นหลัง -->
     <div class="fixed top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
         <div class="absolute top-[-10%] left-[-10%] w-[30rem] h-[30rem] bg-emerald-200 rounded-full mix-blend-multiply filter blur-[80px] opacity-40 animate-[spin_20s_linear_infinite]"></div>
         <div class="absolute top-[20%] right-[-10%] w-[35rem] h-[35rem] bg-teal-200 rounded-full mix-blend-multiply filter blur-[80px] opacity-40 animate-[spin_25s_linear_infinite_reverse]"></div>
@@ -162,12 +96,11 @@
 
     <!-- Sidebar (เมนูด้านซ้าย) -->
     <aside id="sidebar" class="sidebar sidebar-closed lg:translate-x-0 fixed lg:sticky top-0 left-0 w-72 h-screen z-50 glass-panel border-r border-emerald-100 flex flex-col shadow-2xl lg:shadow-none bg-white/80">
-        
         <div class="p-6 border-b border-emerald-100/50 flex justify-between items-center relative">
             <div class="flex items-center gap-3">
                 <div class="relative group cursor-pointer shrink-0">
                     <img id="clinicLogoImg" src="https://cdn-icons-png.flaticon.com/512/809/809957.png" alt="Clinic Logo" class="relative w-12 h-12 rounded-xl object-cover border-2 border-emerald-100 bg-white z-10 shadow-sm">
-                    <button onclick="editLogo()" class="admin-only hidden absolute -bottom-1 -right-1 bg-emerald-500 text-white rounded-full w-5 h-5 flex items-center justify-center shadow-lg hover:bg-emerald-600 transition-transform text-[10px] z-20">✏️</button>
+                    <button onclick="editLogo()" class="admin-only hidden absolute -bottom-1 -right-1 bg-emerald-500 text-white rounded-full w-5 h-5 flex items-center justify-center shadow-lg hover:bg-emerald-600 transition-transform text-[10px] z-20">✏️️</button>
                 </div>
                 <div>
                     <h1 class="text-xl font-extrabold tracking-tight text-emerald-800 leading-tight">SMART<br><span class="text-teal-600">OPD-URO</span></h1>
@@ -180,11 +113,16 @@
             <div class="text-xs font-bold text-slate-400 uppercase tracking-widest px-4 mb-3">เมนูหลัก (Main Menu)</div>
             
             <button onclick="switchTab('home')" id="btn-home" class="w-full text-left px-4 py-3 rounded-xl font-bold transition-all flex items-center gap-3 bg-gradient-to-r from-emerald-500 to-teal-500 text-white shadow-md">
-                <span class="text-xl">🏥</span> หน้าแรก
+                <span class="text-xl">🏠</span> หน้าแรก
             </button>
-            
+            <button onclick="switchTab('about')" id="btn-about" class="w-full text-left px-4 py-3 rounded-xl font-bold text-slate-600 hover:bg-emerald-50 hover:text-emerald-700 transition-all flex items-center gap-3">
+                <span class="text-xl">🏥</span> รู้จักแผนก URO
+            </button>
             <button onclick="switchTab('personnel')" id="btn-personnel" class="w-full text-left px-4 py-3 rounded-xl font-bold text-slate-600 hover:bg-emerald-50 hover:text-emerald-700 transition-all flex items-center gap-3">
                 <span class="text-xl">👩‍⚕️</span> ทำเนียบบุคลากร
+            </button>
+            <button onclick="switchTab('knowledge')" id="btn-knowledge" class="w-full text-left px-4 py-3 rounded-xl font-bold text-slate-600 hover:bg-emerald-50 hover:text-emerald-700 transition-all flex items-center gap-3">
+                <span class="text-xl">💡</span> ความรู้สุขภาพ
             </button>
 
             <div class="border-t border-slate-200/60 my-4"></div>
@@ -194,13 +132,17 @@
                 <span class="text-xl">🔐</span> เข้าสู่ระบบผู้ดูแล
             </button>
 
+            <!-- เมนูแอดมิน -->
             <div id="adminStatusArea" class="hidden flex-col gap-2 px-2 mt-2">
-                <div class="flex items-center gap-2 bg-emerald-50 px-3 py-2 rounded-xl border border-emerald-200 text-xs text-emerald-700 font-bold justify-center">
+                <div class="flex items-center gap-2 bg-emerald-50 px-3 py-2 rounded-xl border border-emerald-200 text-xs text-emerald-700 font-bold justify-center shadow-sm">
                     <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping absolute"></span>
                     <span class="w-2 h-2 rounded-full bg-emerald-500 relative"></span>
                     Admin Mode Active
                 </div>
-                <button onclick="logoutAdmin()" class="w-full text-center text-xs text-rose-600 font-bold bg-rose-50 py-2 rounded-xl hover:bg-rose-100 transition">ออกจากระบบ</button>
+                <button onclick="openAdminSettings()" class="w-full text-left px-3 py-2.5 rounded-xl font-bold text-slate-600 hover:bg-slate-100 border border-slate-200 transition-all flex items-center gap-2 text-sm shadow-sm">
+                    <span class="text-base">⚙️</span> ตั้งค่าระบบแอดมิน
+                </button>
+                <button onclick="logoutAdmin()" class="w-full text-center text-xs text-rose-600 font-bold bg-rose-50 py-2.5 rounded-xl hover:bg-rose-100 border border-rose-200 transition shadow-sm">ออกจากระบบ</button>
             </div>
         </div>
 
@@ -214,14 +156,18 @@
 
     <!-- พื้นที่เนื้อหาหลัก (Main Content) -->
     <div class="flex-1 flex flex-col min-w-0 h-screen overflow-y-auto">
-        
         <!-- แถบด้านบนสำหรับมือถือ -->
         <div class="lg:hidden glass-panel sticky top-0 z-30 px-4 py-3 flex items-center justify-between border-b border-emerald-100/50 shadow-sm">
-            <div class="flex items-center gap-3">
+            <div class="flex items-center gap-2 sm:gap-3 shrink-0">
                 <button onclick="toggleSidebar()" class="p-2 bg-white rounded-lg shadow-sm text-emerald-700 border border-emerald-100 focus:outline-none">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
                 </button>
                 <h1 class="font-extrabold text-slate-800 tracking-tight text-lg">SMART <span class="text-emerald-500">OPD</span></h1>
+            </div>
+            <div class="text-right">
+                <p class="text-[10px] sm:text-xs text-slate-500 font-bold leading-tight">
+                    ห้องตรวจโรคศัลยกรรม<br>ทางเดินปัสสาวะ
+                </p>
             </div>
         </div>
 
@@ -229,12 +175,9 @@
             
             <!-- 1. หน้าแรก (Home) -->
             <section id="tab-home" class="space-y-8 fade-in">
-                
-                <!-- แบนเนอร์ภาพสไลด์ (ไม่มีข้อความหัวข้อ มีแต่รูปภาพและปุ่มแอดมินลอยอยู่) -->
+                <!-- แบนเนอร์ภาพสไลด์ -->
                 <div class="glass-panel p-1 rounded-3xl overflow-hidden hover-float shadow-sm relative group">
-                    <!-- ปุ่มจัดการรูปภาพ (แอดมิน) ลอยอยู่มุมขวาบน -->
                     <button onclick="openBannerModal()" class="admin-only hidden absolute top-3 right-3 z-20 bg-white/90 text-emerald-600 border border-emerald-200 text-xs sm:text-sm font-bold px-4 py-2 rounded-xl shadow-lg hover:scale-105 transition backdrop-blur-sm">✏️ จัดการรูปภาพ</button>
-                    
                     <div class="bg-white/40 p-2 sm:p-3 rounded-[1.4rem]">
                         <div class="carousel-container min-h-[200px] flex items-center justify-center bg-slate-100/50 rounded-xl" id="carouselWrapper">
                             <div class="text-slate-400 font-semibold italic p-4 text-center">กำลังโหลดข้อมูลรูปภาพ...</div>
@@ -242,7 +185,7 @@
                     </div>
                 </div>
 
-                <!-- กล่องอัปเดตข่าวสาร (กลับมาเหมือนเดิม) -->
+                <!-- กล่องอัปเดตข่าวสาร -->
                 <div class="glass-panel p-1 rounded-3xl overflow-hidden hover-float shadow-sm">
                     <div class="bg-white/70 p-6 sm:p-8 rounded-[1.4rem]">
                         <div class="flex flex-col sm:flex-row justify-between sm:items-center border-b-2 border-emerald-100/50 pb-5 mb-6 gap-4">
@@ -250,11 +193,10 @@
                                 <span class="text-2xl sm:text-3xl filter drop-shadow-md">✨</span> อัปเดตข่าวสาร
                             </h2>
                             <div class="flex items-center gap-3 justify-between sm:justify-end">
-                                <!-- นาฬิกาแบบ Realtime -->
                                 <div class="realtime-clock text-xs sm:text-sm font-bold text-emerald-700 bg-emerald-50/80 px-3 py-1.5 rounded-xl border border-emerald-200/50 shadow-sm flex items-center gap-2">
                                     🕒 โหลดเวลา...
                                 </div>
-                                <button onclick="addAnnouncement()" class="admin-only hidden bg-gradient-to-r from-emerald-400 to-teal-500 hover:from-emerald-500 hover:to-teal-600 text-white text-xs sm:text-sm font-bold px-4 py-2 rounded-xl shadow-lg transition-transform hover:scale-105 shrink-0">+ เพิ่มข่าวสาร</button>
+                                <button onclick="openAnnouncementModal()" class="admin-only hidden bg-gradient-to-r from-emerald-400 to-teal-500 hover:from-emerald-500 hover:to-teal-600 text-white text-xs sm:text-sm font-bold px-4 py-2 rounded-xl shadow-lg transition-transform hover:scale-105 shrink-0">+ เพิ่มข่าวสาร</button>
                             </div>
                         </div>
                         <div id="loading-msg" class="text-center text-emerald-600 font-bold py-4 animate-pulse text-sm">กำลังเชื่อมต่อฐานข้อมูล Cloud...</div>
@@ -304,17 +246,84 @@
                 </div>
             </section>
 
-            <!-- 2. บุคลากร (Personnel) -->
+            <!-- 2. รู้จักแผนก URO -->
+            <section id="tab-about" class="hidden space-y-8 fade-in">
+                <div class="glass-panel p-1 rounded-3xl hover-float shadow-sm">
+                    <div class="bg-white/70 p-6 sm:p-8 rounded-[1.4rem]">
+                        <div class="flex justify-between items-center border-b-2 border-emerald-100/50 pb-5 mb-8">
+                            <h2 class="text-xl sm:text-2xl font-extrabold text-slate-800 flex items-center gap-3">
+                                <span class="text-2xl sm:text-3xl filter drop-shadow-md">🏥</span> รู้จักแผนกศัลยกรรมทางเดินปัสสาวะ
+                            </h2>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <!-- บริการ -->
+                            <div class="bg-white p-6 rounded-2xl shadow-sm border border-emerald-100 relative group transition hover:shadow-md">
+                                <button onclick="editAboutSection('services', 'บริการที่ให้การดูแลรักษา')" class="admin-only hidden absolute top-3 right-3 w-8 h-8 bg-emerald-50 hover:bg-emerald-500 text-emerald-600 hover:text-white rounded-full flex items-center justify-center transition shadow-sm font-bold text-xs opacity-0 group-hover:opacity-100">✏️</button>
+                                <div class="flex items-center gap-3 mb-4">
+                                    <div class="w-10 h-10 rounded-full bg-emerald-100 flex items-center justify-center text-xl">🩺</div>
+                                    <h3 class="font-bold text-lg text-emerald-800">บริการที่ดูแลรักษา</h3>
+                                </div>
+                                <div id="about-services" class="text-slate-600 text-sm leading-relaxed whitespace-pre-line">กำลังโหลด...</div>
+                            </div>
+                            <!-- เวลาทำการ -->
+                            <div class="bg-white p-6 rounded-2xl shadow-sm border border-emerald-100 relative group transition hover:shadow-md">
+                                <button onclick="editAboutSection('hours', 'วันและเวลาทำการ')" class="admin-only hidden absolute top-3 right-3 w-8 h-8 bg-emerald-50 hover:bg-emerald-500 text-emerald-600 hover:text-white rounded-full flex items-center justify-center transition shadow-sm font-bold text-xs opacity-0 group-hover:opacity-100">✏️</button>
+                                <div class="flex items-center gap-3 mb-4">
+                                    <div class="w-10 h-10 rounded-full bg-emerald-100 flex items-center justify-center text-xl">⏰</div>
+                                    <h3 class="font-bold text-lg text-emerald-800">วันและเวลาทำการ</h3>
+                                </div>
+                                <div id="about-hours" class="text-slate-600 text-sm leading-relaxed whitespace-pre-line">กำลังโหลด...</div>
+                            </div>
+                            <!-- สถานที่ตั้ง -->
+                            <div class="bg-white p-6 rounded-2xl shadow-sm border border-emerald-100 relative group transition hover:shadow-md">
+                                <button onclick="editAboutSection('location', 'สถานที่ตั้งและช่องทางติดต่อ')" class="admin-only hidden absolute top-3 right-3 w-8 h-8 bg-emerald-50 hover:bg-emerald-500 text-emerald-600 hover:text-white rounded-full flex items-center justify-center transition shadow-sm font-bold text-xs opacity-0 group-hover:opacity-100">✏️</button>
+                                <div class="flex items-center gap-3 mb-4">
+                                    <div class="w-10 h-10 rounded-full bg-emerald-100 flex items-center justify-center text-xl">📍</div>
+                                    <h3 class="font-bold text-lg text-emerald-800">สถานที่ตั้ง / ติดต่อ</h3>
+                                </div>
+                                <div id="about-location" class="text-slate-600 text-sm leading-relaxed whitespace-pre-line">กำลังโหลด...</div>
+                            </div>
+                            <!-- ขั้นตอน -->
+                            <div class="bg-white p-6 rounded-2xl shadow-sm border border-emerald-100 relative group transition hover:shadow-md">
+                                <button onclick="editAboutSection('procedures', 'ขั้นตอนการเข้ารับบริการ')" class="admin-only hidden absolute top-3 right-3 w-8 h-8 bg-emerald-50 hover:bg-emerald-500 text-emerald-600 hover:text-white rounded-full flex items-center justify-center transition shadow-sm font-bold text-xs opacity-0 group-hover:opacity-100">✏️</button>
+                                <div class="flex items-center gap-3 mb-4">
+                                    <div class="w-10 h-10 rounded-full bg-emerald-100 flex items-center justify-center text-xl">📋</div>
+                                    <h3 class="font-bold text-lg text-emerald-800">ขั้นตอนการเข้ารับบริการ</h3>
+                                </div>
+                                <div id="about-procedures" class="text-slate-600 text-sm leading-relaxed whitespace-pre-line">กำลังโหลด...</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 3. บุคลากร (Personnel) -->
             <section id="tab-personnel" class="hidden space-y-8 fade-in">
                 <div class="glass-panel p-1 rounded-3xl hover-float shadow-sm">
                     <div class="bg-white/70 p-6 sm:p-8 rounded-[1.4rem]">
                         <div class="flex justify-between items-center border-b-2 border-emerald-100/50 pb-5 mb-8">
                             <h2 class="text-xl sm:text-2xl font-extrabold text-slate-800 flex items-center gap-3">
-                                <span class="text-2xl sm:text-3xl filter drop-shadow-md">💎</span> ทำเนียบทีมบุคลากร
+                                <span class="text-2xl sm:text-3xl filter drop-shadow-md">💎</span> ทำเนียบบุคลากร
                             </h2>
                             <button onclick="openPersonnelModal()" class="admin-only hidden bg-gradient-to-r from-emerald-500 to-teal-500 text-white text-xs sm:text-sm font-bold px-4 py-2 rounded-xl shadow-lg transition-transform hover:scale-105">+ เพิ่มบุคคล</button>
                         </div>
                         <div id="personnel-list" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 4. ความรู้สุขภาพ (Health Knowledge) -->
+            <section id="tab-knowledge" class="hidden space-y-8 fade-in">
+                <div class="glass-panel p-1 rounded-3xl hover-float shadow-sm">
+                    <div class="bg-white/70 p-6 sm:p-8 rounded-[1.4rem]">
+                        <div class="flex justify-between items-center border-b-2 border-emerald-100/50 pb-5 mb-8">
+                            <h2 class="text-xl sm:text-2xl font-extrabold text-slate-800 flex items-center gap-3">
+                                <span class="text-2xl sm:text-3xl filter drop-shadow-md">💡</span> คลังความรู้สุขภาพ
+                            </h2>
+                            <button onclick="openArticleModal()" class="admin-only hidden bg-gradient-to-r from-emerald-500 to-teal-500 text-white text-xs sm:text-sm font-bold px-4 py-2 rounded-xl shadow-lg transition-transform hover:scale-105">+ เพิ่มบทความ</button>
+                        </div>
+                        <div id="article-list" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
                     </div>
                 </div>
             </section>
@@ -328,32 +337,97 @@
                             <p class="font-extrabold text-slate-800 text-lg tracking-wider">SMART OPD-URO</p>
                         </div>
                         <p class="text-sm text-slate-500">ยกระดับการดูแลสุขภาพ ด้วยความเชี่ยวชาญที่คุณวางใจ</p>
-                        
                         <div class="relative group mt-3 inline-block">
                             <p id="clinicAddressDisplay" class="text-xs text-slate-400 max-w-sm mx-auto md:mx-0 leading-relaxed"></p>
                             <button onclick="editAddress()" class="admin-only hidden absolute -right-6 -top-1 bg-emerald-600 text-white rounded-md w-5 h-5 flex items-center justify-center shadow hover:bg-emerald-500 transition-colors text-[10px]" title="แก้ไขที่อยู่">✏</button>
                         </div>
                     </div>
-                    
                     <div class="bg-white p-4 rounded-2xl border border-emerald-100 shadow-sm min-w-[200px]">
                         <p class="text-[10px] text-emerald-600 font-bold uppercase tracking-widest mb-1">ติดต่อสอบถาม</p>
                         <p class="text-slate-800 font-black text-xl sm:text-2xl">📞 02-763-3123</p>
                     </div>
                 </div>
             </footer>
-
         </main>
     </div>
 
-    <!-- หน้าต่างจัดการรูปภาพแบนเนอร์ (Modal) -->
+    <!-- ================== ส่วนหน้าต่างระบบและจัดการข้อมูล (Modals) ================== -->
+    <!-- รวบรวมหน้าต่างป๊อปอัปทั้งหมดไว้ที่เดียว ป้องกันการซ้ำซ้อน -->
+
+    <!-- ป๊อปอัปแจ้งเตือน (Alert) -->
+    <div id="sysAlertModal" class="fixed inset-0 z-[200] hidden flex items-center justify-center px-4">
+        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onclick="closeSysAlert()"></div>
+        <div class="bg-white p-6 rounded-3xl shadow-2xl relative z-10 w-full max-w-sm text-center fade-in">
+            <div id="sysAlertIcon" class="text-5xl mb-3">🔔</div>
+            <h3 id="sysAlertTitle" class="text-xl font-bold text-slate-800 mb-2">แจ้งเตือน</h3>
+            <p id="sysAlertMessage" class="text-slate-600 text-sm mb-6 leading-relaxed"></p>
+            <button onclick="closeSysAlert()" class="w-full px-5 py-3 bg-emerald-500 text-white font-bold rounded-xl shadow-md hover:bg-emerald-600 transition">ตกลง</button>
+        </div>
+    </div>
+
+    <!-- ป๊อปอัปยืนยัน (Confirm) -->
+    <div id="sysConfirmModal" class="fixed inset-0 z-[200] hidden flex items-center justify-center px-4">
+        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onclick="closeSysConfirm()"></div>
+        <div class="bg-white p-6 rounded-3xl shadow-2xl relative z-10 w-full max-w-sm text-center fade-in">
+            <div class="text-5xl mb-3 text-rose-500">❓</div>
+            <h3 id="sysConfirmTitle" class="text-xl font-bold text-slate-800 mb-2">ยืนยันการทำรายการ</h3>
+            <p id="sysConfirmMessage" class="text-slate-600 text-sm mb-6 leading-relaxed"></p>
+            <div class="flex gap-3">
+                <button onclick="closeSysConfirm()" class="w-full px-5 py-3 bg-slate-100 text-slate-600 font-bold rounded-xl hover:bg-slate-200 transition">ยกเลิก</button>
+                <button id="sysConfirmBtn" class="w-full px-5 py-3 bg-rose-500 text-white font-bold rounded-xl shadow-md hover:bg-rose-600 transition">ยืนยัน</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ป๊อปอัปกรอกข้อความแบบหลายบรรทัด (Textarea Prompt) -->
+    <div id="sysPromptModal" class="fixed inset-0 z-[200] hidden flex items-center justify-center px-4">
+        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onclick="closeSysPrompt()"></div>
+        <div class="bg-white p-6 rounded-3xl shadow-2xl relative z-10 w-full max-w-md fade-in">
+            <h3 id="sysPromptTitle" class="text-xl font-bold text-slate-800 mb-2">กรอกข้อมูล</h3>
+            <p id="sysPromptMessage" class="text-slate-500 text-sm mb-4"></p>
+            <textarea id="sysPromptInput" rows="5" class="w-full px-4 py-3 border border-slate-200 bg-slate-50 rounded-xl outline-none focus:border-emerald-500 focus:bg-white transition font-medium mb-6 leading-relaxed"></textarea>
+            <div class="flex gap-3">
+                <button onclick="closeSysPrompt()" class="w-full px-5 py-2.5 bg-slate-100 text-slate-600 font-bold rounded-xl hover:bg-slate-200 transition">ยกเลิก</button>
+                <button id="sysPromptBtn" class="w-full px-5 py-2.5 bg-emerald-500 text-white font-bold rounded-xl shadow-md hover:bg-emerald-600 transition">บันทึก</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- หน้าต่างเพิ่มแพทย์ลงปฏิทิน -->
+    <div id="addDocModal" class="fixed inset-0 z-[130] hidden flex items-center justify-center px-4">
+        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onclick="closeAddDocModal()"></div>
+        <div class="bg-white p-6 rounded-3xl shadow-2xl relative z-10 w-full max-w-sm fade-in">
+            <h3 class="text-xl font-bold text-slate-800 mb-1 border-b pb-2 flex items-center gap-2">
+                <span class="text-2xl">👨‍⚕️</span> เพิ่มแพทย์ออกตรวจ
+            </h3>
+            <p id="addDocDateLabel" class="text-sm font-bold text-emerald-600 mb-4 bg-emerald-50 px-3 py-1.5 rounded-lg inline-block"></p>
+            <input type="hidden" id="targetDateString">
+            
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm font-bold text-slate-600 mb-2">เลือกรายชื่อจากระบบ:</label>
+                    <div id="docSuggestions" class="flex flex-wrap gap-2 max-h-32 overflow-y-auto p-1"></div>
+                </div>
+                <div>
+                    <label class="block text-sm font-bold text-slate-600 mb-1">หรือพิมพ์ชื่อแพทย์ใหม่</label>
+                    <input type="text" id="docNameInput" placeholder="พิมพ์ชื่อแพทย์..." class="w-full px-4 py-3 border border-slate-200 bg-slate-50 rounded-xl outline-none focus:border-emerald-500 focus:bg-white focus:ring-2 focus:ring-emerald-200 transition font-medium">
+                </div>
+                <div class="flex justify-end gap-2 mt-6">
+                    <button onclick="closeAddDocModal()" class="px-5 py-2.5 bg-slate-100 text-slate-600 font-bold rounded-xl hover:bg-slate-200 transition">ยกเลิก</button>
+                    <button onclick="confirmAddDoc()" class="px-5 py-2.5 bg-emerald-500 text-white font-bold rounded-xl shadow-md hover:bg-emerald-600 transition hover:-translate-y-0.5">บันทึก</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- หน้าต่างจัดการรูปภาพแบนเนอร์ -->
     <div id="bannerModal" class="fixed inset-0 z-[110] hidden flex items-center justify-center px-4">
         <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onclick="closeBannerModal()"></div>
-        <div class="bg-white p-6 rounded-3xl shadow-2xl relative z-10 w-full max-w-md max-h-[90vh] overflow-y-auto">
+        <div class="bg-white p-6 rounded-3xl shadow-2xl relative z-10 w-full max-w-md max-h-[90vh] overflow-y-auto fade-in">
             <div class="flex justify-between items-center border-b pb-3 mb-4">
                 <h3 class="text-xl font-bold text-slate-800">จัดการรูปภาพข่าวสาร</h3>
                 <button onclick="closeBannerModal()" class="text-slate-400 hover:text-rose-500 font-bold p-1">✕</button>
             </div>
-            
             <div class="space-y-4">
                 <div class="bg-emerald-50 p-4 rounded-xl border border-emerald-100">
                     <label class="block text-sm font-bold text-emerald-800 mb-2">อัปโหลดรูปภาพใหม่ (Base64)</label>
@@ -361,24 +435,42 @@
                     <p class="text-[10px] text-emerald-600 mt-2 font-medium">* แนะนำรูปแนวนอน (Landscape) ขนาดไม่เกิน 2MB</p>
                     <button onclick="uploadBannerImage()" class="w-full mt-3 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl transition shadow-md">เพิ่มรูปภาพ</button>
                 </div>
-                
                 <div>
-                    <h4 class="text-sm font-bold text-slate-600 mb-2 border-b pb-1">รูปภาพปัจจุบัน (เรียงจากใหม่ไปเก่า)</h4>
-                    <div id="banner-management-list" class="space-y-3">
-                        <!-- รายการรูปจะโชว์ตรงนี้ให้กดลบได้ -->
-                    </div>
+                    <h4 class="text-sm font-bold text-slate-600 mb-2 border-b pb-1">รูปภาพปัจจุบัน</h4>
+                    <div id="banner-management-list" class="space-y-3"></div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- หน้าต่างจัดการบุคลากร (อัปโหลดรูป) -->
+    <!-- หน้าต่างเพิ่มข่าวสาร/ประกาศ -->
+    <div id="addAnnounceModal" class="fixed inset-0 z-[110] hidden flex items-center justify-center px-4">
+        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onclick="closeAnnouncementModal()"></div>
+        <div class="bg-white p-6 rounded-3xl shadow-2xl relative z-10 w-full max-w-sm fade-in">
+            <h3 class="text-xl font-bold text-slate-800 mb-4 border-b pb-2">เพิ่มข่าวสาร/ประกาศ</h3>
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm font-bold text-slate-600 mb-1">ประเภทป้ายกำกับ (เช่น ประกาศ)</label>
+                    <input type="text" id="annType" value="ประกาศ" class="w-full px-4 py-2.5 border border-slate-200 bg-slate-50 rounded-xl outline-none focus:border-emerald-500 focus:bg-white transition font-medium">
+                </div>
+                <div>
+                    <label class="block text-sm font-bold text-slate-600 mb-1">ข้อความประกาศ</label>
+                    <textarea id="annText" rows="3" placeholder="พิมพ์ข้อความที่นี่..." class="w-full px-4 py-2.5 border border-slate-200 bg-slate-50 rounded-xl outline-none focus:border-emerald-500 focus:bg-white transition font-medium"></textarea>
+                </div>
+                <div class="flex justify-end gap-2 mt-6">
+                    <button onclick="closeAnnouncementModal()" class="px-5 py-2.5 bg-slate-100 text-slate-600 font-bold rounded-xl hover:bg-slate-200 transition">ยกเลิก</button>
+                    <button onclick="confirmAddAnnouncement()" class="px-5 py-2.5 bg-emerald-500 text-white font-bold rounded-xl shadow-md hover:bg-emerald-600 transition">บันทึกข้อมูล</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- หน้าต่างจัดการบุคลากร -->
     <div id="personnelModal" class="fixed inset-0 z-[110] hidden flex items-center justify-center px-4">
         <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onclick="closePersonnelModal()"></div>
-        <div class="bg-white p-6 rounded-3xl shadow-2xl relative z-10 w-full max-w-sm">
+        <div class="bg-white p-6 rounded-3xl shadow-2xl relative z-10 w-full max-w-sm fade-in">
             <h3 id="p-modal-title" class="text-xl font-bold text-slate-800 mb-4 border-b pb-2">เพิ่มบุคลากร</h3>
             <input type="hidden" id="p-id">
-            
             <div class="space-y-4">
                 <div>
                     <label class="block text-sm font-bold text-slate-600 mb-1">ยศ/คำนำหน้า</label>
@@ -397,10 +489,39 @@
                     <input type="file" id="p-image" accept="image/*" class="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-emerald-100 file:text-emerald-700 hover:file:bg-emerald-200 transition">
                     <p class="text-[10px] text-slate-400 mt-1">* หากแก้ไขและไม่เลือกรูปใหม่ รูปเดิมจะยังคงอยู่</p>
                 </div>
-                
                 <div class="flex justify-end gap-2 mt-6">
                     <button onclick="closePersonnelModal()" class="px-5 py-2 bg-slate-100 text-slate-600 font-bold rounded-xl hover:bg-slate-200 transition">ยกเลิก</button>
                     <button onclick="savePersonnelData()" class="px-5 py-2 bg-emerald-500 text-white font-bold rounded-xl shadow-md hover:bg-emerald-600 transition">บันทึกข้อมูล</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- หน้าต่างจัดการบทความความรู้สุขภาพ -->
+    <div id="articleModal" class="fixed inset-0 z-[110] hidden flex items-center justify-center px-4">
+        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onclick="closeArticleModal()"></div>
+        <div class="bg-white p-6 rounded-3xl shadow-2xl relative z-10 w-full max-w-lg max-h-[90vh] overflow-y-auto fade-in">
+            <h3 id="a-modal-title" class="text-xl font-bold text-slate-800 mb-4 border-b pb-2 flex items-center gap-2">
+                <span class="text-2xl">📝</span> เพิ่มบทความสุขภาพ
+            </h3>
+            <input type="hidden" id="a-id">
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm font-bold text-slate-600 mb-1">หัวข้อบทความ</label>
+                    <input type="text" id="a-title" placeholder="เช่น การดูแลสุขภาพทางเดินปัสสาวะเบื้องต้น" class="w-full px-4 py-2.5 border border-slate-200 bg-slate-50 rounded-xl outline-none focus:border-emerald-500 focus:bg-white transition font-medium">
+                </div>
+                <div>
+                    <label class="block text-sm font-bold text-slate-600 mb-1">เนื้อหาบทความ</label>
+                    <textarea id="a-content" rows="6" placeholder="พิมพ์เนื้อหาที่นี่..." class="w-full px-4 py-2.5 border border-slate-200 bg-slate-50 rounded-xl outline-none focus:border-emerald-500 focus:bg-white transition font-medium leading-relaxed"></textarea>
+                </div>
+                <div>
+                    <label class="block text-sm font-bold text-slate-600 mb-1">อัปโหลดรูปภาพหน้าปก (แนะนำ)</label>
+                    <input type="file" id="a-image" accept="image/*" class="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-bold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100 transition cursor-pointer border border-slate-200 p-1">
+                    <p class="text-[10px] text-slate-400 mt-1">* ไฟล์ภาพขนาดไม่เกิน 2MB</p>
+                </div>
+                <div class="flex justify-end gap-3 mt-8">
+                    <button onclick="closeArticleModal()" class="px-6 py-2.5 bg-slate-100 text-slate-600 font-bold rounded-xl hover:bg-slate-200 transition">ยกเลิก</button>
+                    <button onclick="saveArticleData()" class="px-6 py-2.5 bg-emerald-500 text-white font-bold rounded-xl shadow-md hover:bg-emerald-600 transition hover:-translate-y-0.5">บันทึกบทความ</button>
                 </div>
             </div>
         </div>
@@ -431,9 +552,108 @@
         </div>
     </div>
 
+    <!-- หน้าต่างตั้งค่ารหัสผ่าน -->
+    <div id="adminSettingsModal" class="fixed inset-0 z-[110] hidden flex items-center justify-center px-4">
+        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onclick="closeAdminSettings()"></div>
+        <div class="bg-white p-6 rounded-3xl shadow-2xl relative z-10 w-full max-w-sm max-h-[90vh] overflow-y-auto fade-in">
+            <div class="flex justify-between items-center border-b pb-3 mb-4">
+                <h3 class="text-xl font-bold text-slate-800">ตั้งค่ารหัสผ่านผู้ดูแล</h3>
+                <button onclick="closeAdminSettings()" class="text-slate-400 hover:text-rose-500 font-bold p-1">✕</button>
+            </div>
+            <div class="space-y-4">
+                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                    <label class="block text-sm font-bold text-slate-700 mb-2">เพิ่มรหัสผ่านใหม่</label>
+                    <input type="text" id="newAdminPassword" placeholder="พิมพ์รหัสผ่านใหม่..." class="w-full px-4 py-2 border border-slate-300 rounded-xl outline-none focus:border-emerald-500 mb-3 font-medium">
+                    <button onclick="addAdminPassword()" class="w-full py-2 bg-emerald-500 hover:bg-emerald-600 text-white font-bold rounded-xl transition shadow-sm">เพิ่มรหัส</button>
+                </div>
+                <div>
+                    <h4 class="text-sm font-bold text-slate-600 mb-2 border-b pb-1">รหัสผ่านปัจจุบัน</h4>
+                    <div id="admin-passwords-list" class="space-y-2"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- JavaScript หลัก -->
     <script>
-        // --- 1. ระบบ Sidebar สำหรับมือถือ ---
+        // ==========================================
+        // ฟังก์ชันระบบและ UI เบื้องต้น
+        // ==========================================
+        function appAlert(title, message, icon = '🔔') {
+            document.getElementById('sysAlertTitle').innerText = title;
+            document.getElementById('sysAlertMessage').innerHTML = message;
+            document.getElementById('sysAlertIcon').innerText = icon;
+            document.getElementById('sysAlertModal').classList.remove('hidden');
+        }
+        function closeSysAlert() { document.getElementById('sysAlertModal').classList.add('hidden'); }
+
+        let currentConfirmCallback = null;
+        function appConfirm(title, message, callback) {
+            document.getElementById('sysConfirmTitle').innerText = title;
+            document.getElementById('sysConfirmMessage').innerHTML = message;
+            currentConfirmCallback = callback;
+            
+            const btn = document.getElementById('sysConfirmBtn');
+            const newBtn = btn.cloneNode(true);
+            btn.parentNode.replaceChild(newBtn, btn);
+            
+            newBtn.addEventListener('click', () => {
+                closeSysConfirm();
+                if(currentConfirmCallback) currentConfirmCallback();
+            });
+            document.getElementById('sysConfirmModal').classList.remove('hidden');
+        }
+        function closeSysConfirm() { document.getElementById('sysConfirmModal').classList.add('hidden'); }
+
+        let currentPromptCallback = null;
+        function appPrompt(title, message, defaultValue, callback) {
+            document.getElementById('sysPromptTitle').innerText = title;
+            document.getElementById('sysPromptMessage').innerText = message;
+            const inputEl = document.getElementById('sysPromptInput');
+            
+            inputEl.value = defaultValue.replace(/<br>/g, '\n');
+            currentPromptCallback = callback;
+
+            const btn = document.getElementById('sysPromptBtn');
+            const newBtn = btn.cloneNode(true);
+            btn.parentNode.replaceChild(newBtn, btn);
+
+            newBtn.addEventListener('click', () => {
+                const val = document.getElementById('sysPromptInput').value.trim().replace(/\n/g, '<br>');
+                closeSysPrompt();
+                if(currentPromptCallback && val) currentPromptCallback(val);
+            });
+            
+            document.getElementById('sysPromptModal').classList.remove('hidden');
+            setTimeout(() => inputEl.focus(), 100);
+        }
+        function closeSysPrompt() { document.getElementById('sysPromptModal').classList.add('hidden'); }
+
+        const pastelColors = [
+            { bg: 'bg-emerald-50', text: 'text-emerald-700', border: 'border-emerald-200' },
+            { bg: 'bg-blue-50', text: 'text-blue-700', border: 'border-blue-200' },
+            { bg: 'bg-rose-50', text: 'text-rose-700', border: 'border-rose-200' },
+            { bg: 'bg-amber-50', text: 'text-amber-700', border: 'border-amber-200' },
+            { bg: 'bg-purple-50', text: 'text-purple-700', border: 'border-purple-200' },
+            { bg: 'bg-teal-50', text: 'text-teal-700', border: 'border-teal-200' },
+            { bg: 'bg-indigo-50', text: 'text-indigo-700', border: 'border-indigo-200' },
+            { bg: 'bg-orange-50', text: 'text-orange-700', border: 'border-orange-200' },
+            { bg: 'bg-cyan-50', text: 'text-cyan-700', border: 'border-cyan-200' },
+            { bg: 'bg-lime-50', text: 'text-lime-700', border: 'border-lime-200' },
+            { bg: 'bg-fuchsia-50', text: 'text-fuchsia-700', border: 'border-fuchsia-200' },
+            { bg: 'bg-pink-50', text: 'text-pink-700', border: 'border-pink-200' },
+            { bg: 'bg-sky-50', text: 'text-sky-700', border: 'border-sky-200' }
+        ];
+
+        function getDoctorColorClass(name) {
+            let hash = 0;
+            for (let i = 0; i < name.length; i++) {
+                hash = name.charCodeAt(i) + ((hash << 5) - hash);
+            }
+            const index = Math.abs(hash) % pastelColors.length;
+            return pastelColors[index];
+        }
+
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
             const overlay = document.getElementById('sidebarOverlay');
@@ -448,15 +668,12 @@
             }
         }
 
-        // --- 2. ระบบนาฬิกา Realtime ---
         function updateClock() {
             const now = new Date();
             const dateOpts = { year: 'numeric', month: 'short', day: 'numeric' };
             const timeOpts = { hour: '2-digit', minute:'2-digit', second:'2-digit', hour12: false };
             const dateStr = now.toLocaleDateString('th-TH', dateOpts);
             const timeStr = now.toLocaleTimeString('th-TH', timeOpts);
-            
-            // อัปเดตนาฬิกาทุกจุดที่มีคลาส realtime-clock
             const clockEls = document.querySelectorAll('.realtime-clock');
             clockEls.forEach(el => {
                 el.innerHTML = `<span class="opacity-80 font-normal mr-1 text-slate-500">${dateStr}</span> <span class="tracking-wide">${timeStr}</span>`;
@@ -465,64 +682,47 @@
         setInterval(updateClock, 1000);
         updateClock();
 
-        // --- 3. ระบบแบนเนอร์รูปภาพเลื่อนอัตโนมัติ (Carousel) ---
         let currentSlide = 0;
         let slideInterval;
-        
         function initCarousel() {
             clearInterval(slideInterval);
             const wrapper = document.getElementById('carouselWrapper');
-            
             if (!bannerImages || bannerImages.length === 0) {
-                wrapper.innerHTML = `<div class="text-slate-400 font-semibold italic p-8 text-center bg-slate-50 w-full h-full flex flex-col items-center justify-center rounded-xl border-2 border-dashed border-slate-200">ยังไม่มีรูปภาพแบนเนอร์<br><span class="text-xs text-slate-300 font-normal mt-1">(แอดมินสามารถกด ✏️ ด้านขวาบน เพื่อเพิ่มรูปได้)</span></div>`;
+                wrapper.innerHTML = `<div class="text-slate-400 font-semibold italic p-8 text-center bg-slate-50 w-full h-full flex flex-col items-center justify-center rounded-xl border-2 border-dashed border-slate-200">ยังไม่มีรูปภาพแบนเนอร์<br><span class="text-xs text-slate-300 font-normal mt-1">(แอดมินสามารถกด ✏️️ ด้านขวาบน เพื่อเพิ่มรูปได้)</span></div>`;
                 return;
             }
-
             let slidesHTML = bannerImages.map(img => `<div class="carousel-slide shrink-0 w-full"><img src="${img.data}" alt="Banner"></div>`).join('');
             let dotsHTML = bannerImages.map((_, i) => `<div class="dot ${i === 0 ? 'active' : ''}" onclick="goToSlide(${i})"></div>`).join('');
-            
             let controlsHTML = bannerImages.length > 1 ? `
                 <button class="carousel-btn prev-btn" onclick="moveSlide(-1)">&#10094;</button>
                 <button class="carousel-btn next-btn" onclick="moveSlide(1)">&#10095;</button>
                 <div class="carousel-dots" id="carouselDots">${dotsHTML}</div>
             ` : '';
-
-            wrapper.innerHTML = `
-                <div class="carousel-track" id="carouselTrack">${slidesHTML}</div>
-                ${controlsHTML}
-            `;
-            
+            wrapper.innerHTML = `<div class="carousel-track" id="carouselTrack">${slidesHTML}</div>${controlsHTML}`;
             currentSlide = 0;
-            if(bannerImages.length > 1) {
-                slideInterval = setInterval(() => moveSlide(1), 3000);
-            }
+            if(bannerImages.length > 1) slideInterval = setInterval(() => moveSlide(1), 3000);
         }
-
         function moveSlide(direction) {
             if(!bannerImages || bannerImages.length <= 1) return;
             currentSlide = (currentSlide + direction + bannerImages.length) % bannerImages.length;
             updateCarouselPosition();
         }
-        
         function goToSlide(index) {
             currentSlide = index;
             updateCarouselPosition();
             clearInterval(slideInterval);
             slideInterval = setInterval(() => moveSlide(1), 3000);
         }
-
         function updateCarouselPosition() {
             const track = document.getElementById('carouselTrack');
             const dots = document.getElementById('carouselDots');
             if(track) track.style.transform = `translateX(-${currentSlide * 100}%)`;
-            if(dots) {
-                Array.from(dots.children).forEach((dot, i) => {
-                    dot.className = `dot ${i === currentSlide ? 'active' : ''}`;
-                });
-            }
+            if(dots) Array.from(dots.children).forEach((dot, i) => { dot.className = `dot ${i === currentSlide ? 'active' : ''}`; });
         }
 
-        // --- 4. ตั้งค่า Firebase (ชี้ไปที่ clinicData_v4 เพื่อดึงข้อมูลเดิมกลับมา) ---
+        // ==========================================
+        // การเชื่อมต่อ Firebase และข้อมูล
+        // ==========================================
         const firebaseConfig = {
             apiKey: "AIzaSyAhMLr-NpXN8Dud2vYm32TLdSJu4Gz75g4",
             authDomain: "xray-inventory-system.firebaseapp.com",
@@ -532,31 +732,43 @@
             messagingSenderId: "13152618997",
             appId: "1:13152618997:web:3444200014d0283f8638bc"
         };
-        
-        if (!firebase.apps.length) { firebase.initializeApp(firebaseConfig); }
+        if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
 
-        let isAdmin = false;
+        let isAdmin = localStorage.getItem('smartOdpAdmin') === 'true';
+        let adminPasswordsList = ['admin123'];
+
         let clinicLogo = 'https://cdn-icons-png.flaticon.com/512/809/809957.png';
         let clinicAddress = '123 ถนนตัวอย่าง แขวงบางขุนพรหม เขตพระนคร กรุงเทพมหานคร 10200';
         let bannerImages = []; 
         let announcements = []; 
         let personnel = [];
+        let articles = []; 
         let currentDate = new Date();
         let calSchedules = {}; 
+        let calNotes = {}; 
         let remarksList = [];
+        let aboutInfo = {
+            services: "• ตรวจวินิจฉัยและรักษาโรคระบบทางเดินปัสสาวะ<br>• ผ่าตัดส่องกล้องนิ่วในระบบทางเดินปัสสาวะ<br>• ตรวจคัดกรองมะเร็งต่อมลูกหมาก",
+            hours: "วันจันทร์ - วันศุกร์<br>เวลา 08.00 น. - 16.00 น.<br>(ปิดทำการในวันหยุดนักขัตฤกษ์)",
+            location: "แผนกผู้ป่วยนอก (OPD) ชั้น 2 อาคาร 1<br>โทรติดต่อ: 02-xxx-xxxx ต่อ 1234",
+            procedures: "1. ยื่นบัตรประชาชนและบัตรนัดที่จุดคัดกรอง<br>2. ซักประวัติ วัดความดัน โลหิต ชั่งน้ำหนัก<br>3. นั่งรอเรียกคิวเข้าพบแพทย์หน้าห้องตรวจ"
+        };
 
         const monthNamesThai = ["มกราคม","กุมภาพันธ์","มีนาคม","เมษายน","พฤษภาคม","มิถุนายน","กรกฎาคม","สิงหาคม","กันยายน","ตุลาคม","พฤศจิกายน","ธันวาคม"];
 
-        // *** ดึงข้อมูลจากโฟลเดอร์เก่า v4 เพื่อให้ข้อมูลไม่หาย ***
         db.ref('clinicData_v4').on('value', (snapshot) => {
             const data = snapshot.val();
             if (data) {
                 if (data.bannerImages) bannerImages = data.bannerImages;
                 if (data.announcements) announcements = data.announcements; 
                 if (data.personnel) personnel = data.personnel;
+                if (data.articles) articles = data.articles; 
+                if (data.aboutInfo) aboutInfo = data.aboutInfo; 
                 if (data.calSchedules) calSchedules = data.calSchedules;
+                if (data.calNotes) calNotes = data.calNotes; 
                 if (data.remarksList) remarksList = data.remarksList;
+                if (data.adminPasswordsList) adminPasswordsList = data.adminPasswordsList;
                 if (data.settings) {
                     clinicLogo = data.settings.logo || clinicLogo;
                     clinicAddress = data.settings.address || clinicAddress;
@@ -566,26 +778,30 @@
             const loadingMsg = document.getElementById('loading-msg');
             if (loadingMsg) loadingMsg.style.display = 'none';
             
+            applyAdminState();
             renderAll();
-        }, (error) => {
-            console.error("Firebase Error:", error);
         });
 
         function saveToCloud() {
-            // *** บันทึกลง v4 ตามเดิม ***
             db.ref('clinicData_v4').set({
-                bannerImages: bannerImages || [], // ป้องกันข้อมูลว่าง
+                bannerImages: bannerImages || [], 
                 announcements: announcements || [],
                 personnel: personnel || [],
+                articles: articles || [], 
+                aboutInfo: aboutInfo || {}, 
                 calSchedules: calSchedules || {},
+                calNotes: calNotes || {}, 
                 remarksList: remarksList || [],
+                adminPasswordsList: adminPasswordsList || ['admin123'],
                 settings: { logo: clinicLogo, address: clinicAddress }
             });
         }
 
-        // --- 5. วาดหน้าจอ UI ---
+        // ==========================================
+        // การวาด UI หลัก
+        // ==========================================
         function switchTab(tabName) {
-            const tabs = ['home', 'personnel'];
+            const tabs = ['home', 'about', 'personnel', 'knowledge'];
             tabs.forEach(t => {
                 document.getElementById('tab-' + t).classList.add('hidden');
                 document.getElementById('btn-' + t).className = "w-full text-left px-4 py-3 rounded-xl font-bold text-slate-600 hover:bg-emerald-50 hover:text-emerald-700 transition-all flex items-center gap-3";
@@ -621,7 +837,7 @@
                         <li class="flex items-start gap-2 mb-2">
                             <span class="text-emerald-500 font-bold mt-0.5">•</span>
                             <span class="text-slate-700 font-medium text-[15px] flex-1">${r.text}</span>
-                            ${isAdmin ? `<button onclick="deleteRemark(${r.id})" class="text-rose-500 hover:text-white hover:bg-rose-500 text-xs font-bold px-2 py-0.5 rounded border border-rose-200 transition shrink-0 bg-white ml-2">ลบ</button>` : ''}
+                            ${isAdmin ? `<button onclick="confirmDeleteRemark(${r.id})" class="text-rose-500 hover:text-white hover:bg-rose-500 text-xs font-bold px-2 py-0.5 rounded border border-rose-200 transition shrink-0 bg-white ml-2">ลบ</button>` : ''}
                         </li>
                     `;
                 });
@@ -648,9 +864,23 @@
                             <span class="px-3 py-1 rounded-md text-[10px] sm:text-xs font-black tracking-widest ${badgeClass} shadow-sm shrink-0">${ann.type}</span>
                             <span class="text-sm sm:text-[15px] font-medium text-slate-700 leading-snug">${ann.text}</span>
                         </div>
-                        ${isAdmin ? `<button onclick="deleteAnnouncement(${ann.id})" class="text-rose-500 hover:text-white hover:bg-rose-500 text-xs font-bold px-4 py-2 rounded-lg border border-rose-200 transition shrink-0 bg-white self-end sm:self-auto shadow-sm">ลบ</button>` : ''}
+                        ${isAdmin ? `<button onclick="confirmDeleteAnnouncement(${ann.id})" class="text-rose-500 hover:text-white hover:bg-rose-500 text-xs font-bold px-4 py-2 rounded-lg border border-rose-200 transition shrink-0 bg-white self-end sm:self-auto shadow-sm">ลบ</button>` : ''}
                     </div>
                 `;
+            });
+        }
+
+        function renderAboutInfo() {
+            document.getElementById('about-services').innerHTML = aboutInfo.services || '<span class="text-slate-400 italic">ยังไม่มีข้อมูล</span>';
+            document.getElementById('about-hours').innerHTML = aboutInfo.hours || '<span class="text-slate-400 italic">ยังไม่มีข้อมูล</span>';
+            document.getElementById('about-location').innerHTML = aboutInfo.location || '<span class="text-slate-400 italic">ยังไม่มีข้อมูล</span>';
+            document.getElementById('about-procedures').innerHTML = aboutInfo.procedures || '<span class="text-slate-400 italic">ยังไม่มีข้อมูล</span>';
+        }
+
+        function editAboutSection(key, title) {
+            appPrompt(`แก้ไข: ${title}`, "กรุณาพิมพ์ข้อมูลที่ต้องการอัปเดต (สามารถขึ้นบรรทัดใหม่ได้)", aboutInfo[key] || "", (val) => {
+                aboutInfo[key] = val;
+                saveToCloud();
             });
         }
 
@@ -658,17 +888,25 @@
             const list = document.getElementById('personnel-list');
             if(!list) return;
             list.innerHTML = '';
-            personnel.forEach(p => {
+            personnel.forEach((p, index) => {
                 let imageHTML = p.image 
                     ? `<img src="${p.image}" alt="${p.name}" class="w-24 h-24 sm:w-28 sm:h-28 rounded-full mx-auto mb-4 object-cover border-4 border-white shadow-lg transform group-hover:scale-105 transition duration-300">`
                     : `<div class="w-24 h-24 sm:w-28 sm:h-28 bg-gradient-to-br from-emerald-100 to-teal-100 rounded-full mx-auto mb-4 flex items-center justify-center text-emerald-600 font-black text-2xl sm:text-3xl border-4 border-white shadow-lg transform group-hover:scale-105 transition duration-300">${p.prefix}</div>`;
 
+                let reorderBtns = isAdmin ? `
+                    <div class="absolute top-3 left-3 flex gap-1 z-10 opacity-100 sm:opacity-0 group-hover:opacity-100 transition">
+                        <button onclick="movePersonnel(-1, ${index})" class="w-7 h-7 flex items-center justify-center bg-white text-slate-500 hover:bg-slate-200 rounded-full shadow-md transition font-bold text-xs ${index === 0 ? 'opacity-30 cursor-not-allowed' : ''}" ${index === 0 ? 'disabled' : ''}>⬆️</button>
+                        <button onclick="movePersonnel(1, ${index})" class="w-7 h-7 flex items-center justify-center bg-white text-slate-500 hover:bg-slate-200 rounded-full shadow-md transition font-bold text-xs ${index === personnel.length - 1 ? 'opacity-30 cursor-not-allowed' : ''}" ${index === personnel.length - 1 ? 'disabled' : ''}>⬇️</button>
+                    </div>
+                ` : '';
+
                 list.innerHTML += `
                     <div class="bg-white/80 backdrop-blur-sm p-6 rounded-3xl text-center shadow-sm border border-slate-100 relative group transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
+                        ${reorderBtns}
                         ${isAdmin ? `
                             <div class="absolute top-3 right-3 flex flex-col gap-2 z-10 opacity-100 sm:opacity-0 group-hover:opacity-100 transition">
                                 <button onclick="openPersonnelModal(${p.id})" class="w-8 h-8 flex items-center justify-center bg-white text-emerald-500 hover:bg-emerald-500 hover:text-white rounded-full shadow-md transition font-bold text-xs" title="แก้ไข">✏️</button>
-                                <button onclick="deletePersonnel(${p.id})" class="w-8 h-8 flex items-center justify-center bg-white text-rose-500 hover:bg-rose-500 hover:text-white rounded-full shadow-md transition font-bold" title="ลบ">✕</button>
+                                <button onclick="confirmDeletePersonnel(${p.id})" class="w-8 h-8 flex items-center justify-center bg-white text-rose-500 hover:bg-rose-500 hover:text-white rounded-full shadow-md transition font-bold" title="ลบ">✕</button>
                             </div>
                         ` : ''}
                         ${imageHTML}
@@ -679,7 +917,51 @@
             });
         }
 
+        function renderArticles() {
+            const list = document.getElementById('article-list');
+            if(!list) return;
+            list.innerHTML = '';
+            
+            if(!articles || articles.length === 0) {
+                 list.innerHTML = `
+                    <div class="col-span-1 md:col-span-2 text-center py-12 px-4 bg-emerald-50/50 rounded-2xl border-2 border-dashed border-emerald-100">
+                        <div class="text-5xl mb-4 opacity-50">📚</div>
+                        <h3 class="text-lg font-bold text-emerald-800">ยังไม่มีบทความความรู้สุขภาพ</h3>
+                        <p class="text-sm text-slate-500 mt-2 max-w-md mx-auto">รอติดตามสาระน่ารู้จากเราเร็วๆ นี้นะครับ</p>
+                    </div>`;
+                 return;
+            }
+
+            articles.forEach(art => {
+                let imageHTML = art.image 
+                    ? `<img src="${art.image}" class="w-full h-48 object-cover rounded-t-2xl">` 
+                    : `<div class="w-full h-40 bg-emerald-50 flex items-center justify-center rounded-t-2xl"><span class="text-4xl">💡</span></div>`;
+                
+                let shortContent = art.content.length > 100 ? art.content.substring(0, 100) + '...' : art.content;
+                
+                list.innerHTML += `
+                    <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden flex flex-col group hover:shadow-md transition">
+                        ${imageHTML}
+                        <div class="p-5 flex-1 flex flex-col relative">
+                            ${isAdmin ? `
+                                <div class="absolute top-2 right-2 flex gap-1 z-10 opacity-100 sm:opacity-0 group-hover:opacity-100 transition">
+                                    <button onclick="openArticleModal(${art.id})" class="w-8 h-8 bg-white border border-slate-200 text-emerald-500 rounded-full flex justify-center items-center hover:bg-emerald-50 shadow-sm" title="แก้ไข">✏️️</button>
+                                    <button onclick="confirmDeleteArticle(${art.id})" class="w-8 h-8 bg-white border border-slate-200 text-rose-500 rounded-full flex justify-center items-center hover:bg-rose-50 shadow-sm" title="ลบ">✕</button>
+                                </div>
+                            ` : ''}
+                            <h3 class="text-lg font-bold text-slate-800 mb-2 leading-tight pr-12">${art.title}</h3>
+                            <p class="text-sm text-slate-600 mb-4 whitespace-pre-line flex-1">${shortContent}</p>
+                            <div class="mt-auto">
+                                <button onclick="appAlert('${art.title}', '${art.content.replace(/\n/g, '<br>')}', '📖')" class="text-emerald-600 text-sm font-bold hover:text-emerald-800 flex items-center gap-1">อ่านเพิ่มเติม <span class="text-lg">»</span></button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
         function changeMonth(step) {
+            currentDate.setDate(1); 
             currentDate.setMonth(currentDate.getMonth() + step);
             renderSchedule();
         }
@@ -706,25 +988,43 @@
             for (let d = 1; d <= daysInMonth; d++) {
                 const dateString = `${year}-${String(month + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
                 const isToday = isCurrentMonth && (d === today.getDate());
-                const doctorsToday = calSchedules[dateString] || [];
                 
+                const dayNote = calNotes[dateString];
+                let noteHTML = '';
+                if (dayNote) {
+                    noteHTML = `
+                        <div class="text-[11px] sm:text-xs font-bold px-2 py-1 text-rose-700 bg-rose-100 border border-rose-300 rounded mt-1 mb-1 text-center shadow-sm relative group/note">
+                            ${dayNote}
+                            ${isAdmin ? `<button onclick="confirmDeleteDayNote('${dateString}')" class="absolute -top-1 -right-1 bg-rose-500 text-white rounded-full w-4 h-4 flex items-center justify-center text-[8px] opacity-0 group-hover/note:opacity-100 transition shadow">✕</button>` : ''}
+                        </div>
+                    `;
+                }
+
+                const doctorsToday = calSchedules[dateString] || [];
                 let docsHTML = '';
                 doctorsToday.forEach((doc, idx) => {
+                    const cStyle = getDoctorColorClass(doc); 
                     docsHTML += `
-                        <div class="text-[11px] sm:text-xs font-bold px-2 py-1.5 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded mt-1 flex justify-between items-start shadow-sm gap-1 hover:bg-emerald-100 transition">
+                        <div class="text-[11px] sm:text-xs font-bold px-2 py-1.5 ${cStyle.bg} ${cStyle.text} border ${cStyle.border} rounded mt-1 flex justify-between items-start shadow-sm gap-1 hover:brightness-95 transition">
                             <span class="whitespace-normal leading-tight break-words">${doc}</span>
-                            ${isAdmin ? `<button onclick="removeDocFromCal('${dateString}',${idx})" class="text-rose-400 hover:text-rose-600 font-black shrink-0 px-1">&times;</button>` : ''}
+                            ${isAdmin ? `<button onclick="confirmRemoveDocFromCal('${dateString}',${idx}, '${doc}')" class="hover:text-rose-600 font-black shrink-0 px-1 opacity-60 hover:opacity-100">&times;</button>` : ''}
                         </div>
                     `;
                 });
 
                 daysContainer.innerHTML += `
                     <div class="bg-white border-b border-r border-slate-100 p-1.5 sm:p-2 min-h-[80px] sm:min-h-[100px] flex flex-col transition hover:bg-slate-50 ${isToday ? 'bg-emerald-50/30' : ''}">
-                        <div class="flex justify-between items-start mb-1">
+                        <div class="flex flex-wrap justify-between items-center mb-1 gap-1">
                             <span class="inline-flex items-center justify-center w-6 h-6 sm:w-7 sm:h-7 rounded-full text-xs sm:text-sm font-bold ${isToday ? 'bg-emerald-500 text-white shadow-sm' : 'text-slate-500'}">${d}</span>
-                            ${isAdmin ? `<button onclick="addDocToCal('${dateString}',${d})" class="text-emerald-500 hover:text-white hover:bg-emerald-500 bg-emerald-50 border border-emerald-200 rounded px-1.5 py-0.5 text-[10px] font-bold transition shadow-sm">+ หมอ</button>` : ''}
+                            <div class="flex items-center gap-1">
+                                ${isAdmin ? `
+                                    <button onclick="editDayNote('${dateString}', ${d})" class="text-rose-500 hover:text-white hover:bg-rose-500 bg-rose-50 border border-rose-200 rounded px-1.5 py-0.5 text-[10px] font-bold transition shadow-sm" title="เพิ่มโน้ต/วันหยุด">📝</button>
+                                    <button onclick="openAddDocModal('${dateString}',${d})" class="text-emerald-500 hover:text-white hover:bg-emerald-500 bg-emerald-50 border border-emerald-200 rounded px-1.5 py-0.5 text-[10px] font-bold transition shadow-sm" title="เพิ่มแพทย์">+ หมอ</button>
+                                ` : ''}
+                            </div>
                         </div>
                         <div class="flex-1 flex flex-col overflow-y-auto">
+                            ${noteHTML}
                             ${docsHTML}
                         </div>
                     </div>
@@ -736,11 +1036,27 @@
             renderSettings();
             initCarousel(); 
             renderAnnouncements(); 
+            renderAboutInfo(); 
             renderPersonnel();
+            renderArticles();
             renderSchedule();
         }
 
-        // --- 6. ระบบแอดมิน ---
+        // ==========================================
+        // การจัดการแอดมิน (Admin)
+        // ==========================================
+        function applyAdminState() {
+            if(isAdmin) {
+                document.getElementById('adminLoginBtn').classList.add('hidden');
+                document.getElementById('adminStatusArea').classList.remove('hidden');
+                document.querySelectorAll('.admin-only').forEach(el => el.classList.remove('hidden'));
+            } else {
+                document.getElementById('adminLoginBtn').classList.remove('hidden');
+                document.getElementById('adminStatusArea').classList.add('hidden');
+                document.querySelectorAll('.admin-only').forEach(el => el.classList.add('hidden'));
+            }
+        }
+
         function openLoginModal() {
             document.getElementById('loginModal').classList.remove('hidden');
             setTimeout(() => {
@@ -761,13 +1077,14 @@
         }
 
         function verifyLogin() {
-            if (document.getElementById('adminPassword').value === "admin123") {
+            const inputPass = document.getElementById('adminPassword').value;
+            if (adminPasswordsList.includes(inputPass)) {
                 isAdmin = true;
+                localStorage.setItem('smartOdpAdmin', 'true'); 
                 closeLoginModal();
-                document.getElementById('adminLoginBtn').classList.add('hidden');
-                document.getElementById('adminStatusArea').classList.remove('hidden');
-                document.querySelectorAll('.admin-only').forEach(el => el.classList.remove('hidden'));
+                applyAdminState();
                 renderAll();
+                appAlert("เข้าสู่ระบบสำเร็จ", "ยินดีต้อนรับเข้าสู่ระบบจัดการข้อมูลครับ", "✅");
             } else {
                 document.getElementById('loginError').classList.remove('hidden');
             }
@@ -776,49 +1093,89 @@
         document.getElementById('adminPassword').addEventListener("keypress", function(e) { if (e.key === "Enter") verifyLogin(); });
 
         function logoutAdmin() {
-            isAdmin = false;
-            document.getElementById('adminLoginBtn').classList.remove('hidden');
-            document.getElementById('adminStatusArea').classList.add('hidden');
-            document.querySelectorAll('.admin-only').forEach(el => el.classList.add('hidden'));
-            renderAll();
+            appConfirm("ออกจากระบบ", "คุณต้องการออกจากระบบผู้ดูแลใช่หรือไม่?", () => {
+                isAdmin = false;
+                localStorage.removeItem('smartOdpAdmin'); 
+                applyAdminState();
+                renderAll();
+            });
+        }
+        function openAdminSettings() { document.getElementById('adminSettingsModal').classList.remove('hidden'); renderAdminPasswords(); }
+        function closeAdminSettings() { document.getElementById('adminSettingsModal').classList.add('hidden'); document.getElementById('newAdminPassword').value = ''; }
+        
+        function renderAdminPasswords() {
+            const list = document.getElementById('admin-passwords-list');
+            list.innerHTML = adminPasswordsList.map((pass, index) => `
+                <div class="flex items-center justify-between bg-white px-4 py-2 border border-slate-200 rounded-lg shadow-sm">
+                    <span class="text-slate-600 font-bold font-mono tracking-widest text-sm">•••••••• (ซ่อน)</span>
+                    <button onclick="deleteAdminPassword(${index})" class="text-rose-500 font-bold text-xs bg-rose-50 px-3 py-1.5 rounded-md hover:bg-rose-100 transition shadow-sm">ลบ</button>
+                </div>
+            `).join('');
+        }
+        
+        function addAdminPassword() {
+            const newPass = document.getElementById('newAdminPassword').value.trim();
+            if(!newPass) { appAlert("ข้อมูลไม่ครบ", "กรุณาพิมพ์รหัสผ่านใหม่ที่ต้องการเพิ่มครับ", "❌"); return; }
+            if(adminPasswordsList.includes(newPass)) { appAlert("เกิดข้อผิดพลาด", "รหัสผ่านนี้มีอยู่ในระบบแล้วครับ", "⚠"); return; }
+            adminPasswordsList.push(newPass); saveToCloud(); document.getElementById('newAdminPassword').value = ''; renderAdminPasswords(); appAlert("สำเร็จ", "เพิ่มรหัสผ่านใหม่เรียบร้อยแล้วครับ", "✅");
+        }
+        
+        function deleteAdminPassword(index) {
+            if(adminPasswordsList.length <= 1) { appAlert("ไม่สามารถลบได้", "ต้องมีรหัสผ่านอย่างน้อย 1 รหัสในระบบเสมอครับ", "⚠️"); return; }
+            appConfirm("ยืนยันการลบ", "คุณแน่ใจหรือไม่ว่าต้องการลบรหัสผ่านนี้?", () => { adminPasswordsList.splice(index, 1); saveToCloud(); renderAdminPasswords(); });
         }
 
         function editLogo() {
-            const url = prompt("ระบุ URL ลิงก์รูปภาพโลโก้ใหม่:", clinicLogo);
-            if(url) { clinicLogo = url; saveToCloud(); }
+            appPrompt("เปลี่ยนโลโก้คลินิก", "กรุณาระบุ URL รูปภาพโลโก้ใหม่", clinicLogo, (val) => {
+                clinicLogo = val; saveToCloud();
+            });
         }
 
         function editAddress() {
-            const text = prompt("ระบุข้อมูลที่อยู่ของคลินิก:", clinicAddress);
-            if(text) { clinicAddress = text; saveToCloud(); }
+            appPrompt("แก้ไขที่อยู่คลินิก", "ระบุข้อมูลที่อยู่ที่จะแสดงด้านล่างเว็บไซต์", clinicAddress, (val) => {
+                clinicAddress = val; saveToCloud();
+            });
         }
 
         function addRemark() {
-            const text = prompt("กรอกข้อความหมายเหตุที่ต้องการเพิ่ม:");
-            if(text) { remarksList.push({ id: Date.now(), text: text }); saveToCloud(); }
+            appPrompt("เพิ่มหมายเหตุ", "กรอกข้อความหมายเหตุด้านล่างปฏิทิน", "", (val) => {
+                remarksList.push({ id: Date.now(), text: val }); saveToCloud();
+            });
         }
-        function deleteRemark(id) {
-            if(confirm("ยืนยันการลบหมายเหตุข้อนี้?")) { remarksList = remarksList.filter(r => r.id !== id); saveToCloud(); }
+        function confirmDeleteRemark(id) {
+            appConfirm("ลบหมายเหตุ", "ต้องการลบหมายเหตุข้อนี้ใช่หรือไม่?", () => {
+                remarksList = remarksList.filter(r => r.id !== id); saveToCloud();
+            });
         }
 
-        function addAnnouncement() {
-            const text = prompt("กรอกข้อความประกาศใหม่:");
-            if (text) {
-                const type = prompt("ประเภทป้ายกำกับ (เช่น ประกาศ, ข่าวสาร, โปรโมชัน):", "ประกาศ") || "ประกาศ";
-                const color = Math.random() > 0.5 ? 'pink' : 'blue';
-                announcements.unshift({ id: Date.now(), type: type, text: text, color: color });
-                saveToCloud();
-            }
+        function openAnnouncementModal() {
+            document.getElementById('addAnnounceModal').classList.remove('hidden');
+            document.getElementById('annType').value = 'ประกาศ';
+            document.getElementById('annText').value = '';
         }
-        function deleteAnnouncement(id) {
-            if(confirm("ยืนยันการลบประกาศนี้?")) { announcements = announcements.filter(a => a.id !== id); saveToCloud(); }
+        function closeAnnouncementModal() {
+            document.getElementById('addAnnounceModal').classList.add('hidden');
+        }
+        function confirmAddAnnouncement() {
+            const type = document.getElementById('annType').value.trim() || 'ประกาศ';
+            const text = document.getElementById('annText').value.trim();
+            if(!text) { appAlert("ข้อมูลไม่ครบ", "กรุณากรอกข้อความประกาศครับ", "❌"); return; }
+            
+            const color = Math.random() > 0.5 ? 'pink' : 'blue';
+            announcements.unshift({ id: Date.now(), type: type, text: text, color: color });
+            saveToCloud();
+            closeAnnouncementModal();
+        }
+        function confirmDeleteAnnouncement(id) {
+            appConfirm("ลบข่าวสาร", "ยืนยันการลบข่าวสาร/ประกาศนี้?", () => {
+                announcements = announcements.filter(a => a.id !== id); saveToCloud();
+            });
         }
 
         function openBannerModal() {
             document.getElementById('bannerModal').classList.remove('hidden');
             renderBannerManagementList();
         }
-        
         function closeBannerModal() {
             document.getElementById('bannerModal').classList.add('hidden');
             document.getElementById('b-image').value = '';
@@ -828,10 +1185,7 @@
             const fileInput = document.getElementById('b-image');
             if (fileInput.files && fileInput.files[0]) {
                 const file = fileInput.files[0];
-                if (file.size > 2 * 1024 * 1024) {
-                    alert('ขนาดรูปภาพใหญ่เกินไปครับ (แนะนำให้ไม่เกิน 2MB)');
-                    return;
-                }
+                if (file.size > 2 * 1024 * 1024) { appAlert("ไฟล์ใหญ่เกินไป", "ขนาดรูปภาพต้องไม่เกิน 2MB ครับ", "❌"); return; }
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     if(!bannerImages) bannerImages = [];
@@ -842,16 +1196,15 @@
                 };
                 reader.readAsDataURL(file);
             } else {
-                alert("กรุณาเลือกไฟล์รูปภาพก่อนครับ");
+                appAlert("ข้อมูลไม่ครบ", "กรุณาเลือกไฟล์รูปภาพก่อนกดปุ่มเพิ่มครับ", "⚠️");
             }
         }
 
         function deleteBanner(id) {
-            if(confirm("ยืนยันการลบรูปภาพนี้?")) { 
+            appConfirm("ลบรูปภาพแบนเนอร์", "ยืนยันการลบรูปภาพนี้?", () => {
                 bannerImages = bannerImages.filter(b => b.id !== id); 
-                saveToCloud(); 
-                renderBannerManagementList();
-            }
+                saveToCloud(); renderBannerManagementList();
+            });
         }
 
         function renderBannerManagementList() {
@@ -866,6 +1219,20 @@
                     <button onclick="deleteBanner(${b.id})" class="text-rose-500 font-bold text-xs bg-rose-50 px-3 py-1.5 rounded-md hover:bg-rose-100 transition">ลบ</button>
                 </div>
             `).join('');
+        }
+
+        function movePersonnel(direction, index) {
+            if (direction === -1 && index > 0) {
+                const temp = personnel[index];
+                personnel[index] = personnel[index - 1];
+                personnel[index - 1] = temp;
+                saveToCloud();
+            } else if (direction === 1 && index < personnel.length - 1) {
+                const temp = personnel[index];
+                personnel[index] = personnel[index + 1];
+                personnel[index + 1] = temp;
+                saveToCloud();
+            }
         }
 
         function openPersonnelModal(id = null) {
@@ -891,15 +1258,13 @@
             } else {
                 title.innerText = "เพิ่มบุคลากรใหม่";
                 idInput.value = '';
-                prefixInput.value = 'นพ.';
+                prefixInput.value = '';
                 nameInput.value = '';
-                roleInput.value = 'ศัลยแพทย์เฉพาะทาง';
+                roleInput.value = '';
             }
         }
 
-        function closePersonnelModal() {
-            document.getElementById('personnelModal').classList.add('hidden');
-        }
+        function closePersonnelModal() { document.getElementById('personnelModal').classList.add('hidden'); }
 
         function savePersonnelData() {
             const prefix = document.getElementById('p-prefix').value.trim();
@@ -908,10 +1273,7 @@
             const fileInput = document.getElementById('p-image');
             const editingId = document.getElementById('p-id').value;
 
-            if(!prefix || !name || !role) {
-                alert('กรุณากรอก ยศ, ชื่อ และตำแหน่ง ให้ครบถ้วนครับ');
-                return;
-            }
+            if(!prefix || !name || !role) { appAlert("ข้อมูลไม่ครบ", "กรุณากรอก ยศ, ชื่อ และตำแหน่ง ให้ครบถ้วนครับ", "⚠️"); return; }
 
             let processSave = (imageBase64) => {
                 if (editingId) {
@@ -925,13 +1287,12 @@
                 } else {
                     personnel.push({ id: Date.now(), prefix: prefix, name: name, role: role, image: imageBase64 || '' });
                 }
-                saveToCloud();
-                closePersonnelModal();
+                saveToCloud(); closePersonnelModal();
             };
 
             if (fileInput.files && fileInput.files[0]) {
                 const file = fileInput.files[0];
-                if (file.size > 2 * 1024 * 1024) { alert('ขนาดรูปภาพใหญ่เกินไปครับ (แนะนำให้ไม่เกิน 2MB)'); return; }
+                if (file.size > 2 * 1024 * 1024) { appAlert("ไฟล์ใหญ่เกินไป", "ขนาดรูปภาพต้องไม่เกิน 2MB ครับ", "❌"); return; }
                 const reader = new FileReader();
                 reader.onload = function(e) { processSave(e.target.result); };
                 reader.readAsDataURL(file);
@@ -940,28 +1301,142 @@
             }
         }
 
-        function deletePersonnel(id) {
-            if(confirm("ยืนยันการลบบุคลากรนี้?")) { 
-                personnel = personnel.filter(p => p.id !== id); 
-                saveToCloud(); 
+        function confirmDeletePersonnel(id) {
+            appConfirm("ลบข้อมูลบุคลากร", "ยืนยันการลบรายชื่อบุคลากรนี้ใช่หรือไม่?", () => {
+                personnel = personnel.filter(p => p.id !== id); saveToCloud(); 
+            });
+        }
+
+        function openArticleModal(id = null) {
+            document.getElementById('articleModal').classList.remove('hidden');
+            const titleEl = document.getElementById('a-modal-title');
+            const idInput = document.getElementById('a-id');
+            const titleInput = document.getElementById('a-title');
+            const contentInput = document.getElementById('a-content');
+            const fileInput = document.getElementById('a-image');
+            
+            fileInput.value = '';
+
+            if (id) {
+                titleEl.innerHTML = '<span class="text-2xl">📝</span> แก้ไขบทความ';
+                const art = articles.find(x => x.id === id);
+                if (art) {
+                    idInput.value = art.id;
+                    titleInput.value = art.title;
+                    contentInput.value = art.content.replace(/<br>/g, '\n');
+                }
+            } else {
+                titleEl.innerHTML = '<span class="text-2xl">📝</span> เพิ่มบทความสุขภาพ';
+                idInput.value = '';
+                titleInput.value = '';
+                contentInput.value = '';
             }
         }
 
-        function addDocToCal(dateString, dayNum) {
-            const docName = prompt(`เพิ่มชื่อแพทย์ที่ออกตรวจในวันที่ ${dayNum}:`);
-            if (docName) {
-                if(!calSchedules[dateString]) calSchedules[dateString] = [];
-                calSchedules[dateString].push(docName);
-                saveToCloud();
+        function closeArticleModal() {
+            document.getElementById('articleModal').classList.add('hidden');
+        }
+
+        function saveArticleData() {
+            const title = document.getElementById('a-title').value.trim();
+            const content = document.getElementById('a-content').value.trim().replace(/\n/g, '<br>');
+            const fileInput = document.getElementById('a-image');
+            const editingId = document.getElementById('a-id').value;
+
+            if(!title || !content) { appAlert("ข้อมูลไม่ครบ", "กรุณากรอกหัวข้อและเนื้อหาบทความให้ครบถ้วนครับ", "⚠️"); return; }
+
+            let processSave = (imageBase64) => {
+                if (editingId) {
+                    const idx = articles.findIndex(a => a.id == editingId);
+                    if (idx !== -1) {
+                        articles[idx].title = title;
+                        articles[idx].content = content;
+                        if(imageBase64 !== null) articles[idx].image = imageBase64;
+                    }
+                } else {
+                    articles.unshift({ id: Date.now(), title: title, content: content, image: imageBase64 || '' });
+                }
+                saveToCloud(); closeArticleModal();
+            };
+
+            if (fileInput.files && fileInput.files[0]) {
+                const file = fileInput.files[0];
+                if (file.size > 2 * 1024 * 1024) { appAlert("ไฟล์ใหญ่เกินไป", "ขนาดรูปภาพต้องไม่เกิน 2MB ครับ", "❌"); return; }
+                const reader = new FileReader();
+                reader.onload = function(e) { processSave(e.target.result); };
+                reader.readAsDataURL(file);
+            } else {
+                processSave(editingId ? null : ''); 
             }
         }
-        
-        function removeDocFromCal(dateString, idx) {
-            if(confirm("ต้องการลบชื่อแพทย์คนนี้ออกจากวันดังกล่าวใช่หรือไม่?")) {
+
+        function confirmDeleteArticle(id) {
+            appConfirm("ลบบทความ", "ยืนยันการลบบทความนี้อย่างถาวรใช่หรือไม่?", () => {
+                articles = articles.filter(a => a.id !== id); saveToCloud(); 
+            });
+        }
+
+        function editDayNote(dateString, dayNum) {
+            const existingNote = calNotes[dateString] || "";
+            appPrompt(`หมายเหตุวันที่ ${dayNum}`, "พิมพ์ข้อความ (เช่น วันหยุดนักขัตฤกษ์, งดตรวจ):", existingNote, (val) => {
+                calNotes[dateString] = val;
+                saveToCloud();
+            });
+        }
+
+        function confirmDeleteDayNote(dateString) {
+            appConfirm("ลบหมายเหตุประจำวัน", `ต้องการลบหมายเหตุข้อความนี้ใช่หรือไม่?`, () => {
+                delete calNotes[dateString];
+                saveToCloud();
+            });
+        }
+
+        function openAddDocModal(dateString, dayNum) {
+            document.getElementById('addDocModal').classList.remove('hidden');
+            document.getElementById('targetDateString').value = dateString;
+            
+            const dObj = new Date(dateString);
+            document.getElementById('addDocDateLabel').innerText = `วันที่ ${dayNum} ${monthNamesThai[dObj.getMonth()]} ${dObj.getFullYear() + 543}`;
+            document.getElementById('docNameInput').value = '';
+            
+            const uniqueDocs = new Set();
+            Object.values(calSchedules).forEach(dayList => {
+                dayList.forEach(doc => uniqueDocs.add(doc));
+            });
+            
+            const suggContainer = document.getElementById('docSuggestions');
+            if(uniqueDocs.size === 0) {
+                suggContainer.innerHTML = '<span class="text-xs text-slate-400 font-medium">ยังไม่มีรายชื่อแพทย์ (กรุณาพิมพ์ชื่อใหม่ด้านล่าง)</span>';
+            } else {
+                suggContainer.innerHTML = Array.from(uniqueDocs).map(doc => {
+                    const c = getDoctorColorClass(doc);
+                    return `<button onclick="selectDocSuggestion('${doc}')" class="px-3 py-1.5 ${c.bg} ${c.text} border ${c.border} rounded-lg text-xs font-bold hover:scale-105 transition shadow-sm">${doc}</button>`;
+                }).join('');
+            }
+            setTimeout(() => document.getElementById('docNameInput').focus(), 100);
+        }
+
+        function selectDocSuggestion(name) { document.getElementById('docNameInput').value = name; }
+        function closeAddDocModal() { document.getElementById('addDocModal').classList.add('hidden'); }
+
+        function confirmAddDoc() {
+            const dateString = document.getElementById('targetDateString').value;
+            const docName = document.getElementById('docNameInput').value.trim();
+            
+            if (!docName) { appAlert("ไม่ได้ระบุชื่อ", "กรุณาพิมพ์หรือเลือกชื่อแพทย์ครับ", "⚠️"); return; }
+            
+            if(!calSchedules[dateString]) calSchedules[dateString] = [];
+            calSchedules[dateString].push(docName);
+            saveToCloud();
+            closeAddDocModal();
+        }
+
+        function confirmRemoveDocFromCal(dateString, idx, docName) {
+            appConfirm("ลบรายชื่อแพทย์", `คุณต้องการลบชื่อ <b>${docName}</b><br>ออกจากวันที่เลือกใช่หรือไม่?`, () => {
                 calSchedules[dateString].splice(idx, 1);
                 if(calSchedules[dateString].length === 0) delete calSchedules[dateString];
                 saveToCloud();
-            }
+            });
         }
     </script>
 </body>
