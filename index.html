@@ -100,7 +100,7 @@
             <div class="flex items-center gap-3">
                 <div class="relative group cursor-pointer shrink-0">
                     <img id="clinicLogoImg" src="https://cdn-icons-png.flaticon.com/512/809/809957.png" alt="Clinic Logo" class="relative w-12 h-12 rounded-xl object-cover border-2 border-emerald-100 bg-white z-10 shadow-sm">
-                    <button onclick="editLogo()" class="admin-only hidden absolute -bottom-1 -right-1 bg-emerald-500 text-white rounded-full w-5 h-5 flex items-center justify-center shadow-lg hover:bg-emerald-600 transition-transform text-[10px] z-20">✏️️</button>
+                    <button onclick="editLogo()" class="admin-only hidden absolute -bottom-1 -right-1 bg-emerald-500 text-white rounded-full w-5 h-5 flex items-center justify-center shadow-lg hover:bg-emerald-600 transition-transform text-[10px] z-20">✏</button>
                 </div>
                 <div>
                     <h1 class="text-xl font-extrabold tracking-tight text-emerald-800 leading-tight">SMART<br><span class="text-teal-600">OPD-URO</span></h1>
@@ -124,6 +124,11 @@
             <button onclick="switchTab('knowledge')" id="btn-knowledge" class="w-full text-left px-4 py-3 rounded-xl font-bold text-slate-600 hover:bg-emerald-50 hover:text-emerald-700 transition-all flex items-center gap-3">
                 <span class="text-xl">💡</span> ความรู้สุขภาพ
             </button>
+            
+            <!-- เพิ่มเมนูใหม่: คำถามที่พบบ่อย -->
+            <button onclick="switchTab('faq')" id="btn-faq" class="w-full text-left px-4 py-3 rounded-xl font-bold text-slate-600 hover:bg-emerald-50 hover:text-emerald-700 transition-all flex items-center gap-3">
+                <span class="text-xl">💬</span> คำถามที่พบบ่อย
+            </button>
 
             <div class="border-t border-slate-200/60 my-4"></div>
             <div class="text-xs font-bold text-slate-400 uppercase tracking-widest px-4 mb-3">ส่วนจัดการ (Management)</div>
@@ -132,7 +137,6 @@
                 <span class="text-xl">🔐</span> เข้าสู่ระบบผู้ดูแล
             </button>
 
-            <!-- เมนูแอดมิน -->
             <div id="adminStatusArea" class="hidden flex-col gap-2 px-2 mt-2">
                 <div class="flex items-center gap-2 bg-emerald-50 px-3 py-2 rounded-xl border border-emerald-200 text-xs text-emerald-700 font-bold justify-center shadow-sm">
                     <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping absolute"></span>
@@ -156,7 +160,6 @@
 
     <!-- พื้นที่เนื้อหาหลัก (Main Content) -->
     <div class="flex-1 flex flex-col min-w-0 h-screen overflow-y-auto">
-        <!-- แถบด้านบนสำหรับมือถือ -->
         <div class="lg:hidden glass-panel sticky top-0 z-30 px-4 py-3 flex items-center justify-between border-b border-emerald-100/50 shadow-sm">
             <div class="flex items-center gap-2 sm:gap-3 shrink-0">
                 <button onclick="toggleSidebar()" class="p-2 bg-white rounded-lg shadow-sm text-emerald-700 border border-emerald-100 focus:outline-none">
@@ -234,7 +237,7 @@
                         <div class="bg-gradient-to-r from-green-50 to-emerald-50 border-l-4 border-emerald-500 rounded-xl p-5 sm:p-6 relative group shadow-sm">
                             <div class="flex justify-between items-start mb-4">
                                 <h3 class="text-emerald-800 font-extrabold text-sm flex items-center gap-2 tracking-wide uppercase">
-                                    <span class="text-lg">📌</span> หมายเหตุสำคัญ
+                                    <span class="text-lg">📌</span> หมายเหตุ
                                 </h3>
                                 <button onclick="addRemark()" class="admin-only hidden text-emerald-600 hover:text-white hover:bg-emerald-500 bg-white border border-emerald-200 text-xs font-bold px-3 py-1.5 rounded-lg transition shadow-sm">+ เพิ่มหมายเหตุ</button>
                             </div>
@@ -257,7 +260,6 @@
                         </div>
                         
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <!-- บริการ -->
                             <div class="bg-white p-6 rounded-2xl shadow-sm border border-emerald-100 relative group transition hover:shadow-md">
                                 <button onclick="editAboutSection('services', 'บริการที่ให้การดูแลรักษา')" class="admin-only hidden absolute top-3 right-3 w-8 h-8 bg-emerald-50 hover:bg-emerald-500 text-emerald-600 hover:text-white rounded-full flex items-center justify-center transition shadow-sm font-bold text-xs opacity-0 group-hover:opacity-100">✏️</button>
                                 <div class="flex items-center gap-3 mb-4">
@@ -266,7 +268,6 @@
                                 </div>
                                 <div id="about-services" class="text-slate-600 text-sm leading-relaxed whitespace-pre-line">กำลังโหลด...</div>
                             </div>
-                            <!-- เวลาทำการ -->
                             <div class="bg-white p-6 rounded-2xl shadow-sm border border-emerald-100 relative group transition hover:shadow-md">
                                 <button onclick="editAboutSection('hours', 'วันและเวลาทำการ')" class="admin-only hidden absolute top-3 right-3 w-8 h-8 bg-emerald-50 hover:bg-emerald-500 text-emerald-600 hover:text-white rounded-full flex items-center justify-center transition shadow-sm font-bold text-xs opacity-0 group-hover:opacity-100">✏️</button>
                                 <div class="flex items-center gap-3 mb-4">
@@ -275,7 +276,6 @@
                                 </div>
                                 <div id="about-hours" class="text-slate-600 text-sm leading-relaxed whitespace-pre-line">กำลังโหลด...</div>
                             </div>
-                            <!-- สถานที่ตั้ง -->
                             <div class="bg-white p-6 rounded-2xl shadow-sm border border-emerald-100 relative group transition hover:shadow-md">
                                 <button onclick="editAboutSection('location', 'สถานที่ตั้งและช่องทางติดต่อ')" class="admin-only hidden absolute top-3 right-3 w-8 h-8 bg-emerald-50 hover:bg-emerald-500 text-emerald-600 hover:text-white rounded-full flex items-center justify-center transition shadow-sm font-bold text-xs opacity-0 group-hover:opacity-100">✏️</button>
                                 <div class="flex items-center gap-3 mb-4">
@@ -284,7 +284,6 @@
                                 </div>
                                 <div id="about-location" class="text-slate-600 text-sm leading-relaxed whitespace-pre-line">กำลังโหลด...</div>
                             </div>
-                            <!-- ขั้นตอน -->
                             <div class="bg-white p-6 rounded-2xl shadow-sm border border-emerald-100 relative group transition hover:shadow-md">
                                 <button onclick="editAboutSection('procedures', 'ขั้นตอนการเข้ารับบริการ')" class="admin-only hidden absolute top-3 right-3 w-8 h-8 bg-emerald-50 hover:bg-emerald-500 text-emerald-600 hover:text-white rounded-full flex items-center justify-center transition shadow-sm font-bold text-xs opacity-0 group-hover:opacity-100">✏️</button>
                                 <div class="flex items-center gap-3 mb-4">
@@ -328,6 +327,21 @@
                 </div>
             </section>
 
+            <!-- 5. คำถามที่พบบ่อย (FAQ) - หน้าใหม่ -->
+            <section id="tab-faq" class="hidden space-y-8 fade-in">
+                <div class="glass-panel p-1 rounded-3xl hover-float shadow-sm">
+                    <div class="bg-white/70 p-6 sm:p-8 rounded-[1.4rem]">
+                        <div class="flex justify-between items-center border-b-2 border-emerald-100/50 pb-5 mb-8">
+                            <h2 class="text-xl sm:text-2xl font-extrabold text-slate-800 flex items-center gap-3">
+                                <span class="text-2xl sm:text-3xl filter drop-shadow-md">💬</span> คำถามที่พบบ่อย (FAQ)
+                            </h2>
+                            <button onclick="openFaqModal()" class="admin-only hidden bg-gradient-to-r from-emerald-500 to-teal-500 text-white text-xs sm:text-sm font-bold px-4 py-2 rounded-xl shadow-lg transition-transform hover:scale-105">+ เพิ่มคำถาม</button>
+                        </div>
+                        <div id="faq-list" class="space-y-4"></div>
+                    </div>
+                </div>
+            </section>
+
             <!-- ส่วนท้าย -->
             <footer class="mt-12 glass-panel p-6 sm:p-8 rounded-3xl text-center shadow-sm">
                 <div class="flex flex-col md:flex-row justify-between items-center gap-6">
@@ -352,7 +366,6 @@
     </div>
 
     <!-- ================== ส่วนหน้าต่างระบบและจัดการข้อมูล (Modals) ================== -->
-    <!-- รวบรวมหน้าต่างป๊อปอัปทั้งหมดไว้ที่เดียว ป้องกันการซ้ำซ้อน -->
 
     <!-- ป๊อปอัปแจ้งเตือน (Alert) -->
     <div id="sysAlertModal" class="fixed inset-0 z-[200] hidden flex items-center justify-center px-4">
@@ -527,6 +540,31 @@
         </div>
     </div>
 
+    <!-- หน้าต่างเพิ่มคำถามที่พบบ่อย (FAQ) - เพิ่มใหม่ -->
+    <div id="faqModal" class="fixed inset-0 z-[110] hidden flex items-center justify-center px-4">
+        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onclick="closeFaqModal()"></div>
+        <div class="bg-white p-6 rounded-3xl shadow-2xl relative z-10 w-full max-w-lg max-h-[90vh] overflow-y-auto fade-in">
+            <h3 id="f-modal-title" class="text-xl font-bold text-slate-800 mb-4 border-b pb-2 flex items-center gap-2">
+                <span class="text-2xl">💬</span> เพิ่มคำถามที่พบบ่อย
+            </h3>
+            <input type="hidden" id="f-id">
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm font-bold text-slate-600 mb-1">คำถาม</label>
+                    <input type="text" id="f-question" placeholder="พิมพ์คำถามที่นี่..." class="w-full px-4 py-2.5 border border-slate-200 bg-slate-50 rounded-xl outline-none focus:border-emerald-500 focus:bg-white transition font-medium">
+                </div>
+                <div>
+                    <label class="block text-sm font-bold text-slate-600 mb-1">คำตอบ</label>
+                    <textarea id="f-answer" rows="4" placeholder="พิมพ์คำตอบที่นี่..." class="w-full px-4 py-2.5 border border-slate-200 bg-slate-50 rounded-xl outline-none focus:border-emerald-500 focus:bg-white transition font-medium leading-relaxed"></textarea>
+                </div>
+                <div class="flex justify-end gap-3 mt-8">
+                    <button onclick="closeFaqModal()" class="px-6 py-2.5 bg-slate-100 text-slate-600 font-bold rounded-xl hover:bg-slate-200 transition">ยกเลิก</button>
+                    <button onclick="saveFaqData()" class="px-6 py-2.5 bg-emerald-500 text-white font-bold rounded-xl shadow-md hover:bg-emerald-600 transition hover:-translate-y-0.5">บันทึกข้อมูล</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- หน้าต่างล็อกอินแอดมิน -->
     <div id="loginModal" class="fixed inset-0 z-[120] hidden flex items-center justify-center px-4">
         <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-lg" onclick="closeLoginModal()"></div>
@@ -688,7 +726,7 @@
             clearInterval(slideInterval);
             const wrapper = document.getElementById('carouselWrapper');
             if (!bannerImages || bannerImages.length === 0) {
-                wrapper.innerHTML = `<div class="text-slate-400 font-semibold italic p-8 text-center bg-slate-50 w-full h-full flex flex-col items-center justify-center rounded-xl border-2 border-dashed border-slate-200">ยังไม่มีรูปภาพแบนเนอร์<br><span class="text-xs text-slate-300 font-normal mt-1">(แอดมินสามารถกด ✏️️ ด้านขวาบน เพื่อเพิ่มรูปได้)</span></div>`;
+                wrapper.innerHTML = `<div class="text-slate-400 font-semibold italic p-8 text-center bg-slate-50 w-full h-full flex flex-col items-center justify-center rounded-xl border-2 border-dashed border-slate-200">ยังไม่มีรูปภาพแบนเนอร์<br><span class="text-xs text-slate-300 font-normal mt-1">(แอดมินสามารถกด ✏ ด้านขวาบน เพื่อเพิ่มรูปได้)</span></div>`;
                 return;
             }
             let slidesHTML = bannerImages.map(img => `<div class="carousel-slide shrink-0 w-full"><img src="${img.data}" alt="Banner"></div>`).join('');
@@ -744,6 +782,7 @@
         let announcements = []; 
         let personnel = [];
         let articles = []; 
+        let faqs = []; // เพิ่มตัวแปรคำถามที่พบบ่อย
         let currentDate = new Date();
         let calSchedules = {}; 
         let calNotes = {}; 
@@ -764,6 +803,7 @@
                 if (data.announcements) announcements = data.announcements; 
                 if (data.personnel) personnel = data.personnel;
                 if (data.articles) articles = data.articles; 
+                if (data.faqs) faqs = data.faqs; // โหลดข้อมูล FAQ
                 if (data.aboutInfo) aboutInfo = data.aboutInfo; 
                 if (data.calSchedules) calSchedules = data.calSchedules;
                 if (data.calNotes) calNotes = data.calNotes; 
@@ -788,6 +828,7 @@
                 announcements: announcements || [],
                 personnel: personnel || [],
                 articles: articles || [], 
+                faqs: faqs || [], // บันทึกข้อมูล FAQ
                 aboutInfo: aboutInfo || {}, 
                 calSchedules: calSchedules || {},
                 calNotes: calNotes || {}, 
@@ -801,7 +842,8 @@
         // การวาด UI หลัก
         // ==========================================
         function switchTab(tabName) {
-            const tabs = ['home', 'about', 'personnel', 'knowledge'];
+            // เพิ่ม 'faq' เข้าระบบเปลี่ยนหน้า
+            const tabs = ['home', 'about', 'personnel', 'knowledge', 'faq'];
             tabs.forEach(t => {
                 document.getElementById('tab-' + t).classList.add('hidden');
                 document.getElementById('btn-' + t).className = "w-full text-left px-4 py-3 rounded-xl font-bold text-slate-600 hover:bg-emerald-50 hover:text-emerald-700 transition-all flex items-center gap-3";
@@ -815,6 +857,7 @@
             document.getElementById('btn-' + tabName).className = "w-full text-left px-4 py-3 rounded-xl font-bold transition-all flex items-center gap-3 bg-gradient-to-r from-emerald-500 to-teal-500 text-white shadow-md";
             
             if (window.innerWidth < 1024) toggleSidebar();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         function renderSettings() {
@@ -945,7 +988,7 @@
                         <div class="p-5 flex-1 flex flex-col relative">
                             ${isAdmin ? `
                                 <div class="absolute top-2 right-2 flex gap-1 z-10 opacity-100 sm:opacity-0 group-hover:opacity-100 transition">
-                                    <button onclick="openArticleModal(${art.id})" class="w-8 h-8 bg-white border border-slate-200 text-emerald-500 rounded-full flex justify-center items-center hover:bg-emerald-50 shadow-sm" title="แก้ไข">✏️️</button>
+                                    <button onclick="openArticleModal(${art.id})" class="w-8 h-8 bg-white border border-slate-200 text-emerald-500 rounded-full flex justify-center items-center hover:bg-emerald-50 shadow-sm" title="แก้ไข">✏️</button>
                                     <button onclick="confirmDeleteArticle(${art.id})" class="w-8 h-8 bg-white border border-slate-200 text-rose-500 rounded-full flex justify-center items-center hover:bg-rose-50 shadow-sm" title="ลบ">✕</button>
                                 </div>
                             ` : ''}
@@ -954,6 +997,42 @@
                             <div class="mt-auto">
                                 <button onclick="appAlert('${art.title}', '${art.content.replace(/\n/g, '<br>')}', '📖')" class="text-emerald-600 text-sm font-bold hover:text-emerald-800 flex items-center gap-1">อ่านเพิ่มเติม <span class="text-lg">»</span></button>
                             </div>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        // --- ระบบวาด UI หมวดคำถามที่พบบ่อย (FAQ) ---
+        function renderFaqs() {
+            const list = document.getElementById('faq-list');
+            if(!list) return;
+            list.innerHTML = '';
+            
+            if(!faqs || faqs.length === 0) {
+                 list.innerHTML = `
+                    <div class="text-center py-10 px-4 bg-emerald-50/50 rounded-2xl border-2 border-dashed border-emerald-100">
+                        <div class="text-4xl mb-3 opacity-50">❓</div>
+                        <h3 class="text-lg font-bold text-emerald-800">ยังไม่มีข้อมูลคำถามที่พบบ่อย</h3>
+                    </div>`;
+                 return;
+            }
+
+            faqs.forEach(f => {
+                list.innerHTML += `
+                    <div class="bg-white rounded-2xl shadow-sm border border-emerald-100 p-5 relative group hover:shadow-md transition">
+                        ${isAdmin ? `
+                            <div class="absolute top-3 right-3 flex gap-1 z-10 opacity-100 sm:opacity-0 group-hover:opacity-100 transition">
+                                <button onclick="openFaqModal(${f.id})" class="w-7 h-7 bg-white border border-slate-200 text-emerald-500 rounded-full flex justify-center items-center hover:bg-emerald-50 shadow-sm" title="แก้ไข">✏️</button>
+                                <button onclick="confirmDeleteFaq(${f.id})" class="w-7 h-7 bg-white border border-slate-200 text-rose-500 rounded-full flex justify-center items-center hover:bg-rose-50 shadow-sm" title="ลบ">✕</button>
+                            </div>
+                        ` : ''}
+                        <h4 class="font-bold text-lg text-emerald-800 mb-3 flex items-start gap-2 pr-16 leading-tight">
+                            <span class="text-emerald-500 text-xl">Q:</span> ${f.question}
+                        </h4>
+                        <div class="text-slate-600 font-medium pl-8 border-l-2 border-emerald-200 whitespace-pre-line leading-relaxed relative">
+                            <span class="text-amber-500 font-bold absolute -left-3 top-0 bg-white px-1 text-lg">A:</span> 
+                            ${f.answer}
                         </div>
                     </div>
                 `;
@@ -1039,6 +1118,7 @@
             renderAboutInfo(); 
             renderPersonnel();
             renderArticles();
+            renderFaqs(); // วาดระบบ FAQ
             renderSchedule();
         }
 
@@ -1125,6 +1205,10 @@
             appConfirm("ยืนยันการลบ", "คุณแน่ใจหรือไม่ว่าต้องการลบรหัสผ่านนี้?", () => { adminPasswordsList.splice(index, 1); saveToCloud(); renderAdminPasswords(); });
         }
 
+        // ==========================================
+        // ฟังก์ชันระบบเพิ่ม-ลด ข้อมูลต่างๆ (CRUD)
+        // ==========================================
+
         function editLogo() {
             appPrompt("เปลี่ยนโลโก้คลินิก", "กรุณาระบุ URL รูปภาพโลโก้ใหม่", clinicLogo, (val) => {
                 clinicLogo = val; saveToCloud();
@@ -1153,9 +1237,7 @@
             document.getElementById('annType').value = 'ประกาศ';
             document.getElementById('annText').value = '';
         }
-        function closeAnnouncementModal() {
-            document.getElementById('addAnnounceModal').classList.add('hidden');
-        }
+        function closeAnnouncementModal() { document.getElementById('addAnnounceModal').classList.add('hidden'); }
         function confirmAddAnnouncement() {
             const type = document.getElementById('annType').value.trim() || 'ประกาศ';
             const text = document.getElementById('annText').value.trim();
@@ -1163,8 +1245,7 @@
             
             const color = Math.random() > 0.5 ? 'pink' : 'blue';
             announcements.unshift({ id: Date.now(), type: type, text: text, color: color });
-            saveToCloud();
-            closeAnnouncementModal();
+            saveToCloud(); closeAnnouncementModal();
         }
         function confirmDeleteAnnouncement(id) {
             appConfirm("ลบข่าวสาร", "ยืนยันการลบข่าวสาร/ประกาศนี้?", () => {
@@ -1172,15 +1253,8 @@
             });
         }
 
-        function openBannerModal() {
-            document.getElementById('bannerModal').classList.remove('hidden');
-            renderBannerManagementList();
-        }
-        function closeBannerModal() {
-            document.getElementById('bannerModal').classList.add('hidden');
-            document.getElementById('b-image').value = '';
-        }
-
+        function openBannerModal() { document.getElementById('bannerModal').classList.remove('hidden'); renderBannerManagementList(); }
+        function closeBannerModal() { document.getElementById('bannerModal').classList.add('hidden'); document.getElementById('b-image').value = ''; }
         function uploadBannerImage() {
             const fileInput = document.getElementById('b-image');
             if (fileInput.files && fileInput.files[0]) {
@@ -1190,35 +1264,18 @@
                 reader.onload = function(e) {
                     if(!bannerImages) bannerImages = [];
                     bannerImages.unshift({ id: Date.now(), data: e.target.result });
-                    saveToCloud();
-                    fileInput.value = '';
-                    renderBannerManagementList();
+                    saveToCloud(); fileInput.value = ''; renderBannerManagementList();
                 };
                 reader.readAsDataURL(file);
             } else {
                 appAlert("ข้อมูลไม่ครบ", "กรุณาเลือกไฟล์รูปภาพก่อนกดปุ่มเพิ่มครับ", "⚠️");
             }
         }
-
         function deleteBanner(id) {
             appConfirm("ลบรูปภาพแบนเนอร์", "ยืนยันการลบรูปภาพนี้?", () => {
                 bannerImages = bannerImages.filter(b => b.id !== id); 
                 saveToCloud(); renderBannerManagementList();
             });
-        }
-
-        function renderBannerManagementList() {
-            const list = document.getElementById('banner-management-list');
-            if(!bannerImages || bannerImages.length === 0) {
-                list.innerHTML = '<div class="text-sm text-slate-400 italic">ไม่มีรูปภาพในระบบ</div>';
-                return;
-            }
-            list.innerHTML = bannerImages.map(b => `
-                <div class="flex items-center justify-between bg-slate-50 p-2 rounded-lg border border-slate-200">
-                    <img src="${b.data}" class="w-20 h-12 object-cover rounded shadow-sm">
-                    <button onclick="deleteBanner(${b.id})" class="text-rose-500 font-bold text-xs bg-rose-50 px-3 py-1.5 rounded-md hover:bg-rose-100 transition">ลบ</button>
-                </div>
-            `).join('');
         }
 
         function movePersonnel(direction, index) {
@@ -1234,7 +1291,6 @@
                 saveToCloud();
             }
         }
-
         function openPersonnelModal(id = null) {
             document.getElementById('personnelModal').classList.remove('hidden');
             const title = document.getElementById('p-modal-title');
@@ -1245,27 +1301,18 @@
             const fileInput = document.getElementById('p-image');
             
             fileInput.value = '';
-
             if (id) {
                 title.innerText = "แก้ไขข้อมูลบุคลากร";
                 const p = personnel.find(x => x.id === id);
                 if (p) {
-                    idInput.value = p.id;
-                    prefixInput.value = p.prefix;
-                    nameInput.value = p.name;
-                    roleInput.value = p.role;
+                    idInput.value = p.id; prefixInput.value = p.prefix; nameInput.value = p.name; roleInput.value = p.role;
                 }
             } else {
                 title.innerText = "เพิ่มบุคลากรใหม่";
-                idInput.value = '';
-                prefixInput.value = '';
-                nameInput.value = '';
-                roleInput.value = '';
+                idInput.value = ''; prefixInput.value = ''; nameInput.value = ''; roleInput.value = '';
             }
         }
-
         function closePersonnelModal() { document.getElementById('personnelModal').classList.add('hidden'); }
-
         function savePersonnelData() {
             const prefix = document.getElementById('p-prefix').value.trim();
             const name = document.getElementById('p-name').value.trim();
@@ -1279,9 +1326,7 @@
                 if (editingId) {
                     const idx = personnel.findIndex(p => p.id == editingId);
                     if (idx !== -1) {
-                        personnel[idx].prefix = prefix;
-                        personnel[idx].name = name;
-                        personnel[idx].role = role;
+                        personnel[idx].prefix = prefix; personnel[idx].name = name; personnel[idx].role = role;
                         if(imageBase64 !== null) personnel[idx].image = imageBase64;
                     }
                 } else {
@@ -1300,7 +1345,6 @@
                 processSave(editingId ? null : ''); 
             }
         }
-
         function confirmDeletePersonnel(id) {
             appConfirm("ลบข้อมูลบุคลากร", "ยืนยันการลบรายชื่อบุคลากรนี้ใช่หรือไม่?", () => {
                 personnel = personnel.filter(p => p.id !== id); saveToCloud(); 
@@ -1316,27 +1360,18 @@
             const fileInput = document.getElementById('a-image');
             
             fileInput.value = '';
-
             if (id) {
                 titleEl.innerHTML = '<span class="text-2xl">📝</span> แก้ไขบทความ';
                 const art = articles.find(x => x.id === id);
                 if (art) {
-                    idInput.value = art.id;
-                    titleInput.value = art.title;
-                    contentInput.value = art.content.replace(/<br>/g, '\n');
+                    idInput.value = art.id; titleInput.value = art.title; contentInput.value = art.content.replace(/<br>/g, '\n');
                 }
             } else {
                 titleEl.innerHTML = '<span class="text-2xl">📝</span> เพิ่มบทความสุขภาพ';
-                idInput.value = '';
-                titleInput.value = '';
-                contentInput.value = '';
+                idInput.value = ''; titleInput.value = ''; contentInput.value = '';
             }
         }
-
-        function closeArticleModal() {
-            document.getElementById('articleModal').classList.add('hidden');
-        }
-
+        function closeArticleModal() { document.getElementById('articleModal').classList.add('hidden'); }
         function saveArticleData() {
             const title = document.getElementById('a-title').value.trim();
             const content = document.getElementById('a-content').value.trim().replace(/\n/g, '<br>');
@@ -1349,8 +1384,7 @@
                 if (editingId) {
                     const idx = articles.findIndex(a => a.id == editingId);
                     if (idx !== -1) {
-                        articles[idx].title = title;
-                        articles[idx].content = content;
+                        articles[idx].title = title; articles[idx].content = content;
                         if(imageBase64 !== null) articles[idx].image = imageBase64;
                     }
                 } else {
@@ -1369,40 +1403,85 @@
                 processSave(editingId ? null : ''); 
             }
         }
-
         function confirmDeleteArticle(id) {
             appConfirm("ลบบทความ", "ยืนยันการลบบทความนี้อย่างถาวรใช่หรือไม่?", () => {
                 articles = articles.filter(a => a.id !== id); saveToCloud(); 
             });
         }
 
+        // --- ระบบคำถามที่พบบ่อย (FAQ) ---
+        function openFaqModal(id = null) {
+            document.getElementById('faqModal').classList.remove('hidden');
+            const titleEl = document.getElementById('f-modal-title');
+            const idInput = document.getElementById('f-id');
+            const questionInput = document.getElementById('f-question');
+            const answerInput = document.getElementById('f-answer');
+
+            if (id) {
+                titleEl.innerHTML = '<span class="text-2xl">💬</span> แก้ไขคำถาม';
+                const f = faqs.find(x => x.id === id);
+                if (f) {
+                    idInput.value = f.id;
+                    questionInput.value = f.question;
+                    answerInput.value = f.answer.replace(/<br>/g, '\n');
+                }
+            } else {
+                titleEl.innerHTML = '<span class="text-2xl">💬</span> เพิ่มคำถามที่พบบ่อย';
+                idInput.value = '';
+                questionInput.value = '';
+                answerInput.value = '';
+            }
+            setTimeout(() => questionInput.focus(), 100);
+        }
+
+        function closeFaqModal() { document.getElementById('faqModal').classList.add('hidden'); }
+
+        function saveFaqData() {
+            const question = document.getElementById('f-question').value.trim();
+            const answer = document.getElementById('f-answer').value.trim().replace(/\n/g, '<br>');
+            const editingId = document.getElementById('f-id').value;
+
+            if(!question || !answer) { appAlert("ข้อมูลไม่ครบ", "กรุณากรอกคำถามและคำตอบให้ครบถ้วนครับ", "⚠️"); return; }
+
+            if (editingId) {
+                const idx = faqs.findIndex(x => x.id == editingId);
+                if (idx !== -1) {
+                    faqs[idx].question = question;
+                    faqs[idx].answer = answer;
+                }
+            } else {
+                faqs.push({ id: Date.now(), question: question, answer: answer });
+            }
+            saveToCloud(); closeFaqModal();
+        }
+
+        function confirmDeleteFaq(id) {
+            appConfirm("ลบคำถามที่พบบ่อย", "ยืนยันการลบข้อมูลนี้ใช่หรือไม่?", () => {
+                faqs = faqs.filter(x => x.id !== id); saveToCloud(); 
+            });
+        }
+
+        // --- ระบบปฏิทิน ---
         function editDayNote(dateString, dayNum) {
             const existingNote = calNotes[dateString] || "";
             appPrompt(`หมายเหตุวันที่ ${dayNum}`, "พิมพ์ข้อความ (เช่น วันหยุดนักขัตฤกษ์, งดตรวจ):", existingNote, (val) => {
-                calNotes[dateString] = val;
-                saveToCloud();
+                calNotes[dateString] = val; saveToCloud();
             });
         }
-
         function confirmDeleteDayNote(dateString) {
             appConfirm("ลบหมายเหตุประจำวัน", `ต้องการลบหมายเหตุข้อความนี้ใช่หรือไม่?`, () => {
-                delete calNotes[dateString];
-                saveToCloud();
+                delete calNotes[dateString]; saveToCloud();
             });
         }
-
         function openAddDocModal(dateString, dayNum) {
             document.getElementById('addDocModal').classList.remove('hidden');
             document.getElementById('targetDateString').value = dateString;
-            
             const dObj = new Date(dateString);
             document.getElementById('addDocDateLabel').innerText = `วันที่ ${dayNum} ${monthNamesThai[dObj.getMonth()]} ${dObj.getFullYear() + 543}`;
             document.getElementById('docNameInput').value = '';
             
             const uniqueDocs = new Set();
-            Object.values(calSchedules).forEach(dayList => {
-                dayList.forEach(doc => uniqueDocs.add(doc));
-            });
+            Object.values(calSchedules).forEach(dayList => { dayList.forEach(doc => uniqueDocs.add(doc)); });
             
             const suggContainer = document.getElementById('docSuggestions');
             if(uniqueDocs.size === 0) {
@@ -1415,22 +1494,16 @@
             }
             setTimeout(() => document.getElementById('docNameInput').focus(), 100);
         }
-
         function selectDocSuggestion(name) { document.getElementById('docNameInput').value = name; }
         function closeAddDocModal() { document.getElementById('addDocModal').classList.add('hidden'); }
-
         function confirmAddDoc() {
             const dateString = document.getElementById('targetDateString').value;
             const docName = document.getElementById('docNameInput').value.trim();
-            
             if (!docName) { appAlert("ไม่ได้ระบุชื่อ", "กรุณาพิมพ์หรือเลือกชื่อแพทย์ครับ", "⚠️"); return; }
-            
             if(!calSchedules[dateString]) calSchedules[dateString] = [];
             calSchedules[dateString].push(docName);
-            saveToCloud();
-            closeAddDocModal();
+            saveToCloud(); closeAddDocModal();
         }
-
         function confirmRemoveDocFromCal(dateString, idx, docName) {
             appConfirm("ลบรายชื่อแพทย์", `คุณต้องการลบชื่อ <b>${docName}</b><br>ออกจากวันที่เลือกใช่หรือไม่?`, () => {
                 calSchedules[dateString].splice(idx, 1);
