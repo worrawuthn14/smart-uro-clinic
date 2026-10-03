@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SMART | OPD-URO</title>
+    <title>Smart Uro | ชีวิตสมาร์ท จัดการได้ในคลิกเดียว</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
@@ -203,6 +203,13 @@
                 <button onclick="logoutAdmin()" class="w-full text-center text-xs text-rose-600 font-bold bg-rose-50 py-2 rounded-xl hover:bg-rose-100 transition">ออกจากระบบ</button>
             </div>
         </div>
+
+        <div class="p-4 border-t border-emerald-100/50 bg-emerald-50/50">
+            <div class="text-center">
+                <p class="realtime-clock text-sm font-bold text-emerald-700">🕒 โหลดเวลา...</p>
+                <p class="text-[10px] text-slate-400 mt-1">อัปเดตข้อมูลแบบ Realtime</p>
+            </div>
+        </div>
     </aside>
 
     <!-- พื้นที่เนื้อหาหลัก (Main Content) -->
@@ -235,7 +242,7 @@
                     </div>
                 </div>
 
-                <!-- กล่องอัปเดตข่าวสาร (กลับมาเหมือนเดิมทุกประการ) -->
+                <!-- กล่องอัปเดตข่าวสาร (กลับมาเหมือนเดิม) -->
                 <div class="glass-panel p-1 rounded-3xl overflow-hidden hover-float shadow-sm">
                     <div class="bg-white/70 p-6 sm:p-8 rounded-[1.4rem]">
                         <div class="flex flex-col sm:flex-row justify-between sm:items-center border-b-2 border-emerald-100/50 pb-5 mb-6 gap-4">
@@ -244,7 +251,7 @@
                             </h2>
                             <div class="flex items-center gap-3 justify-between sm:justify-end">
                                 <!-- นาฬิกาแบบ Realtime -->
-                                <div id="realtime-clock" class="text-xs sm:text-sm font-bold text-emerald-700 bg-emerald-50/80 px-3 py-1.5 rounded-xl border border-emerald-200/50 shadow-sm flex items-center gap-2">
+                                <div class="realtime-clock text-xs sm:text-sm font-bold text-emerald-700 bg-emerald-50/80 px-3 py-1.5 rounded-xl border border-emerald-200/50 shadow-sm flex items-center gap-2">
                                     🕒 โหลดเวลา...
                                 </div>
                                 <button onclick="addAnnouncement()" class="admin-only hidden bg-gradient-to-r from-emerald-400 to-teal-500 hover:from-emerald-500 hover:to-teal-600 text-white text-xs sm:text-sm font-bold px-4 py-2 rounded-xl shadow-lg transition-transform hover:scale-105 shrink-0">+ เพิ่มข่าวสาร</button>
@@ -317,7 +324,8 @@
                 <div class="flex flex-col md:flex-row justify-between items-center gap-6">
                     <div class="text-center md:text-left">
                         <div class="font-extrabold text-slate-800 text-xl tracking-wider mb-1 flex items-center justify-center md:justify-start gap-2">
-                            <span class="text-emerald-500">SMART</span> OPD-URO
+                            <img id="footerLogoImg" src="https://cdn-icons-png.flaticon.com/512/809/809957.png" alt="Footer Logo" class="w-8 h-8 sm:w-10 sm:h-10 rounded-lg object-cover bg-white p-0.5 shadow-sm">
+                            <p class="font-extrabold text-slate-800 text-lg tracking-wider">SMART OPD-URO</p>
                         </div>
                         <p class="text-sm text-slate-500">ยกระดับการดูแลสุขภาพ ด้วยความเชี่ยวชาญที่คุณวางใจ</p>
                         
@@ -448,10 +456,11 @@
             const dateStr = now.toLocaleDateString('th-TH', dateOpts);
             const timeStr = now.toLocaleTimeString('th-TH', timeOpts);
             
-            const clockEl = document.getElementById('realtime-clock');
-            if(clockEl) {
-                clockEl.innerHTML = `<span class="opacity-80 font-normal mr-1 text-slate-500">${dateStr}</span> <span class="tracking-wide">${timeStr}</span>`;
-            }
+            // อัปเดตนาฬิกาทุกจุดที่มีคลาส realtime-clock
+            const clockEls = document.querySelectorAll('.realtime-clock');
+            clockEls.forEach(el => {
+                el.innerHTML = `<span class="opacity-80 font-normal mr-1 text-slate-500">${dateStr}</span> <span class="tracking-wide">${timeStr}</span>`;
+            });
         }
         setInterval(updateClock, 1000);
         updateClock();
@@ -513,7 +522,7 @@
             }
         }
 
-        // --- 4. ตั้งค่า Firebase ---
+        // --- 4. ตั้งค่า Firebase (ชี้ไปที่ clinicData_v4 เพื่อดึงข้อมูลเดิมกลับมา) ---
         const firebaseConfig = {
             apiKey: "AIzaSyAhMLr-NpXN8Dud2vYm32TLdSJu4Gz75g4",
             authDomain: "xray-inventory-system.firebaseapp.com",
@@ -539,7 +548,8 @@
 
         const monthNamesThai = ["มกราคม","กุมภาพันธ์","มีนาคม","เมษายน","พฤษภาคม","มิถุนายน","กรกฎาคม","สิงหาคม","กันยายน","ตุลาคม","พฤศจิกายน","ธันวาคม"];
 
-        db.ref('clinicData_v5').on('value', (snapshot) => {
+        // *** ดึงข้อมูลจากโฟลเดอร์เก่า v4 เพื่อให้ข้อมูลไม่หาย ***
+        db.ref('clinicData_v4').on('value', (snapshot) => {
             const data = snapshot.val();
             if (data) {
                 if (data.bannerImages) bannerImages = data.bannerImages;
@@ -562,12 +572,13 @@
         });
 
         function saveToCloud() {
-            db.ref('clinicData_v5').set({
-                bannerImages: bannerImages,
-                announcements: announcements, 
-                personnel: personnel,
-                calSchedules: calSchedules,
-                remarksList: remarksList,
+            // *** บันทึกลง v4 ตามเดิม ***
+            db.ref('clinicData_v4').set({
+                bannerImages: bannerImages || [], // ป้องกันข้อมูลว่าง
+                announcements: announcements || [],
+                personnel: personnel || [],
+                calSchedules: calSchedules || {},
+                remarksList: remarksList || [],
                 settings: { logo: clinicLogo, address: clinicAddress }
             });
         }
@@ -593,6 +604,8 @@
         function renderSettings() {
             const logoEl = document.getElementById('clinicLogoImg');
             if(logoEl) logoEl.src = clinicLogo;
+            const footerLogoEl = document.getElementById('footerLogoImg');
+            if(footerLogoEl) footerLogoEl.src = clinicLogo;
             const addressEl = document.getElementById('clinicAddressDisplay');
             if(addressEl) addressEl.innerText = clinicAddress;
             
@@ -664,6 +677,11 @@
                     </div>
                 `;
             });
+        }
+
+        function changeMonth(step) {
+            currentDate.setMonth(currentDate.getMonth() + step);
+            renderSchedule();
         }
 
         function renderSchedule() {
