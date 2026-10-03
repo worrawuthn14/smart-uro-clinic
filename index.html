@@ -411,7 +411,7 @@
         <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onclick="closeAddDocModal()"></div>
         <div class="bg-white p-6 rounded-3xl shadow-2xl relative z-10 w-full max-w-sm fade-in">
             <h3 class="text-xl font-bold text-slate-800 mb-1 border-b pb-2 flex items-center gap-2">
-                <span class="text-2xl">👨‍⚕️</span> เพิ่มแพทย์ออกตรวจ
+                <span class="text-2xl">👨‍‍⚕️</span> เพิ่มแพทย์ออกตรวจ
             </h3>
             <p id="addDocDateLabel" class="text-sm font-bold text-emerald-600 mb-4 bg-emerald-50 px-3 py-1.5 rounded-lg inline-block"></p>
             <input type="hidden" id="targetDateString">
@@ -857,7 +857,16 @@
             document.getElementById('btn-' + tabName).className = "w-full text-left px-4 py-3 rounded-xl font-bold transition-all flex items-center gap-3 bg-gradient-to-r from-emerald-500 to-teal-500 text-white shadow-md";
             
             if (window.innerWidth < 1024) toggleSidebar();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            
+            // --- ส่วนนี้คือจุดที่แก้ไขเพิ่มเติม ---
+            window.scrollTo({ top: 0, behavior: 'smooth' }); // โค้ดเดิม
+
+            // เพิ่มคำสั่งให้เลื่อนเนื้อหาหลัก (Container) ขึ้นบนสุดด้วย เพื่อให้รองรับการทำงานในมือถือ
+            const scrollContainer = document.querySelector('main').parentElement;
+            if (scrollContainer) {
+                scrollContainer.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+            // ------------------------------------
         }
 
         function renderSettings() {
